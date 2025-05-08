@@ -58,7 +58,7 @@ const DashboardCards = () => {
             </div>
             <Button 
               onClick={handleSync}
-              disabled={isSyncing || (!pendingChanges && lastSync)}
+              disabled={isSyncing || (pendingChanges === 0 && lastSync !== null)}
               variant="outline"
               size="sm"
               className="flex items-center gap-2 bg-background"

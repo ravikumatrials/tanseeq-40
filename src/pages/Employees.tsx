@@ -130,11 +130,8 @@ const Employees = () => {
   };
   
   const handleViewEmployee = (employeeId: string) => {
-    // Will navigate to employee detail in the future
-    toast({
-      title: "View Employee Details",
-      description: `Viewing details for employee ID: ${employeeId}`,
-    });
+    // Navigate to employee detail page
+    navigate(`/employee/${employeeId}`);
   };
   
   // Get random profile pic

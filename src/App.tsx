@@ -18,6 +18,7 @@ import Exceptions from "./pages/Exceptions";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
 import Employees from "./pages/Employees";
+import EmployeeDetails from "./pages/EmployeeDetails";
 import NotFound from "./pages/NotFound";
 
 // Protected route component
@@ -54,6 +55,7 @@ const App = () => (
                 <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
                 <Route path="/employees" element={<ProtectedRoute><Employees /></ProtectedRoute>} />
+                <Route path="/employee/:employeeId" element={<ProtectedRoute><EmployeeDetails /></ProtectedRoute>} />
                 
                 {/* 404 route */}
                 <Route path="*" element={<NotFound />} />

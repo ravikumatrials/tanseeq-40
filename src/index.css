@@ -171,35 +171,40 @@
   }
 }
 
-@keyframes {
-  'accordion-down': {
-    from: { height: '0'; };
-    to: { height: 'var(--radix-accordion-content-height)'; };
-  },
-  'accordion-up': {
-    from: { height: 'var(--radix-accordion-content-height)'; };
-    to: { height: '0'; };
-  },
-  'pulse-green': {
-    '0%, 100%': { opacity: '1'; };
-    '50%': { opacity: '0.5'; };
-  },
-  'fade-in': {
-    '0%': { opacity: '0'; transform: 'translateY(10px)'; };
-    '100%': { opacity: '1'; transform: 'translateY(0)'; };
-  },
-  'fade-out': {
-    '0%': { opacity: '1'; transform: 'translateY(0)'; };
-    '100%': { opacity: '0'; transform: 'translateY(10px)'; };
-  },
-  'slide-in': {
-    '0%': { transform: 'translateX(-100%)'; };
-    '100%': { transform: 'translateX(0)'; };
-  },
-  'slide-out': {
-    '0%': { transform: 'translateX(0)'; };
-    '100%': { transform: 'translateX(-100%)'; };
-  }
+/* Individual keyframes definitions - proper CSS syntax */
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
 }
 
-/* Removed non-standard @animation block. These animations are defined in tailwind.config.ts instead */
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-out {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes slide-in {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes slide-out {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Note: Animation rules are defined in tailwind.config.ts */

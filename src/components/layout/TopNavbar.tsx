@@ -7,7 +7,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, User, Clock, Settings, Moon, Sun, LogOut } from 'lucide-react';
+import { ChevronDown, User, Clock, Settings, Moon, Sun, LogOut, Users } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const TopNavbar = () => {
@@ -136,6 +136,13 @@ const TopNavbar = () => {
             >
               <Settings className="h-4 w-4 text-tanseeq" />
               Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => navigate('/employees')}
+              className="cursor-pointer hover:bg-tanseeq/10 gap-2"
+            >
+              <Users className="h-4 w-4 text-tanseeq" />
+              Employees
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={logout}

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,7 @@ import { useAttendance } from '@/hooks/useAttendance';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
 import { useProject } from '@/context/ProjectContext';
 import { useLocation } from '@/hooks/useLocation';
+import { useNavigate } from 'react-router-dom';
 import { BarChart4, Info, Users, UserCheck, Clock, CheckCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -31,6 +31,7 @@ const DashboardCards = () => {
     isLoading: locationLoading
   } = useLocation();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const navigate = useNavigate();
 
   // Update the clock every second
   useEffect(() => {
@@ -47,6 +48,9 @@ const DashboardCards = () => {
   if (!currentProject) {
     return <div className="text-center py-8">Please select a project</div>;
   }
+
+  // Check if any employee is missing face enrollment
+  const hasMissingFaceEnrollments = currentProject.employees.some(e => !e.isFaceEnrolled);
 
   const cardVariants = {
     hidden: {
@@ -178,6 +182,60 @@ const DashboardCards = () => {
                   Fetching location...
                 </span> : address}
             </span>
+          </div>
+        </CardContent>
+      </MotionCard>
+      
+      {/* Employees Card */}
+      <MotionCard 
+        initial="hidden" 
+        animate="visible" 
+        custom={1.5} 
+        variants={cardVariants} 
+        whileHover={{
+          scale: 1.01
+        }}
+        whileTap={{ scale: 0.98 }}
+        transition={{
+          duration: 0.2
+        }}
+        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 cursor-pointer"
+        onClick={() => navigate('/employees')}
+      >
+        <CardHeader className="pb-2 relative">
+          <CardTitle className="text-sm font-medium flex items-center">
+            <Users className="h-4 w-4 mr-2 text-tanseeq" />
+            Employees
+            {hasMissingFaceEnrollments && (
+              <span className="absolute right-6 top-6">
+                <span className="flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
+              </span>
+            )}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Manage Employee Faces</span>
+            <div className="text-xl font-semibold">
+              {currentProject.employees.length}
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-2">
+            <div className="text-xs text-muted-foreground">
+              <span className="text-tanseeq">
+                {currentProject.employees.filter(e => e.isFaceEnrolled).length}
+              </span> / {currentProject.employees.length} enrolled
+            </div>
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="text-xs h-7 bg-tanseeq/5 border-tanseeq/30 hover:bg-tanseeq/10"
+            >
+              View All
+            </Button>
           </div>
         </CardContent>
       </MotionCard>

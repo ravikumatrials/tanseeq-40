@@ -19,11 +19,15 @@ const NavItem: React.FC<NavItemProps> = ({ to, label, children }) => {
       to={to} 
       className={`nav-item ${isActive ? 'nav-item-active' : 'nav-item-inactive'}`}
     >
-      <div className="text-2xl mb-1.5">
+      <motion.div 
+        className="text-lg mb-1"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
         {children}
-      </div>
+      </motion.div>
       <motion.span 
-        className="text-[11px] font-medium"
+        className="text-[10px] font-medium"
         initial={{ scale: 0.8 }}
         animate={{ scale: isActive ? 1 : 0.9 }}
         transition={{ duration: 0.2 }}
@@ -45,29 +49,29 @@ const NavItem: React.FC<NavItemProps> = ({ to, label, children }) => {
 const BottomNavbar = () => {
   return (
     <motion.div 
-      className="fixed bottom-0 left-0 right-0 border-t bg-card p-2 flex justify-around items-center shadow-lg z-40"
+      className="fixed bottom-0 left-0 right-0 border-t bg-card py-1.5 px-2 flex justify-around items-center shadow-lg z-40"
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <NavItem to="/dashboard" label="Dashboard">
-        <LayoutDashboard className="h-7 w-7" />
+        <LayoutDashboard className="h-5 w-5" />
       </NavItem>
       
       <NavItem to="/check-in" label="Check In">
-        <LogIn className="h-7 w-7" />
+        <LogIn className="h-5 w-5" />
       </NavItem>
       
       <NavItem to="/check-out" label="Check Out">
-        <LogOut className="h-7 w-7" />
+        <LogOut className="h-5 w-5" />
       </NavItem>
       
       <NavItem to="/exceptions" label="Exceptions">
-        <AlertTriangle className="h-7 w-7" />
+        <AlertTriangle className="h-5 w-5" />
       </NavItem>
       
       <NavItem to="/history" label="History">
-        <History className="h-7 w-7" />
+        <History className="h-5 w-5" />
       </NavItem>
     </motion.div>
   );

@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useProject } from '@/context/ProjectContext';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { motion } from 'framer-motion';
-import { ArrowLeft, User, Settings, LogOut } from 'lucide-react';
+import { ArrowLeft, User, Settings, LogOut, Users } from 'lucide-react';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -122,6 +122,17 @@ const Profile = () => {
                     onClick={() => navigate('/change-password')}
                   >
                     Change Password
+                  </Button>
+                </div>
+                
+                <div>
+                  <Button 
+                    variant="outline" 
+                    className="w-full hover:bg-tanseeq/10 hover:border-tanseeq/30 flex items-center gap-2 justify-center"
+                    onClick={() => navigate('/employees')}
+                  >
+                    <Users className="h-4 w-4 text-tanseeq" />
+                    Manage Employees
                   </Button>
                 </div>
               </CardContent>

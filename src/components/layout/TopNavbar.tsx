@@ -2,15 +2,18 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useProject } from '@/context/ProjectContext';
+import { useTheme } from '@/context/ThemeContext';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, User, Clock } from 'lucide-react';
+import { ChevronDown, User, Clock, Settings, Moon, Sun, LogOut } from 'lucide-react';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const TopNavbar = () => {
   const { logout, user } = useAuth();
   const { projects, currentProject, setCurrentProject } = useProject();
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const [showProjects, setShowProjects] = useState(false);
   const [currentTime, setCurrentTime] = React.useState(new Date());
@@ -116,22 +119,29 @@ const TopNavbar = () => {
               {user?.name.charAt(0)}
             </motion.button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-card border-tanseeq/30 shadow-lg">
-            <div className="px-2 py-1.5 text-sm font-medium flex items-center gap-2">
+          <DropdownMenuContent align="end" className="bg-card border-tanseeq/30 shadow-lg w-56">
+            <div className="px-3 py-2.5 text-sm font-medium flex items-center gap-2">
               <User className="h-4 w-4 text-tanseeq" />
               {user?.name}
             </div>
             <DropdownMenuSeparator className="bg-border" />
+            <div className="px-3 py-2">
+              <div className="text-xs text-muted-foreground mb-1.5">Theme</div>
+              <ThemeToggle className="w-full justify-between" />
+            </div>
+            <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem 
               onClick={() => navigate('/profile')}
-              className="cursor-pointer hover:bg-tanseeq/10"
+              className="cursor-pointer hover:bg-tanseeq/10 gap-2"
             >
+              <Settings className="h-4 w-4 text-tanseeq" />
               Profile
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={logout}
-              className="cursor-pointer hover:bg-destructive/10 text-destructive"
+              className="cursor-pointer hover:bg-destructive/10 text-destructive gap-2"
             >
+              <LogOut className="h-4 w-4" />
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

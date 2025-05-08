@@ -19,7 +19,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       />
       <Label 
         htmlFor="theme-switch" 
-        className="cursor-pointer flex items-center gap-1.5"
+        className="cursor-pointer flex items-center gap-1.5 flex-1"
       >
         {theme === "dark" ? (
           <motion.div
@@ -28,7 +28,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             className="flex items-center"
           >
             <Moon className="h-3.5 w-3.5 mr-1 text-tanseeq" />
-            <span>Dark</span>
+            <span>Dark Mode</span>
           </motion.div>
         ) : (
           <motion.div
@@ -37,7 +37,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             className="flex items-center"
           >
             <Sun className="h-3.5 w-3.5 mr-1 text-tanseeq" />
-            <span>Light</span>
+            <span>Light Mode</span>
           </motion.div>
         )}
       </Label>

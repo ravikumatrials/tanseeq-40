@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,9 @@ import { useProject } from '@/context/ProjectContext';
 import { useLocation } from '@/hooks/useLocation';
 import { BarChart4, Info, Users, UserCheck, Clock, CheckCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
+
 const MotionCard = motion(Card);
+
 const DashboardCards = () => {
   const {
     currentProject
@@ -36,12 +39,15 @@ const DashboardCards = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
   const handleSync = async () => {
     await Promise.all([syncRecords(), syncChanges()]);
   };
+
   if (!currentProject) {
     return <div className="text-center py-8">Please select a project</div>;
   }
+
   const cardVariants = {
     hidden: {
       opacity: 0,
@@ -57,34 +63,46 @@ const DashboardCards = () => {
       }
     })
   };
-  return <div className="space-y-6">
-      <motion.div initial={{
-      opacity: 0,
-      y: -20
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} transition={{
-      duration: 0.5
-    }}>
-        
-        
+
+  return (
+    <div className="space-y-6">
+      <motion.div 
+        initial={{
+          opacity: 0,
+          y: -20
+        }} 
+        animate={{
+          opacity: 1,
+          y: 0
+        }} 
+        transition={{
+          duration: 0.5
+        }}
+      >
       </motion.div>
       
       {/* Date/Time & Sync Card */}
-      <MotionCard initial="hidden" animate="visible" custom={0} variants={cardVariants} whileHover={{
-      scale: 1.01
-    }} transition={{
-      duration: 0.2
-    }}>
+      <MotionCard 
+        initial="hidden" 
+        animate="visible" 
+        custom={0} 
+        variants={cardVariants} 
+        whileHover={{
+          scale: 1.01
+        }} 
+        transition={{
+          duration: 0.2
+        }}
+        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5"
+      >
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-lg">
             {new Date().toLocaleString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
           </CardTitle>
           <div>
             {pendingChanges > 0 && <span className="relative flex h-3 w-3 mr-2">
@@ -98,17 +116,23 @@ const DashboardCards = () => {
             <div className="text-lg font-semibold flex items-center">
               <Clock className="h-4 w-4 mr-2 text-tanseeq" />
               {currentTime.toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit'
-            })}
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              })}
             </div>
-            <Button onClick={handleSync} disabled={isSyncing || pendingChanges === 0 && lastSync !== null} variant="outline" size="sm" className={`flex items-center gap-2 ${pendingChanges > 0 ? 'animate-pulse-slow bg-tanseeq/10' : 'bg-background'}`}>
+            <Button 
+              onClick={handleSync} 
+              disabled={isSyncing || pendingChanges === 0 && lastSync !== null} 
+              variant="outline" 
+              size="sm" 
+              className={`flex items-center gap-2 ${pendingChanges > 0 ? 'animate-pulse-slow bg-tanseeq/10 border-tanseeq/20' : 'bg-background'}`}
+            >
               {isSyncing ? <>
                   <div className="green-loader h-4 w-4 rounded-full"></div>
                   <span>Syncing...</span>
                 </> : <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sync">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sync text-tanseeq">
                     <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
                     <path d="M21 3v5h-5" />
                     <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
@@ -126,11 +150,19 @@ const DashboardCards = () => {
       </MotionCard>
       
       {/* Location Card */}
-      <MotionCard initial="hidden" animate="visible" custom={1} variants={cardVariants} whileHover={{
-      scale: 1.01
-    }} transition={{
-      duration: 0.2
-    }}>
+      <MotionCard 
+        initial="hidden" 
+        animate="visible" 
+        custom={1} 
+        variants={cardVariants} 
+        whileHover={{
+          scale: 1.01
+        }} 
+        transition={{
+          duration: 0.2
+        }}
+        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5"
+      >
         <CardHeader className="pb-2">
           <CardTitle className="text-sm font-medium">Current Location</CardTitle>
         </CardHeader>
@@ -152,11 +184,19 @@ const DashboardCards = () => {
       
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-2 gap-4">
-        <MotionCard className="card-stats" initial="hidden" animate="visible" custom={2} variants={cardVariants} whileHover={{
-        scale: 1.03
-      }} transition={{
-        duration: 0.2
-      }}>
+        <MotionCard 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5" 
+          initial="hidden" 
+          animate="visible" 
+          custom={2} 
+          variants={cardVariants} 
+          whileHover={{
+            scale: 1.03
+          }} 
+          transition={{
+            duration: 0.2
+          }}
+        >
           <CardHeader className="pb-2 pt-3 px-3">
             <CardTitle className="text-xs font-medium text-muted-foreground flex items-center">
               <Users className="h-3.5 w-3.5 mr-1 text-tanseeq" />
@@ -168,11 +208,19 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard className="card-stats" initial="hidden" animate="visible" custom={3} variants={cardVariants} whileHover={{
-        scale: 1.03
-      }} transition={{
-        duration: 0.2
-      }}>
+        <MotionCard 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5" 
+          initial="hidden" 
+          animate="visible" 
+          custom={3} 
+          variants={cardVariants} 
+          whileHover={{
+            scale: 1.03
+          }} 
+          transition={{
+            duration: 0.2
+          }}
+        >
           <CardHeader className="pb-2 pt-3 px-3">
             <CardTitle className="text-xs font-medium text-muted-foreground flex items-center">
               <UserCheck className="h-3.5 w-3.5 mr-1 text-tanseeq" />
@@ -184,11 +232,19 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard className="card-stats" initial="hidden" animate="visible" custom={4} variants={cardVariants} whileHover={{
-        scale: 1.03
-      }} transition={{
-        duration: 0.2
-      }}>
+        <MotionCard 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5" 
+          initial="hidden" 
+          animate="visible" 
+          custom={4} 
+          variants={cardVariants} 
+          whileHover={{
+            scale: 1.03
+          }} 
+          transition={{
+            duration: 0.2
+          }}
+        >
           <CardHeader className="pb-2 pt-3 px-3">
             <CardTitle className="text-xs font-medium text-muted-foreground flex items-center">
               <CheckCheck className="h-3.5 w-3.5 mr-1 text-tanseeq" />
@@ -200,11 +256,19 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard className="card-stats" initial="hidden" animate="visible" custom={5} variants={cardVariants} whileHover={{
-        scale: 1.03
-      }} transition={{
-        duration: 0.2
-      }}>
+        <MotionCard 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5" 
+          initial="hidden" 
+          animate="visible" 
+          custom={5} 
+          variants={cardVariants} 
+          whileHover={{
+            scale: 1.03
+          }} 
+          transition={{
+            duration: 0.2
+          }}
+        >
           <CardHeader className="pb-2 pt-3 px-3">
             <CardTitle className="text-xs font-medium text-muted-foreground flex items-center">
               <BarChart4 className="h-3.5 w-3.5 mr-1 text-tanseeq" />
@@ -218,6 +282,8 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default DashboardCards;

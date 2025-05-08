@@ -19,11 +19,11 @@ const NavItem: React.FC<NavItemProps> = ({ to, label, children }) => {
       to={to} 
       className={`nav-item ${isActive ? 'nav-item-active' : 'nav-item-inactive'}`}
     >
-      <div className="text-xl mb-1">
+      <div className="text-2xl mb-1.5">
         {children}
       </div>
       <motion.span 
-        className="text-xs"
+        className="text-[11px] font-medium"
         initial={{ scale: 0.8 }}
         animate={{ scale: isActive ? 1 : 0.9 }}
         transition={{ duration: 0.2 }}
@@ -32,7 +32,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, label, children }) => {
       </motion.span>
       {isActive && (
         <motion.div 
-          className="absolute bottom-0 left-0 h-0.5 bg-tanseeq" 
+          className="absolute bottom-0 left-0 h-1 bg-tanseeq" 
           initial={{ width: 0 }}
           animate={{ width: '100%' }}
           transition={{ duration: 0.3, ease: "easeOut" }}
@@ -45,29 +45,29 @@ const NavItem: React.FC<NavItemProps> = ({ to, label, children }) => {
 const BottomNavbar = () => {
   return (
     <motion.div 
-      className="fixed bottom-0 left-0 right-0 border-t bg-card p-2 flex justify-around items-center shadow-lg"
+      className="fixed bottom-0 left-0 right-0 border-t bg-card p-2 flex justify-around items-center shadow-lg z-40"
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <NavItem to="/dashboard" label="Dashboard">
-        <LayoutDashboard className="h-6 w-6" />
+        <LayoutDashboard className="h-7 w-7" />
       </NavItem>
       
       <NavItem to="/check-in" label="Check In">
-        <LogIn className="h-6 w-6" />
+        <LogIn className="h-7 w-7" />
       </NavItem>
       
       <NavItem to="/check-out" label="Check Out">
-        <LogOut className="h-6 w-6" />
+        <LogOut className="h-7 w-7" />
       </NavItem>
       
       <NavItem to="/exceptions" label="Exceptions">
-        <AlertTriangle className="h-6 w-6" />
+        <AlertTriangle className="h-7 w-7" />
       </NavItem>
       
       <NavItem to="/history" label="History">
-        <History className="h-6 w-6" />
+        <History className="h-7 w-7" />
       </NavItem>
     </motion.div>
   );

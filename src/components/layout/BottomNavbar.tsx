@@ -49,7 +49,7 @@ const BottomNavbar = () => {
   }} transition={{
     duration: 0.5,
     ease: "easeOut"
-  }} className="fixed bottom-0 left-0 right-0 border-t bg-card flex justify-around items-center shadow-lg z-40 py-0 px-[3px] mx-0 my-[9px]">
+  }} className="fixed bottom-0 left-0 right-0 border-t bg-card flex justify-around items-center shadow-lg z-40 px-[3px] mx-0 my-[9px] py-[8px]">
       <NavItem to="/dashboard" label="Dashboard">
         <LayoutDashboard className="h-5 w-5" />
       </NavItem>

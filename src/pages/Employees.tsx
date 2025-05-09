@@ -7,16 +7,10 @@ import { toast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, User, Camera, Plus, Home, LayoutDashboard, Filter } from 'lucide-react';
 import BottomNavbar from '@/components/layout/BottomNavbar';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 // Sample profile pictures for employees
 const profilePictures = ['https://images.unsplash.com/photo-1535713875002-d1d0cf377fde', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330', 'https://images.unsplash.com/photo-1599566150163-29194dcaad36', 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80', 'https://images.unsplash.com/photo-1629467057571-42d22d8f0cbd'];
-
 interface EmployeeCardProps {
   id: string;
   name: string;
@@ -88,7 +82,6 @@ const Employees = () => {
   const [showCamera, setShowCamera] = useState(false);
   const [currentEmployeeId, setCurrentEmployeeId] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'enrolled' | 'not-enrolled'>('all');
-
   useEffect(() => {
     if (currentProject) {
       setIsLoading(true);
@@ -107,7 +100,6 @@ const Employees = () => {
     if (filter === 'not-enrolled') return !employee.isFaceEnrolled;
     return true;
   });
-
   const handleEnrollFace = (employeeId: string, name: string) => {
     setCurrentEmployeeId(employeeId);
     setShowCamera(true);
@@ -162,7 +154,7 @@ const Employees = () => {
         <Button variant="ghost" onClick={() => navigate('/dashboard')} className="p-2">
           <ArrowLeft className="h-5 w-5 animated-icon" />
         </Button>
-        <h1 className="text-xl font-bold">Employee Management</h1>
+        <h1 className="text-xl font-bold">Employee Details</h1>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="flex gap-1 items-center">
@@ -242,10 +234,7 @@ const Employees = () => {
         
         {/* Dashboard Button */}
         <div className="mt-8 mb-16 flex justify-center">
-          <Button 
-            onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-2 bg-tanseeq hover:bg-tanseeq/90 rounded-full px-6"
-          >
+          <Button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 bg-tanseeq hover:bg-tanseeq/90 rounded-full px-6">
             <LayoutDashboard className="h-4 w-4" />
             <span>Dashboard</span>
           </Button>

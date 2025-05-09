@@ -11,7 +11,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 // Sample profile pictures for employees
 const profilePictures = ['https://images.unsplash.com/photo-1535713875002-d1d0cf377fde', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330', 'https://images.unsplash.com/photo-1599566150163-29194dcaad36', 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80', 'https://images.unsplash.com/photo-1629467057571-42d22d8f0cbd'];
-
 interface EmployeeCardProps {
   id: string;
   name: string;
@@ -21,7 +20,6 @@ interface EmployeeCardProps {
   onRetake: () => void;
   onView: () => void;
 }
-
 const EmployeeCard: React.FC<EmployeeCardProps> = ({
   id,
   name,
@@ -73,22 +71,27 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
       </Card>
     </motion.div>;
 };
+const EmployeeInfo: React.FC<{
+  employee: any;
+  onClose: () => void;
+}> = ({
+  employee,
+  onClose
+}) => {
+  const {
+    currentProject
+  } = useProject();
 
-const EmployeeInfo: React.FC<{ employee: any, onClose: () => void }> = ({ employee, onClose }) => {
-  const { currentProject } = useProject();
-  
   // Sample data for employee details
   const employeeDetails = {
     daysPresent: 18,
     location: "Al-Waleed Tower, Building C, Riyadh"
   };
-  
+
   // Generate a random profile image URL
   const profileImageIndex = parseInt(employee.id.replace(/\D/g, '')) % 8;
   const profilePicture = `${profilePictures[profileImageIndex]}?${employee.id}`;
-  
-  return (
-    <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50 p-4">
+  return <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50 p-4">
       <div className="bg-card rounded-lg p-6 w-full max-w-sm">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-medium">Employee Details</h3>
@@ -153,10 +156,8 @@ const EmployeeInfo: React.FC<{ employee: any, onClose: () => void }> = ({ employ
           Close
         </Button>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 const Employees = () => {
   const navigate = useNavigate();
   const {
@@ -169,7 +170,6 @@ const Employees = () => {
   const [currentEmployeeId, setCurrentEmployeeId] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'enrolled' | 'not-enrolled'>('all');
   const [viewingEmployee, setViewingEmployee] = useState<any>(null);
-  
   useEffect(() => {
     if (currentProject) {
       setIsLoading(true);
@@ -188,7 +188,6 @@ const Employees = () => {
     if (filter === 'not-enrolled') return !employee.isFaceEnrolled;
     return true;
   });
-
   const handleEnrollFace = (employeeId: string, name: string) => {
     setCurrentEmployeeId(employeeId);
     setShowCamera(true);
@@ -210,7 +209,6 @@ const Employees = () => {
       });
     }, 2000);
   };
-
   const handleRetakeFace = (employeeId: string, name: string) => {
     setCurrentEmployeeId(employeeId);
     setShowCamera(true);
@@ -224,7 +222,6 @@ const Employees = () => {
       });
     }, 2000);
   };
-
   const handleViewEmployee = (employeeId: string) => {
     // Open employee info modal instead of navigating
     const employee = employees.find(emp => emp.id === employeeId);
@@ -232,7 +229,6 @@ const Employees = () => {
       setViewingEmployee(employee);
     }
   };
-  
   const closeEmployeeView = () => {
     setViewingEmployee(null);
   };
@@ -241,14 +237,12 @@ const Employees = () => {
   const getProfilePic = (index: number) => {
     return `${profilePictures[index % profilePictures.length]}?${index}`;
   };
-  
   if (!currentProject) {
     return <div className="flex flex-col min-h-screen bg-background items-center justify-center">
         <p>No project selected</p>
         <Button className="mt-4" onClick={() => navigate('/dashboard')}>Back to Dashboard</Button>
       </div>;
   }
-  
   return <div className="flex flex-col min-h-screen bg-background">
       <div className="p-4 flex items-center justify-between border-b">
         <Button variant="ghost" onClick={() => navigate('/dashboard')} className="p-2">
@@ -323,39 +317,24 @@ const Employees = () => {
           </div>
         </div>}
       
-      {viewingEmployee && (
-        <EmployeeInfo employee={viewingEmployee} onClose={closeEmployeeView} />
-      )}
+      {viewingEmployee && <EmployeeInfo employee={viewingEmployee} onClose={closeEmployeeView} />}
       
       <div className="flex-1 container max-w-md mx-auto p-4 pb-24">
         {isLoading ? <div className="flex items-center justify-center h-40">
             <div className="green-loader"></div>
           </div> : <AnimatePresence>
             <div className="space-y-3">
-              {filteredEmployees.map((employee, index) => <EmployeeCard 
-                key={employee.id} 
-                id={employee.id} 
-                name={employee.name} 
-                isFaceEnrolled={employee.isFaceEnrolled} 
-                profilePic={getProfilePic(index)} 
-                onEnroll={() => handleEnrollFace(employee.id, employee.name)}
-                onRetake={() => handleRetakeFace(employee.id, employee.name)} 
-                onView={() => handleViewEmployee(employee.id)} 
-              />)}
+              {filteredEmployees.map((employee, index) => <EmployeeCard key={employee.id} id={employee.id} name={employee.name} isFaceEnrolled={employee.isFaceEnrolled} profilePic={getProfilePic(index)} onEnroll={() => handleEnrollFace(employee.id, employee.name)} onRetake={() => handleRetakeFace(employee.id, employee.name)} onView={() => handleViewEmployee(employee.id)} />)}
             </div>
           </AnimatePresence>}
         
         {/* Dashboard Button */}
         <div className="mt-8 mb-16 flex justify-center">
-          <Button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 bg-tanseeq hover:bg-tanseeq/90 rounded-full px-6">
-            <LayoutDashboard className="h-4 w-4" />
-            <span>Dashboard</span>
-          </Button>
+          
         </div>
       </div>
       
       <BottomNavbar />
     </div>;
 };
-
 export default Employees;

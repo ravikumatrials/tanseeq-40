@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useProject } from '@/context/ProjectContext';
@@ -6,7 +5,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { useAttendance } from '@/hooks/useAttendance';
 import { useToast } from '@/hooks/use-toast';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
-import { Sync } from 'lucide-react';
+import { RotateCw } from 'lucide-react';
 
 interface FaceRecognitionProps {
   isCheckIn: boolean;
@@ -210,7 +209,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({ isCheckIn }) => {
                   </>
                 ) : (
                   <>
-                    <Sync className="h-4 w-4" />
+                    <RotateCw className="h-4 w-4" />
                     <span>{hasSynced ? 'Synced' : 'Sync to History'}</span>
                   </>
                 )}

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -6,7 +5,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { Input } from '@/components/ui/input';
 import { useAttendance } from '@/hooks/useAttendance';
 import { AttendanceRecord } from '@/data/dummyData';
-import { Filter, Sync, Calendar } from 'lucide-react';
+import { RotateCw, Filter, Calendar } from 'lucide-react';
 import { 
   Popover,
   PopoverContent,
@@ -151,7 +150,7 @@ const HistoryPage = () => {
               </>
             ) : (
               <>
-                <Sync className="h-4 w-4" />
+                <RotateCw className="h-4 w-4" />
                 <span>Sync</span>
                 {stats.totalNotSynced > 0 && <span className="ml-1">({stats.totalNotSynced})</span>}
               </>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { useProject } from '@/context/ProjectContext';
 import { toast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, User, Camera, Plus, Home, LayoutDashboard, Filter } from 'lucide-react';
+import { ArrowLeft, User, Camera, Plus, Home, LayoutDashboard, Filter, Check, X, Building, MapPin, Calendar } from 'lucide-react';
 import BottomNavbar from '@/components/layout/BottomNavbar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
@@ -110,10 +109,10 @@ const EmployeeInfo: React.FC<{ employee: any, onClose: () => void }> = ({ employ
             <div className="flex items-center mt-1 gap-1">
               <span className="text-xs">Face Enrollment:</span>
               {employee.isFaceEnrolled ? <div className="flex items-center text-tanseeq text-xs">
-                  <CheckCircle className="h-3 w-3 mr-1" />
+                  <Check className="h-3 w-3 mr-1" />
                   <span>Enrolled</span>
                 </div> : <div className="flex items-center text-destructive text-xs">
-                  <XCircle className="h-3 w-3 mr-1" />
+                  <X className="h-3 w-3 mr-1" />
                   <span>Not Enrolled</span>
                 </div>}
             </div>

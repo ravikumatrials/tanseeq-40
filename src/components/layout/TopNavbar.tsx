@@ -41,9 +41,10 @@ const TopNavbar = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <motion.div 
-        className="flex items-center"
+        className="flex items-center cursor-pointer"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
+        onClick={() => navigate('/dashboard')}
       >
         <img 
           src="/lovable-uploads/801b965c-36e1-485f-8e8e-fa408775a70f.png" 

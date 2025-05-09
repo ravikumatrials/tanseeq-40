@@ -5,11 +5,18 @@ import { Card } from '@/components/ui/card';
 import { useProject } from '@/context/ProjectContext';
 import { toast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, User, Camera, Plus, Home, LayoutDashboard } from 'lucide-react';
+import { ArrowLeft, User, Camera, Plus, Home, LayoutDashboard, Filter } from 'lucide-react';
 import BottomNavbar from '@/components/layout/BottomNavbar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Sample profile pictures for employees
 const profilePictures = ['https://images.unsplash.com/photo-1535713875002-d1d0cf377fde', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330', 'https://images.unsplash.com/photo-1599566150163-29194dcaad36', 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80', 'https://images.unsplash.com/photo-1629467057571-42d22d8f0cbd'];
+
 interface EmployeeCardProps {
   id: string;
   name: string;
@@ -80,6 +87,8 @@ const Employees = () => {
   const [employees, setEmployees] = useState(currentProject?.employees || []);
   const [showCamera, setShowCamera] = useState(false);
   const [currentEmployeeId, setCurrentEmployeeId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<'all' | 'enrolled' | 'not-enrolled'>('all');
+
   useEffect(() => {
     if (currentProject) {
       setIsLoading(true);
@@ -90,6 +99,15 @@ const Employees = () => {
       }, 500);
     }
   }, [currentProject]);
+
+  // Filter employees based on current filter
+  const filteredEmployees = employees.filter(employee => {
+    if (filter === 'all') return true;
+    if (filter === 'enrolled') return employee.isFaceEnrolled;
+    if (filter === 'not-enrolled') return !employee.isFaceEnrolled;
+    return true;
+  });
+
   const handleEnrollFace = (employeeId: string, name: string) => {
     setCurrentEmployeeId(employeeId);
     setShowCamera(true);
@@ -141,11 +159,29 @@ const Employees = () => {
   }
   return <div className="flex flex-col min-h-screen bg-background">
       <div className="p-4 flex items-center justify-between border-b">
-        <Button variant="ghost" onClick={() => navigate(-1)} className="p-2">
+        <Button variant="ghost" onClick={() => navigate('/dashboard')} className="p-2">
           <ArrowLeft className="h-5 w-5 animated-icon" />
         </Button>
         <h1 className="text-xl font-bold">Employee Management</h1>
-        <div className="w-10"></div> {/* Spacer for centering */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="flex gap-1 items-center">
+              <Filter className="h-4 w-4" />
+              <span>Filter</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setFilter('all')} className={filter === 'all' ? 'bg-tanseeq/10' : ''}>
+              All Employees
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setFilter('enrolled')} className={filter === 'enrolled' ? 'bg-tanseeq/10' : ''}>
+              Face Enrolled
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setFilter('not-enrolled')} className={filter === 'not-enrolled' ? 'bg-tanseeq/10' : ''}>
+              Not Enrolled
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       
       {showCamera && <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50 p-4">
@@ -200,13 +236,19 @@ const Employees = () => {
             <div className="green-loader"></div>
           </div> : <AnimatePresence>
             <div className="space-y-3">
-              {employees.map((employee, index) => <EmployeeCard key={employee.id} id={employee.id} name={employee.name} isFaceEnrolled={employee.isFaceEnrolled} profilePic={getProfilePic(index)} onEnroll={() => handleEnrollFace(employee.id, employee.name)} onUpdate={() => handleRetakeFace(employee.id, employee.name)} onView={() => handleViewEmployee(employee.id)} />)}
+              {filteredEmployees.map((employee, index) => <EmployeeCard key={employee.id} id={employee.id} name={employee.name} isFaceEnrolled={employee.isFaceEnrolled} profilePic={getProfilePic(index)} onEnroll={() => handleEnrollFace(employee.id, employee.name)} onUpdate={() => handleRetakeFace(employee.id, employee.name)} onView={() => handleViewEmployee(employee.id)} />)}
             </div>
           </AnimatePresence>}
         
         {/* Dashboard Button */}
         <div className="mt-8 mb-16 flex justify-center">
-          
+          <Button 
+            onClick={() => navigate('/dashboard')}
+            className="flex items-center gap-2 bg-tanseeq hover:bg-tanseeq/90 rounded-full px-6"
+          >
+            <LayoutDashboard className="h-4 w-4" />
+            <span>Dashboard</span>
+          </Button>
         </div>
       </div>
       

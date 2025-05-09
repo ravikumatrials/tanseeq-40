@@ -44,7 +44,7 @@ const HistoryPage = () => {
         <Button
           variant="outline"
           size="sm"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 whitespace-nowrap"
           onClick={handleSync}
           disabled={isSyncing || stats.totalNotSynced === 0}
         >
@@ -92,17 +92,18 @@ const HistoryPage = () => {
       </div>
       
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="flex-1">
           <Input
             type="date"
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
+            className="w-full"
           />
         </div>
         
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full sm:w-[180px]">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
@@ -113,7 +114,7 @@ const HistoryPage = () => {
         </Select>
         
         <Select value={syncFilter} onValueChange={setSyncFilter}>
-          <SelectTrigger className="w-full sm:w-[180px]">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Sync Status" />
           </SelectTrigger>
           <SelectContent>

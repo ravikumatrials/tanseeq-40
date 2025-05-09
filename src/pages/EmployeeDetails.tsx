@@ -1,11 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, FileText, Download, Eye, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowLeft, FileText, Download, Eye, CheckCircle, XCircle, MapPin, Calendar, Building } from 'lucide-react';
 import { useProject } from '@/context/ProjectContext';
+import BottomNavbar from '@/components/layout/BottomNavbar';
 
 // Sample document data
 const employeeDocuments = [
@@ -65,9 +66,17 @@ const EmployeeDetails = () => {
   const { toast } = useToast();
   const { employeeId } = useParams();
   const { currentProject } = useProject();
+  const [showDocumentModal, setShowDocumentModal] = useState(false);
+  const [activeDocument, setActiveDocument] = useState<{id: number, name: string} | null>(null);
   
   // Find the employee from the current project
   const employee = currentProject?.employees.find(emp => emp.id === employeeId);
+
+  // Sample data for employee details
+  const employeeDetails = {
+    daysPresent: 18,
+    location: "Al-Waleed Tower, Building C, Riyadh",
+  };
 
   if (!employee) {
     return (
@@ -79,10 +88,8 @@ const EmployeeDetails = () => {
   }
 
   const handleViewDocument = (docId: number, docName: string) => {
-    toast({
-      title: "Viewing Document",
-      description: `Opening ${docName} preview`,
-    });
+    setActiveDocument({id: docId, name: docName});
+    setShowDocumentModal(true);
   };
 
   const handleDownloadDocument = (docId: number, docName: string) => {
@@ -140,6 +147,37 @@ const EmployeeDetails = () => {
           </div>
         </div>
         
+        {/* Employee Details Card */}
+        <Card className="p-4 mb-6 border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5">
+          <h3 className="text-md font-semibold mb-3 text-tanseeq">Project Information</h3>
+          
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <Building className="h-4 w-4 text-tanseeq" />
+              <div>
+                <p className="text-xs text-muted-foreground">Current Project</p>
+                <p className="text-sm font-medium">{currentProject?.name}</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-tanseeq" />
+              <div>
+                <p className="text-xs text-muted-foreground">Location</p>
+                <p className="text-sm font-medium">{employeeDetails.location}</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4 text-tanseeq" />
+              <div>
+                <p className="text-xs text-muted-foreground">Days Present</p>
+                <p className="text-sm font-medium">{employeeDetails.daysPresent} days this month</p>
+              </div>
+            </div>
+          </div>
+        </Card>
+        
         {/* Documents Section */}
         <div className="mb-4">
           <h3 className="text-lg font-semibold mb-3">Documents</h3>
@@ -154,7 +192,54 @@ const EmployeeDetails = () => {
             ))}
           </div>
         </div>
+        
+        {/* Document Preview Modal */}
+        {showDocumentModal && activeDocument && (
+          <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50 p-4">
+            <div className="bg-card rounded-lg p-4 w-full max-w-md">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-medium">{activeDocument.name}</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-8 w-8 p-0"
+                  onClick={() => setShowDocumentModal(false)}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x">
+                    <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+                  </svg>
+                </Button>
+              </div>
+              
+              <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 rounded-lg mb-4 flex items-center justify-center">
+                <FileText className="h-16 w-16 text-gray-400" />
+              </div>
+              
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => setShowDocumentModal(false)}
+                >
+                  Close
+                </Button>
+                <Button 
+                  className="flex-1 bg-tanseeq hover:bg-tanseeq/90"
+                  onClick={() => {
+                    handleDownloadDocument(activeDocument.id, activeDocument.name);
+                    setShowDocumentModal(false);
+                  }}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Download
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+      
+      <BottomNavbar />
     </div>
   );
 };

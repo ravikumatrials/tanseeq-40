@@ -6,7 +6,8 @@ import { Card } from '@/components/ui/card';
 import { useProject } from '@/context/ProjectContext';
 import { toast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, User, UserCheck, Plus } from 'lucide-react';
+import { ArrowLeft, User, Camera, Plus, Home, LayoutDashboard } from 'lucide-react';
+import BottomNavbar from '@/components/layout/BottomNavbar';
 
 // Sample profile pictures for employees
 const profilePictures = [
@@ -70,8 +71,8 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
                 className="h-7 text-xs bg-transparent border-tanseeq text-tanseeq hover:bg-tanseeq/10"
                 onClick={onUpdate}
               >
-                <UserCheck className="h-3.5 w-3.5 mr-1" />
-                Update Face
+                <Camera className="h-3.5 w-3.5 mr-1" />
+                Retake
               </Button>
             ) : (
               <Button 
@@ -103,6 +104,8 @@ const Employees = () => {
   const { currentProject, setCurrentProject } = useProject();
   const [isLoading, setIsLoading] = useState(false);
   const [employees, setEmployees] = useState(currentProject?.employees || []);
+  const [showCamera, setShowCamera] = useState(false);
+  const [currentEmployeeId, setCurrentEmployeeId] = useState<string | null>(null);
   
   useEffect(() => {
     if (currentProject) {
@@ -116,17 +119,40 @@ const Employees = () => {
   }, [currentProject]);
   
   const handleEnrollFace = (employeeId: string, name: string) => {
-    toast({
-      title: "Face Enrollment Started",
-      description: `Starting face enrollment process for ${name}`,
-    });
+    setCurrentEmployeeId(employeeId);
+    setShowCamera(true);
+    // Simulate camera access and face enrollment
+    setTimeout(() => {
+      // Update local state to show enrollment
+      const updatedEmployees = employees.map(emp => 
+        emp.id === employeeId ? {...emp, isFaceEnrolled: true} : emp
+      );
+      setEmployees(updatedEmployees);
+      
+      // Close camera
+      setShowCamera(false);
+      setCurrentEmployeeId(null);
+      
+      toast({
+        title: "Face Enrolled Successfully",
+        description: `${name}'s face has been enrolled.`,
+      });
+    }, 2000);
   };
   
-  const handleUpdateFace = (employeeId: string, name: string) => {
-    toast({
-      title: "Face Update Started",
-      description: `Starting face update process for ${name}`,
-    });
+  const handleRetakeFace = (employeeId: string, name: string) => {
+    setCurrentEmployeeId(employeeId);
+    setShowCamera(true);
+    // Simulate camera access and face update
+    setTimeout(() => {
+      setShowCamera(false);
+      setCurrentEmployeeId(null);
+      
+      toast({
+        title: "Face Updated Successfully",
+        description: `${name}'s face profile has been updated.`,
+      });
+    }, 2000);
   };
   
   const handleViewEmployee = (employeeId: string) => {
@@ -162,6 +188,67 @@ const Employees = () => {
         <div className="w-10"></div> {/* Spacer for centering */}
       </div>
       
+      {showCamera && (
+        <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50 p-4">
+          <div className="bg-card rounded-lg p-6 w-full max-w-sm">
+            <h3 className="text-lg font-medium mb-4 text-center">
+              {currentEmployeeId ? 
+                (employees.find(e => e.id === currentEmployeeId)?.isFaceEnrolled ? 
+                  "Retaking Face" : "Enrolling Face") : 
+                "Camera Access"}
+            </h3>
+            <div className="aspect-square bg-gray-800 rounded-lg mb-4 overflow-hidden flex items-center justify-center">
+              <Camera className="h-16 w-16 text-gray-400" />
+            </div>
+            <div className="flex gap-3">
+              <Button 
+                variant="outline" 
+                className="flex-1"
+                onClick={() => {
+                  setShowCamera(false);
+                  setCurrentEmployeeId(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button 
+                className="flex-1 bg-tanseeq hover:bg-tanseeq/90"
+                onClick={() => {
+                  setShowCamera(false);
+                  
+                  if (currentEmployeeId) {
+                    const employee = employees.find(e => e.id === currentEmployeeId);
+                    if (employee) {
+                      if (!employee.isFaceEnrolled) {
+                        // Update local state to show enrollment
+                        const updatedEmployees = employees.map(emp => 
+                          emp.id === currentEmployeeId ? {...emp, isFaceEnrolled: true} : emp
+                        );
+                        setEmployees(updatedEmployees);
+                        
+                        toast({
+                          title: "Face Enrolled Successfully",
+                          description: `${employee.name}'s face has been enrolled.`,
+                        });
+                      } else {
+                        toast({
+                          title: "Face Updated Successfully",
+                          description: `${employee.name}'s face profile has been updated.`,
+                        });
+                      }
+                    }
+                  }
+                  
+                  setCurrentEmployeeId(null);
+                }}
+              >
+                Capture
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="flex-1 container max-w-md mx-auto p-4 pb-24">
         {isLoading ? (
           <div className="flex items-center justify-center h-40">
@@ -178,14 +265,27 @@ const Employees = () => {
                   isFaceEnrolled={employee.isFaceEnrolled}
                   profilePic={getProfilePic(index)}
                   onEnroll={() => handleEnrollFace(employee.id, employee.name)}
-                  onUpdate={() => handleUpdateFace(employee.id, employee.name)}
+                  onUpdate={() => handleRetakeFace(employee.id, employee.name)}
                   onView={() => handleViewEmployee(employee.id)}
                 />
               ))}
             </div>
           </AnimatePresence>
         )}
+        
+        {/* Dashboard Button */}
+        <div className="mt-8 mb-16 flex justify-center">
+          <Button 
+            onClick={() => navigate('/dashboard')} 
+            className="rounded-full px-6 py-2 bg-tanseeq hover:bg-tanseeq/90 text-white flex items-center gap-2"
+          >
+            <LayoutDashboard className="h-4 w-4" />
+            Back to Dashboard
+          </Button>
+        </div>
       </div>
+      
+      <BottomNavbar />
     </div>
   );
 };

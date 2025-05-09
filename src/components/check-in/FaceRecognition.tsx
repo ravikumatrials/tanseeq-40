@@ -6,6 +6,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { useAttendance } from '@/hooks/useAttendance';
 import { useToast } from '@/hooks/use-toast';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
+import { Sync } from 'lucide-react';
 
 interface FaceRecognitionProps {
   isCheckIn: boolean;
@@ -20,19 +21,43 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({ isCheckIn }) => {
     project: string;
     location: string;
   }[]>([]);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [hasSynced, setHasSynced] = useState(false);
   const { currentProject } = useProject();
   const { address } = useLocation();
   const { toast } = useToast();
-  const { addCheckIn, addCheckOut } = useAttendance();
+  const { addCheckIn, addCheckOut, syncRecords } = useAttendance();
   const { addPendingChange } = useOfflineSync();
   
   const startScanning = () => {
     setIsScanning(true);
     setScannedEmployees([]);
+    setHasSynced(false);
   };
   
   const stopScanning = () => {
     setIsScanning(false);
+  };
+  
+  const handleSync = async () => {
+    setIsSyncing(true);
+    
+    try {
+      await syncRecords();
+      toast({
+        title: "Attendance Synced",
+        description: "All attendance records have been synced successfully.",
+      });
+      setHasSynced(true);
+    } catch (error) {
+      toast({
+        title: "Sync Failed",
+        description: "There was a problem syncing the attendance records.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSyncing(false);
+    }
   };
   
   // Simulate face scanning process
@@ -170,6 +195,28 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({ isCheckIn }) => {
               </div>
             ))}
           </div>
+          
+          {!isScanning && scannedEmployees.length > 0 && (
+            <div className="flex justify-center pt-4">
+              <Button 
+                onClick={handleSync} 
+                className="bg-tanseeq hover:bg-tanseeq/90 flex items-center gap-2"
+                disabled={isSyncing || hasSynced}
+              >
+                {isSyncing ? (
+                  <>
+                    <div className="h-4 w-4 rounded-full border-2 border-t-transparent border-white animate-spin"></div>
+                    <span>Syncing...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sync className="h-4 w-4" />
+                    <span>{hasSynced ? 'Synced' : 'Sync to History'}</span>
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -11,7 +11,7 @@ const History = () => {
   
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <div className="p-4 flex items-center justify-between border-b">
+      <div className="p-4 flex items-center justify-between">
         <Button 
           variant="ghost" 
           className="p-2"

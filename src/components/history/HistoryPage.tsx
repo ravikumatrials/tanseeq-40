@@ -6,62 +6,44 @@ import { Input } from '@/components/ui/input';
 import { useAttendance } from '@/hooks/useAttendance';
 import { AttendanceRecord } from '@/data/dummyData';
 import { RotateCw, Filter, Calendar } from 'lucide-react';
-import { 
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format, subDays } from 'date-fns';
-
 const HistoryPage = () => {
-  const { allRecords, syncRecords, stats } = useAttendance();
+  const {
+    allRecords,
+    syncRecords,
+    stats
+  } = useAttendance();
   const [dateFilter, setDateFilter] = useState(new Date().toISOString().split('T')[0]);
   const [statusFilter, setStatusFilter] = useState('all'); // 'all', 'checkin', 'checkout'
   const [syncFilter, setSyncFilter] = useState('all'); // 'all', 'synced', 'notsynced'
   const [isSyncing, setIsSyncing] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  
   const handleSync = async () => {
     setIsSyncing(true);
     await syncRecords();
     setIsSyncing(false);
   };
-
   const handleDatePreset = (days: number) => {
     const date = subDays(new Date(), days);
     setDateFilter(format(date, 'yyyy-MM-dd'));
     setIsFilterOpen(false);
   };
-  
+
   // Apply filters to records
   const filteredRecords = allRecords.filter(record => {
     const matchesDate = record.date === dateFilter;
-    
-    const matchesStatus = 
-      statusFilter === 'all' ||
-      (statusFilter === 'checkin' && record.checkInTime) ||
-      (statusFilter === 'checkout' && record.checkOutTime);
-    
-    const matchesSync =
-      syncFilter === 'all' ||
-      (syncFilter === 'synced' && record.isSynced) ||
-      (syncFilter === 'notsynced' && !record.isSynced);
-    
+    const matchesStatus = statusFilter === 'all' || statusFilter === 'checkin' && record.checkInTime || statusFilter === 'checkout' && record.checkOutTime;
+    const matchesSync = syncFilter === 'all' || syncFilter === 'synced' && record.isSynced || syncFilter === 'notsynced' && !record.isSynced;
     return matchesDate && matchesStatus && matchesSync;
   });
-  
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Attendance History</h2>
+        <h2 className="text-2xl font-bold"> History</h2>
         <div className="flex gap-2">
           <Popover open={isFilterOpen} onOpenChange={setIsFilterOpen}>
             <PopoverTrigger asChild>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="flex items-center gap-1"
-              >
+              <Button variant="outline" size="sm" className="flex items-center gap-1">
                 <Filter className="h-4 w-4" />
                 <span>Filter</span>
               </Button>
@@ -86,12 +68,7 @@ const HistoryPage = () => {
                       Last 30 Days
                     </Button>
                   </div>
-                  <Input
-                    type="date"
-                    value={dateFilter}
-                    onChange={(e) => setDateFilter(e.target.value)}
-                    className="w-full"
-                  />
+                  <Input type="date" value={dateFilter} onChange={e => setDateFilter(e.target.value)} className="w-full" />
                 </div>
                 
                 <div className="space-y-2">
@@ -123,12 +100,7 @@ const HistoryPage = () => {
                 </div>
                 
                 <div className="flex justify-end">
-                  <Button 
-                    variant="default" 
-                    size="sm" 
-                    className="bg-tanseeq hover:bg-tanseeq/90"
-                    onClick={() => setIsFilterOpen(false)}
-                  >
+                  <Button variant="default" size="sm" className="bg-tanseeq hover:bg-tanseeq/90" onClick={() => setIsFilterOpen(false)}>
                     Apply Filters
                   </Button>
                 </div>
@@ -136,25 +108,15 @@ const HistoryPage = () => {
             </PopoverContent>
           </Popover>
           
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2 whitespace-nowrap"
-            onClick={handleSync}
-            disabled={isSyncing || stats.totalNotSynced === 0}
-          >
-            {isSyncing ? (
-              <>
+          <Button variant="outline" size="sm" className="flex items-center gap-2 whitespace-nowrap" onClick={handleSync} disabled={isSyncing || stats.totalNotSynced === 0}>
+            {isSyncing ? <>
                 <div className="green-loader h-4 w-4 rounded-full"></div>
                 <span>Syncing...</span>
-              </>
-            ) : (
-              <>
+              </> : <>
                 <RotateCw className="h-4 w-4" />
                 <span>Sync</span>
                 {stats.totalNotSynced > 0 && <span className="ml-1">({stats.totalNotSynced})</span>}
-              </>
-            )}
+              </>}
           </Button>
         </div>
       </div>
@@ -190,43 +152,33 @@ const HistoryPage = () => {
             <Calendar className="h-3 w-3" />
             <span>{format(new Date(dateFilter), 'MMM d, yyyy')}</span>
           </div>
-          {statusFilter !== 'all' && (
-            <div className="text-sm bg-tanseeq/10 text-tanseeq px-3 py-1 rounded-full">
+          {statusFilter !== 'all' && <div className="text-sm bg-tanseeq/10 text-tanseeq px-3 py-1 rounded-full">
               {statusFilter === 'checkin' ? 'Check-in' : 'Check-out'}
-            </div>
-          )}
-          {syncFilter !== 'all' && (
-            <div className="text-sm bg-tanseeq/10 text-tanseeq px-3 py-1 rounded-full">
+            </div>}
+          {syncFilter !== 'all' && <div className="text-sm bg-tanseeq/10 text-tanseeq px-3 py-1 rounded-full">
               {syncFilter === 'synced' ? 'Synced' : 'Not Synced'}
-            </div>
-          )}
+            </div>}
         </div>
       </div>
       
       {/* Records List */}
-      {filteredRecords.length === 0 ? (
-        <div className="text-center py-12 bg-muted/30 rounded-lg">
+      {filteredRecords.length === 0 ? <div className="text-center py-12 bg-muted/30 rounded-lg">
           <p className="text-muted-foreground">No records found for selected filters</p>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {filteredRecords.map(record => (
-            <AttendanceRecordItem key={record.id} record={record} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
+        </div> : <div className="space-y-4">
+          {filteredRecords.map(record => <AttendanceRecordItem key={record.id} record={record} />)}
+        </div>}
+    </div>;
 };
-
-const AttendanceRecordItem: React.FC<{ record: AttendanceRecord }> = ({ record }) => {
+const AttendanceRecordItem: React.FC<{
+  record: AttendanceRecord;
+}> = ({
+  record
+}) => {
   const formatTime = (dateTimeString: string | null) => {
     if (!dateTimeString) return 'N/A';
     return new Date(dateTimeString).toLocaleTimeString();
   };
-  
-  return (
-    <div className="p-4 rounded-lg border flex items-start space-x-3 bg-card">
+  return <div className="p-4 rounded-lg border flex items-start space-x-3 bg-card">
       <div className="flex-1">
         <div className="font-medium">{record.employeeName}</div>
         <div className="text-sm text-muted-foreground">{record.employeeId}</div>
@@ -252,8 +204,6 @@ const AttendanceRecordItem: React.FC<{ record: AttendanceRecord }> = ({ record }
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default HistoryPage;

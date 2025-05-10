@@ -35,7 +35,7 @@ const TopNavbar = () => {
 
   return (
     <motion.div 
-      className="mobile-header justify-between"
+      className="mobile-header justify-between bg-gradient-to-r from-tanseeq to-tanseeq-gold/80"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -49,7 +49,7 @@ const TopNavbar = () => {
         <img 
           src="/lovable-uploads/801b965c-36e1-485f-8e8e-fa408775a70f.png" 
           alt="Tanseeq Investment" 
-          className="h-9 mr-3" 
+          className="h-9 mr-3 drop-shadow-md" 
         />
       </motion.div>
       
@@ -60,9 +60,8 @@ const TopNavbar = () => {
             onValueChange={handleProjectChange}
             onOpenChange={setShowProjects}
           >
-            <SelectTrigger className="w-full rounded-lg border-input/80 focus:border-tanseeq bg-background/90 backdrop-blur-sm shadow-soft text-sm">
+            <SelectTrigger className="w-full rounded-full border-white/20 focus:border-white bg-white/20 backdrop-blur-sm shadow-soft text-sm text-white">
               <SelectValue placeholder="Select Project" />
-              {/* Removed the custom chevron here to avoid duplicate arrows */}
             </SelectTrigger>
             <SelectContent className="bg-card/95 backdrop-blur-md border-tanseeq/30 rounded-lg shadow-enterprise">
               <AnimatePresence>
@@ -90,12 +89,12 @@ const TopNavbar = () => {
       
       <div className="flex items-center space-x-3">
         <motion.div 
-          className="hidden sm:flex items-center text-sm text-muted-foreground px-3 py-1.5 rounded-full bg-background/50 backdrop-blur-sm"
+          className="hidden sm:flex items-center text-sm text-white px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Clock className="h-4 w-4 mr-1.5 text-tanseeq" />
+          <Clock className="h-4 w-4 mr-1.5 text-white" />
           {currentTime.toLocaleTimeString('en-US', {
             hour: '2-digit',
             minute: '2-digit'
@@ -105,7 +104,7 @@ const TopNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <motion.button 
-              className="mobile-avatar bg-tanseeq/10 text-tanseeq p-2 flex items-center justify-center h-9 w-9 shadow-soft hover:bg-tanseeq/20"
+              className="mobile-avatar bg-white/20 text-white p-2 flex items-center justify-center h-9 w-9 shadow-soft hover:bg-white/30"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -139,7 +138,7 @@ const TopNavbar = () => {
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={logout}
-              className="cursor-pointer hover:bg-destructive/10 text-destructive gap-2 rounded-md mx-1 px-3 py-2 mb-1"
+              className="cursor-pointer hover:bg-rose-500/10 text-rose-500 gap-2 rounded-md mx-1 px-3 py-2 mb-1"
             >
               <LogOut className="h-4 w-4" />
               Logout

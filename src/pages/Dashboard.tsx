@@ -23,11 +23,11 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h1 className="text-2xl font-bold text-tanseeq flex items-center">
-            <LayoutDashboard className="mr-2 h-6 w-6" />
+          <h1 className="text-2xl font-bold text-tanseeq flex items-center bg-gradient-to-r from-tanseeq to-tanseeq-gold bg-clip-text text-transparent">
+            <LayoutDashboard className="mr-2 h-6 w-6 text-tanseeq" />
             Dashboard
           </h1>
-          <div className="text-xs text-tanseeq/80 font-medium bg-tanseeq/10 px-3 py-1.5 rounded-full">
+          <div className="text-xs font-medium bg-tanseeq-gold/20 text-tanseeq-gold px-4 py-2 rounded-full flex items-center shadow-sm">
             {new Date().toLocaleDateString('en-US', { 
               month: 'short', 
               day: 'numeric',

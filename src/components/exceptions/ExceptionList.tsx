@@ -1,74 +1,56 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAttendance } from '@/hooks/useAttendance';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
+import { Exception } from '@/data/dummyData';
+import FaceCheckOutModal from './FaceCheckOutModal';
+
 const ExceptionList = () => {
   const {
     exceptions,
     resolveException
   } = useAttendance();
-  const {
-    addPendingChange
-  } = useOfflineSync();
-  const [selectedExceptions, setSelectedExceptions] = useState<Record<string, boolean>>({});
-  const [checkOutTime, setCheckOutTime] = useState('17:00');
+  
+  const { addPendingChange } = useOfflineSync();
   const [filter, setFilter] = useState('');
-  const {
-    toast
-  } = useToast();
-  const filteredExceptions = exceptions.filter(ex => ex.employeeName.toLowerCase().includes(filter.toLowerCase()) || ex.employeeId.toLowerCase().includes(filter.toLowerCase()));
-  const handleSelectException = (id: string) => {
-    setSelectedExceptions(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
+  const { toast } = useToast();
+  
+  // State for face checkout modal
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedException, setSelectedException] = useState<Exception | null>(null);
+  
+  const filteredExceptions = exceptions.filter(ex => 
+    ex.employeeName.toLowerCase().includes(filter.toLowerCase()) || 
+    ex.employeeId.toLowerCase().includes(filter.toLowerCase())
+  );
+  
+  // Handle manual check-out via face verification
+  const handleManualCheckOut = (exception: Exception) => {
+    setSelectedException(exception);
+    setModalOpen(true);
   };
-  const handleSelectAll = () => {
-    const allSelected = filteredExceptions.every(ex => selectedExceptions[ex.id]);
-    if (allSelected) {
-      // Deselect all
-      setSelectedExceptions({});
-    } else {
-      // Select all
-      const newSelected: Record<string, boolean> = {};
-      filteredExceptions.forEach(ex => {
-        newSelected[ex.id] = true;
-      });
-      setSelectedExceptions(newSelected);
-    }
-  };
-  const handleResolveExceptions = () => {
-    const selectedIds = Object.entries(selectedExceptions).filter(([_, isSelected]) => isSelected).map(([id]) => id);
-    if (selectedIds.length === 0) {
-      toast({
-        title: "No exceptions selected",
-        description: "Please select at least one exception to resolve.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    // Get current date
-    const today = new Date().toISOString().split('T')[0];
-    const checkOutDateTime = `${today}T${checkOutTime}:00`;
-
-    // Resolve each selected exception
-    selectedIds.forEach(id => {
-      resolveException(id, checkOutDateTime);
-      addPendingChange();
-    });
+  
+  // Called after successful face verification
+  const handleSuccessfulCheckout = (exceptionId: string, employeeId: string) => {
+    // Get current date and time
+    const now = new Date();
+    const checkOutDateTime = now.toISOString();
+    
+    // Resolve the exception
+    resolveException(exceptionId, checkOutDateTime);
+    addPendingChange();
+    
     toast({
-      title: "Exceptions resolved",
-      description: `${selectedIds.length} exception(s) have been updated with checkout time.`
+      title: "Exception resolved",
+      description: "Employee has been successfully checked out."
     });
-
-    // Clear selections
-    setSelectedExceptions({});
   };
-  return <div className="space-y-6">
+
+  return (
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Exceptions</h2>
         <div className="text-sm text-muted-foreground">
@@ -77,30 +59,25 @@ const ExceptionList = () => {
       </div>
       
       <div className="space-y-4">
-        <Input placeholder="Filter by name or ID..." value={filter} onChange={e => setFilter(e.target.value)} className="w-full" />
-        
-        <div className="flex justify-between items-center">
-          <Button variant="outline" size="sm" onClick={handleSelectAll}>
-            {filteredExceptions.every(ex => selectedExceptions[ex.id]) ? 'Deselect All' : 'Select All'}
-          </Button>
-          
-          <div className="flex items-center space-x-2">
-            
-            
-            
-            <Button size="sm" className="bg-tanseeq hover:bg-tanseeq/90" onClick={handleResolveExceptions} disabled={Object.values(selectedExceptions).filter(Boolean).length === 0}>
-              Update Selected
-            </Button>
-          </div>
-        </div>
+        <Input 
+          placeholder="Filter by name or ID..." 
+          value={filter} 
+          onChange={e => setFilter(e.target.value)} 
+          className="w-full" 
+        />
       </div>
       
-      {filteredExceptions.length === 0 ? <div className="text-center py-12 bg-muted/30 rounded-lg">
+      {filteredExceptions.length === 0 ? (
+        <div className="text-center py-12 bg-muted/30 rounded-lg">
           <p className="text-muted-foreground">No exceptions found</p>
-        </div> : <div className="space-y-4">
-          {filteredExceptions.map(exception => <div key={exception.id} className={`p-4 rounded-lg border flex items-start space-x-3 cursor-pointer transition-colors ${selectedExceptions[exception.id] ? 'bg-tanseeq/5 border-tanseeq' : 'bg-card'}`} onClick={() => handleSelectException(exception.id)}>
-              <input type="checkbox" checked={selectedExceptions[exception.id] || false} onChange={() => handleSelectException(exception.id)} className="mt-1" />
-              
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {filteredExceptions.map(exception => (
+            <div 
+              key={exception.id} 
+              className="p-4 rounded-lg border bg-card flex items-start justify-between"
+            >
               <div className="flex-1">
                 <div className="font-medium">{exception.employeeName}</div>
                 <div className="text-sm text-muted-foreground">{exception.employeeId}</div>
@@ -111,8 +88,26 @@ const ExceptionList = () => {
                   <span className="font-medium">Check-out:</span> Missing
                 </div>
               </div>
-            </div>)}
-        </div>}
-    </div>;
+              
+              <Button 
+                onClick={() => handleManualCheckOut(exception)}
+                className="bg-tanseeq hover:bg-tanseeq/90"
+              >
+                Manual Check Out
+              </Button>
+            </div>
+          ))}
+        </div>
+      )}
+      
+      <FaceCheckOutModal 
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        exception={selectedException}
+        onSuccessfulCheckout={handleSuccessfulCheckout}
+      />
+    </div>
+  );
 };
+
 export default ExceptionList;

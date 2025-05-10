@@ -11,7 +11,7 @@ const History = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-secondary/10">
       <motion.div 
         className="mobile-header justify-between"
         initial={{ y: -20 }}
@@ -35,7 +35,7 @@ const History = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="mobile-card p-6">
+        <div className="glassmorphism mobile-card p-6">
           <HistoryPage />
         </div>
       </motion.div>

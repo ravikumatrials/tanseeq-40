@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 const ForgotPassword = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-background">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-b from-background to-secondary/20">
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -25,7 +25,7 @@ const ForgotPassword = () => {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="w-full max-w-md"
       >
-        <div className="mobile-card backdrop-blur-sm p-7 shadow-enterprise">
+        <div className="glassmorphism mobile-card p-7 shadow-enterprise">
           <ForgotPasswordForm />
         </div>
         <div className="text-center mt-6 text-sm text-muted-foreground">

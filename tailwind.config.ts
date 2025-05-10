@@ -64,8 +64,8 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				tanseeq: {
-					DEFAULT: '#10B981', // Primary green
-					gold: '#D4AF37',    // Gold accent
+					DEFAULT: '#0e2748', // Deep Navy Blue (primary)
+					gold: '#D4AF37',    // Rich Gold/Mustard (accent)
 					dark: '#1A1F2C',    // Dark mode background
 					light: '#FFFFFF',   // Light mode background
 					gray: '#8E9196',    // Neutral gray

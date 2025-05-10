@@ -15,7 +15,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         id="theme-switch"
         checked={theme === "dark"}
         onCheckedChange={toggleTheme}
-        className="data-[state=checked]:bg-tanseeq"
+        className="data-[state=checked]:bg-primary"
       />
       <Label 
         htmlFor="theme-switch" 
@@ -27,7 +27,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             animate={{ scale: 1, opacity: 1 }}
             className="flex items-center"
           >
-            <Moon className="h-3.5 w-3.5 mr-1 text-tanseeq" />
+            <Moon className="h-3.5 w-3.5 mr-1 text-primary" />
             <span>Dark Mode</span>
           </motion.div>
         ) : (
@@ -36,7 +36,7 @@ export function ThemeToggle({ className }: { className?: string }) {
             animate={{ scale: 1, opacity: 1 }}
             className="flex items-center"
           >
-            <Sun className="h-3.5 w-3.5 mr-1 text-tanseeq" />
+            <Sun className="h-3.5 w-3.5 mr-1 text-primary" />
             <span>Light Mode</span>
           </motion.div>
         )}

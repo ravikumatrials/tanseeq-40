@@ -14,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 158 74% 40%;
+    --primary: 222 47% 15%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -23,7 +23,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
+    --accent: 40 60% 50%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,7 +31,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 158 74% 40%;
+    --ring: 222 47% 15%;
 
     --radius: 0.75rem;
 
@@ -57,8 +57,8 @@
     --popover: 222 26% 14%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 158 74% 40%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -66,7 +66,7 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 40 60% 50%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -74,7 +74,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 158 74% 40%;
+    --ring: 210 40% 98%;
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -104,7 +104,7 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-tanseeq text-white px-4 py-2 rounded-md hover:bg-tanseeq/90 transition-colors;
+    @apply bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors;
   }
   
   .card-stats {
@@ -112,16 +112,16 @@
   }
   
   .input-field {
-    @apply w-full p-2 rounded-md border border-input bg-background text-foreground focus:border-tanseeq focus:ring-1 focus:ring-tanseeq focus:outline-none transition-all duration-200;
+    @apply w-full p-2 rounded-md border border-input bg-background text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-200;
   }
 
   .green-loader {
-    @apply w-6 h-6 rounded-full animate-pulse-green bg-tanseeq;
+    @apply w-6 h-6 rounded-full animate-pulse-green bg-primary;
   }
   
   /* Enhanced UI styles for enterprise look */
   .card-hover {
-    @apply hover:shadow-enterprise hover:border-tanseeq/40 transition-all duration-200;
+    @apply hover:shadow-enterprise hover:border-primary/40 transition-all duration-200;
   }
   
   .nav-item {
@@ -129,7 +129,7 @@
   }
   
   .nav-item-active {
-    @apply text-tanseeq font-medium;
+    @apply text-primary font-medium;
   }
   
   .nav-item-inactive {
@@ -141,7 +141,7 @@
   }
   
   .badge-success {
-    @apply bg-tanseeq/10 text-tanseeq;
+    @apply bg-primary/10 text-primary;
   }
   
   .badge-warning {
@@ -199,7 +199,7 @@
   }
   
   .mobile-input {
-    @apply rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:border-tanseeq focus:ring-1 focus:ring-tanseeq focus:outline-none transition-all;
+    @apply rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all;
   }
   
   .mobile-avatar {
@@ -212,4 +212,3 @@
 }
 
 /* ... keep existing code (keyframes definitions) */
-

@@ -5,13 +5,11 @@ import { Card } from '@/components/ui/card';
 import { useProject } from '@/context/ProjectContext';
 import { toast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, User, Camera, Plus, Check, X, Search, Filter } from 'lucide-react';
+import { ArrowLeft, User, Camera, Plus, Check, X, Search } from 'lucide-react';
 import BottomNavbar from '@/components/layout/BottomNavbar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 // Sample profile pictures for employees
 const profilePictures = ['https://images.unsplash.com/photo-1535713875002-d1d0cf377fde', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330', 'https://images.unsplash.com/photo-1599566150163-29194dcaad36', 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80', 'https://images.unsplash.com/photo-1629467057571-42d22d8f0cbd'];
@@ -168,14 +166,12 @@ const Employees = () => {
   const [employees, setEmployees] = useState(currentProject?.employees || []);
   const [showCamera, setShowCamera] = useState(false);
   const [currentEmployeeId, setCurrentEmployeeId] = useState<string | null>(null);
-  const [filter, setFilter] = useState<'all' | 'enrolled' | 'not-enrolled'>('all');
   const [viewingEmployee, setViewingEmployee] = useState<any>(null);
-  // New state for employee ID/name filter
+  // Name/ID filter state
   const [nameFilter, setNameFilter] = useState('');
-  // New state for enrollment status filter
+  // Enrollment status filter state
   const [enrollmentFilter, setEnrollmentFilter] = useState<'all' | 'enrolled' | 'not-enrolled'>('all');
-  // State to control filter popover
-  const [isFilterPopoverOpen, setIsFilterPopoverOpen] = useState(false);
+  // Remove isFilterPopoverOpen state as we're removing the popover
 
   useEffect(() => {
     if (currentProject) {
@@ -206,6 +202,7 @@ const Employees = () => {
     
     return nameMatch && enrollmentMatch;
   });
+
   const handleEnrollFace = (employeeId: string, name: string) => {
     setCurrentEmployeeId(employeeId);
     setShowCamera(true);
@@ -261,72 +258,15 @@ const Employees = () => {
         <Button className="mt-4" onClick={() => navigate('/dashboard')}>Back to Dashboard</Button>
       </div>;
   }
+
   return <div className="flex flex-col min-h-screen bg-background">
       <div className="p-4 flex items-center justify-between border-b">
         <Button variant="ghost" onClick={() => navigate('/dashboard')} className="p-2">
           <ArrowLeft className="h-5 w-5 animated-icon" />
         </Button>
         <h1 className="text-xl font-bold">Employee Details</h1>
-        <Popover open={isFilterPopoverOpen} onOpenChange={setIsFilterPopoverOpen}>
-          <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="flex gap-1 items-center">
-              <Filter className="h-4 w-4" />
-              <span>Filter</span>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80" align="end">
-            <div className="space-y-4 p-2">
-              <h3 className="font-medium text-sm">Filter Employees</h3>
-              
-              <div className="space-y-2">
-                <Label htmlFor="nameFilter">Employee ID/Name</Label>
-                <Input 
-                  id="nameFilter" 
-                  placeholder="Search by ID or name..." 
-                  value={nameFilter}
-                  onChange={(e) => setNameFilter(e.target.value)}
-                  className="w-full"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label>Status</Label>
-                <RadioGroup 
-                  value={enrollmentFilter} 
-                  onValueChange={(value) => setEnrollmentFilter(value as 'all' | 'enrolled' | 'not-enrolled')}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="all" id="all" />
-                    <Label htmlFor="all">All</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="enrolled" id="enrolled" />
-                    <Label htmlFor="enrolled">Enrolled</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="not-enrolled" id="not-enrolled" />
-                    <Label htmlFor="not-enrolled">Not Enrolled</Label>
-                  </div>
-                </RadioGroup>
-              </div>
-              
-              <div className="flex justify-between pt-2">
-                <Button 
-                  variant="outline" 
-                  onClick={() => {
-                    setNameFilter('');
-                    setEnrollmentFilter('all');
-                  }}
-                >
-                  Reset
-                </Button>
-                <Button onClick={() => setIsFilterPopoverOpen(false)}>
-                  Apply
-                </Button>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
+        {/* Removed filter icon/dropdown from here */}
+        <div className="w-10"></div> {/* Empty div to maintain layout balance */}
       </div>
       
       {showCamera && <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50 p-4">
@@ -379,56 +319,61 @@ const Employees = () => {
       {viewingEmployee && <EmployeeInfo employee={viewingEmployee} onClose={closeEmployeeView} />}
       
       <div className="flex-1 container max-w-md mx-auto p-4 pb-24">
-        {/* Search box for quick filtering */}
-        <div className="relative mb-4">
-          <Input
-            type="text"
-            placeholder="Search employees..."
-            value={nameFilter}
-            onChange={(e) => setNameFilter(e.target.value)}
-            className="pl-9 pr-4"
-          />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          {nameFilter && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 h-5 w-5 p-0" 
-              onClick={() => setNameFilter('')}
+        {/* Filter Section - Consolidated in main content area */}
+        <div className="bg-card rounded-lg p-4 mb-4 border border-border/30 shadow-sm">
+          <h3 className="font-medium text-sm mb-3">Filter Employees</h3>
+          
+          {/* Employee ID/Name Filter */}
+          <div className="space-y-2 mb-3">
+            <Label htmlFor="nameFilter">Employee ID/Name</Label>
+            <div className="relative">
+              <Input 
+                id="nameFilter" 
+                placeholder="Search by ID or name..." 
+                value={nameFilter}
+                onChange={(e) => setNameFilter(e.target.value)}
+                className="pl-9 pr-4 w-full"
+              />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              {nameFilter && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-5 w-5 p-0" 
+                  onClick={() => setNameFilter('')}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+          </div>
+          
+          {/* Status Filter */}
+          <div className="space-y-2">
+            <Label>Status</Label>
+            <RadioGroup 
+              value={enrollmentFilter} 
+              onValueChange={(value) => setEnrollmentFilter(value as 'all' | 'enrolled' | 'not-enrolled')}
+              className="flex flex-wrap gap-2"
             >
-              <X className="h-3 w-3" />
-            </Button>
-          )}
+              <div className="flex items-center space-x-2 bg-background rounded-md px-3 py-1 border border-input">
+                <RadioGroupItem value="all" id="all" />
+                <Label htmlFor="all" className="text-sm cursor-pointer">All</Label>
+              </div>
+              <div className="flex items-center space-x-2 bg-background rounded-md px-3 py-1 border border-input">
+                <RadioGroupItem value="enrolled" id="enrolled" />
+                <Label htmlFor="enrolled" className="text-sm cursor-pointer">Enrolled</Label>
+              </div>
+              <div className="flex items-center space-x-2 bg-background rounded-md px-3 py-1 border border-input">
+                <RadioGroupItem value="not-enrolled" id="not-enrolled" />
+                <Label htmlFor="not-enrolled" className="text-sm cursor-pointer">Not Enrolled</Label>
+              </div>
+            </RadioGroup>
+          </div>
         </div>
         
-        {/* Status filter pills */}
-        <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
-          <Button 
-            variant={enrollmentFilter === 'all' ? 'default' : 'outline'} 
-            size="sm" 
-            className={`rounded-full text-xs px-3 ${enrollmentFilter === 'all' ? 'bg-tanseeq hover:bg-tanseeq/90' : ''}`}
-            onClick={() => setEnrollmentFilter('all')}
-          >
-            All
-          </Button>
-          <Button 
-            variant={enrollmentFilter === 'enrolled' ? 'default' : 'outline'} 
-            size="sm" 
-            className={`rounded-full text-xs px-3 flex items-center gap-1 ${enrollmentFilter === 'enrolled' ? 'bg-tanseeq hover:bg-tanseeq/90' : ''}`}
-            onClick={() => setEnrollmentFilter('enrolled')}
-          >
-            <Check className="h-3 w-3" /> Enrolled
-          </Button>
-          <Button 
-            variant={enrollmentFilter === 'not-enrolled' ? 'default' : 'outline'} 
-            size="sm" 
-            className={`rounded-full text-xs px-3 flex items-center gap-1 ${enrollmentFilter === 'not-enrolled' ? 'bg-tanseeq hover:bg-tanseeq/90' : ''}`}
-            onClick={() => setEnrollmentFilter('not-enrolled')}
-          >
-            <X className="h-3 w-3" /> Not Enrolled
-          </Button>
-        </div>
-      
+        {/* Remove the duplicate search box and status filter pills that were below the filter panel */}
+        
         {isLoading ? <div className="flex items-center justify-center h-40">
             <div className="green-loader"></div>
           </div> : <AnimatePresence>
@@ -470,4 +415,5 @@ const Employees = () => {
       <BottomNavbar />
     </div>;
 };
+
 export default Employees;

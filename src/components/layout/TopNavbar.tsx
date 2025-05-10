@@ -7,7 +7,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, User, Clock, Settings, Moon, Sun, LogOut, Users } from 'lucide-react';
+import { User, Clock, Settings, LogOut, Users } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const TopNavbar = () => {
@@ -61,16 +61,8 @@ const TopNavbar = () => {
             onOpenChange={setShowProjects}
           >
             <SelectTrigger className="w-full rounded-lg border-input/80 focus:border-tanseeq bg-background/90 backdrop-blur-sm shadow-soft text-sm">
-              <div className="flex items-center">
-                <SelectValue placeholder="Select Project" />
-                <motion.div
-                  animate={{ rotate: showProjects ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="ml-1"
-                >
-                  <ChevronDown className="h-4 w-4" />
-                </motion.div>
-              </div>
+              <SelectValue placeholder="Select Project" />
+              {/* Removed the custom chevron here to avoid duplicate arrows */}
             </SelectTrigger>
             <SelectContent className="bg-card/95 backdrop-blur-md border-tanseeq/30 rounded-lg shadow-enterprise">
               <AnimatePresence>

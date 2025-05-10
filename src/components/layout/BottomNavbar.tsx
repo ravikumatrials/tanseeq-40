@@ -28,7 +28,7 @@ const NavItem: React.FC<NavItemProps> = ({
       <motion.div 
         whileHover={{ scale: 1.1 }} 
         whileTap={{ scale: 0.95 }}
-        className={`text-lg mb-1 p-2.5 relative ${isActive ? 'text-primary' : 'text-muted-foreground'}`}
+        className={`text-lg mb-1 p-2.5 relative ${isActive ? 'text-tanseeq' : 'text-muted-foreground'}`}
       >
         {children}
         {showNotification && (
@@ -42,12 +42,12 @@ const NavItem: React.FC<NavItemProps> = ({
         {isActive && (
           <motion.div 
             layoutId="bottomNavIndicator"
-            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full"
+            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-tanseeq rounded-full"
             transition={{ type: "spring", duration: 0.5 }}
           />
         )}
       </motion.div>
-      <span className={`text-[10px] font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
+      <span className={`text-[10px] font-medium ${isActive ? 'text-tanseeq' : 'text-muted-foreground'}`}>
         {label}
       </span>
     </NavLink>

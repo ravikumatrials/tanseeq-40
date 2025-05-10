@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 const Dashboard = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-secondary/10">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-tanseeq/5">
       <TopNavbar />
       
       <motion.div 

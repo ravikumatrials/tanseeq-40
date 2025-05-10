@@ -68,7 +68,7 @@
 @layer components {
   /* Base components */
   .btn-primary {
-    @apply bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors;
+    @apply bg-tanseeq text-primary-foreground px-4 py-2 rounded-md hover:bg-tanseeq/90 transition-colors;
   }
   
   .card-stats {
@@ -76,16 +76,16 @@
   }
   
   .input-field {
-    @apply w-full p-2 rounded-md border border-input bg-background text-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-200;
+    @apply w-full p-2 rounded-md border border-input bg-background text-foreground focus:border-tanseeq focus:ring-1 focus:ring-tanseeq focus:outline-none transition-all duration-200;
   }
 
   .green-loader {
-    @apply w-6 h-6 rounded-full animate-pulse-green bg-primary;
+    @apply w-6 h-6 rounded-full animate-pulse-green bg-tanseeq;
   }
   
   /* Enhanced UI styles for enterprise look */
   .card-hover {
-    @apply hover:shadow-enterprise hover:border-primary/40 transition-all duration-200;
+    @apply hover:shadow-enterprise hover:border-tanseeq/40 transition-all duration-200;
   }
   
   .nav-item {
@@ -93,7 +93,7 @@
   }
   
   .nav-item-active {
-    @apply text-primary font-medium;
+    @apply text-tanseeq font-medium;
   }
   
   .nav-item-inactive {
@@ -105,7 +105,7 @@
   }
   
   .badge-success {
-    @apply bg-primary/10 text-primary;
+    @apply bg-tanseeq/10 text-tanseeq;
   }
   
   .badge-warning {
@@ -163,7 +163,7 @@
   }
   
   .mobile-input {
-    @apply rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all;
+    @apply rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:border-tanseeq focus:ring-1 focus:ring-tanseeq focus:outline-none transition-all;
   }
   
   .mobile-avatar {

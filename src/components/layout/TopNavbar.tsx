@@ -60,7 +60,7 @@ const TopNavbar = () => {
             onValueChange={handleProjectChange}
             onOpenChange={setShowProjects}
           >
-            <SelectTrigger className="w-full rounded-lg border-input/80 focus:border-primary bg-background/90 backdrop-blur-sm shadow-inner text-sm">
+            <SelectTrigger className="w-full rounded-lg border-input/80 focus:border-tanseeq bg-background/90 backdrop-blur-sm shadow-inner text-sm">
               <div className="flex items-center">
                 <SelectValue placeholder="Select Project" />
                 <motion.div
@@ -72,7 +72,7 @@ const TopNavbar = () => {
                 </motion.div>
               </div>
             </SelectTrigger>
-            <SelectContent className="bg-card/95 backdrop-blur-md border-primary/30 rounded-lg shadow-enterprise">
+            <SelectContent className="bg-card/95 backdrop-blur-md border-tanseeq/30 rounded-lg shadow-enterprise">
               <AnimatePresence>
                 {projects.map((project, index) => (
                   <motion.div
@@ -84,7 +84,7 @@ const TopNavbar = () => {
                   >
                     <SelectItem 
                       value={project.id} 
-                      className="hover:bg-primary/10 cursor-pointer rounded-md my-0.5"
+                      className="hover:bg-tanseeq/10 cursor-pointer rounded-md my-0.5"
                     >
                       {project.name}
                     </SelectItem>
@@ -103,7 +103,7 @@ const TopNavbar = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Clock className="h-4 w-4 mr-1.5 text-accent" />
+          <Clock className="h-4 w-4 mr-1.5 text-tanseeq" />
           {currentTime.toLocaleTimeString('en-US', {
             hour: '2-digit',
             minute: '2-digit'
@@ -113,16 +113,16 @@ const TopNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <motion.button 
-              className="mobile-avatar bg-primary/10 text-primary p-2 flex items-center justify-center h-9 w-9 shadow-soft hover:bg-primary/20"
+              className="mobile-avatar bg-tanseeq/10 text-tanseeq p-2 flex items-center justify-center h-9 w-9 shadow-soft hover:bg-tanseeq/20"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
               {user?.name.charAt(0)}
             </motion.button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-card/95 backdrop-blur-md border-primary/30 shadow-enterprise rounded-xl w-56 mt-1">
+          <DropdownMenuContent align="end" className="bg-card/95 backdrop-blur-md border-tanseeq/30 shadow-enterprise rounded-xl w-56 mt-1">
             <div className="px-3.5 py-2.5 text-sm font-medium flex items-center gap-2">
-              <User className="h-4 w-4 text-primary" />
+              <User className="h-4 w-4 text-tanseeq" />
               {user?.name}
             </div>
             <DropdownMenuSeparator className="bg-border" />
@@ -133,16 +133,16 @@ const TopNavbar = () => {
             <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem 
               onClick={() => navigate('/profile')}
-              className="cursor-pointer hover:bg-primary/10 gap-2 rounded-md mx-1 px-3 py-2"
+              className="cursor-pointer hover:bg-tanseeq/10 gap-2 rounded-md mx-1 px-3 py-2"
             >
-              <Settings className="h-4 w-4 text-primary" />
+              <Settings className="h-4 w-4 text-tanseeq" />
               Profile
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={() => navigate('/employees')}
-              className="cursor-pointer hover:bg-primary/10 gap-2 rounded-md mx-1 px-3 py-2"
+              className="cursor-pointer hover:bg-tanseeq/10 gap-2 rounded-md mx-1 px-3 py-2"
             >
-              <Users className="h-4 w-4 text-primary" />
+              <Users className="h-4 w-4 text-tanseeq" />
               Employees
             </DropdownMenuItem>
             <DropdownMenuItem 

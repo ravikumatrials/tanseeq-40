@@ -33,7 +33,7 @@ const DashboardCards = () => {
   };
 
   if (!currentProject) {
-    return <div className="text-center py-8">Please select a project</div>;
+    return <div className="text-center py-8 text-tanseeq">Please select a project</div>;
   }
 
   // Check if any employee is missing face enrollment
@@ -60,10 +60,10 @@ const DashboardCards = () => {
         animate="visible"
         custom={0}
         variants={cardVariants}
-        className="border-teal-500 bg-white rounded-lg overflow-hidden"
+        className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
       >
-        <CardHeader className="flex flex-row items-center justify-between pb-2 bg-teal-500 text-white">
-          <CardTitle className="text-lg font-medium">
+        <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
+          <CardTitle className="text-lg font-medium text-tanseeq">
             {new Date().toLocaleString('en-US', {
               weekday: 'long',
               year: 'numeric',
@@ -74,15 +74,15 @@ const DashboardCards = () => {
           <div>
             {pendingChanges > 0 && (
               <span className="relative flex h-3 w-3 mr-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-tanseeq-gold opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-tanseeq-gold"></span>
+                <span className="absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-teal-500"></span>
               </span>
             )}
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold flex items-center">
+            <div className="text-lg font-semibold flex items-center text-tanseeq">
               <Clock className="h-5 w-5 mr-2 text-teal-500" />
               {currentTime.toLocaleTimeString('en-US', {
                 hour: '2-digit',
@@ -99,7 +99,7 @@ const DashboardCards = () => {
             >
               {isSyncing ? (
                 <>
-                  <div className="h-4 w-4 rounded-full animate-spin border-2 border-teal-500 border-t-transparent"></div>
+                  <div className="h-4 w-4 rounded-full animate-spin border-2 border-white border-t-transparent"></div>
                   <span>Syncing...</span>
                 </>
               ) : (
@@ -117,7 +117,7 @@ const DashboardCards = () => {
           </div>
           <div className="text-xs text-muted-foreground mt-2">
             {lastSync ? `Last synced: ${new Date(lastSync).toLocaleString()}` : 'Never synced'} · 
-            {isOnline ? <span className="text-emerald-500"> Online</span> : <span className="text-amber-500"> Offline</span>}
+            {isOnline ? <span className="text-teal-500"> Online</span> : <span className="text-tanseeq"> Offline</span>}
           </div>
         </CardContent>
       </MotionCard>
@@ -128,26 +128,26 @@ const DashboardCards = () => {
         animate="visible"
         custom={1}
         variants={cardVariants}
-        className="border-violet-500 bg-white rounded-lg overflow-hidden"
+        className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
       >
-        <CardHeader className="pb-2 bg-violet-500 text-white">
-          <CardTitle className="flex items-center text-sm font-medium">
-            <MapPin className="mr-2 h-4 w-4" />
+        <CardHeader className="pb-2 border-b">
+          <CardTitle className="flex items-center text-sm font-medium text-tanseeq">
+            <MapPin className="mr-2 h-4 w-4 text-teal-500" />
             Current Location
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <div className="flex items-center space-x-2">
-            <span className="text-sm">
+            <span className="text-sm text-tanseeq">
               {locationLoading ? (
                 <span className="flex items-center">
-                  <div className="h-3 w-3 rounded-full animate-spin border-2 border-violet-500 border-t-transparent mr-2"></div>
+                  <div className="h-3 w-3 rounded-full animate-spin border-2 border-teal-500 border-t-transparent mr-2"></div>
                   Fetching location...
                 </span>
               ) : address}
             </span>
           </div>
-          <div className="text-xs text-violet-500 mt-2 italic">
+          <div className="text-xs text-teal-500 mt-2 italic">
             {currentProject.location}
           </div>
         </CardContent>
@@ -156,74 +156,74 @@ const DashboardCards = () => {
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-2 gap-4">
         <MotionCard 
-          className="rounded-lg border-amber-500 bg-white overflow-hidden" 
+          className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
           initial="hidden"
           animate="visible"
           custom={2}
           variants={cardVariants}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-amber-500 text-white">
-            <CardTitle className="text-xs font-medium flex items-center px-0 py-0">
-              <Users className="h-3.5 w-3.5 mr-1" />
+          <CardHeader className="pb-2 pt-3 px-3 border-b">
+            <CardTitle className="text-xs font-medium flex items-center px-0 py-0 text-tanseeq">
+              <Users className="h-3.5 w-3.5 mr-1 text-teal-500" />
               Total Employees
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3 px-3 pb-3">
-            <div className="text-2xl font-bold mx-0">{currentProject.employeeCount}</div>
+            <div className="text-2xl font-bold mx-0 text-tanseeq">{currentProject.employeeCount}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="rounded-lg border-emerald-500 bg-white overflow-hidden" 
+          className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
           initial="hidden"
           animate="visible"
           custom={3}
           variants={cardVariants}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-emerald-500 text-white">
-            <CardTitle className="text-xs font-medium flex items-center">
-              <UserCheck className="h-3.5 w-3.5 mr-1" />
+          <CardHeader className="pb-2 pt-3 px-3 border-b">
+            <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
+              <UserCheck className="h-3.5 w-3.5 mr-1 text-teal-500" />
               Check-Ins Today
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3 px-3 pb-3">
-            <div className="text-2xl font-bold">{stats.totalCheckIns}</div>
+            <div className="text-2xl font-bold text-tanseeq">{stats.totalCheckIns}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="rounded-lg border-rose-500 bg-white overflow-hidden" 
+          className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
           initial="hidden"
           animate="visible"
           custom={4}
           variants={cardVariants}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-rose-500 text-white">
-            <CardTitle className="text-xs font-medium flex items-center">
-              <CheckCheck className="h-3.5 w-3.5 mr-1" />
+          <CardHeader className="pb-2 pt-3 px-3 border-b">
+            <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
+              <CheckCheck className="h-3.5 w-3.5 mr-1 text-teal-500" />
               Check-Outs Today
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3 px-3 pb-3">
-            <div className="text-2xl font-bold">{stats.totalCheckOuts}</div>
+            <div className="text-2xl font-bold text-tanseeq">{stats.totalCheckOuts}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="rounded-lg border-teal-500 bg-white overflow-hidden" 
+          className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
           initial="hidden"
           animate="visible"
           custom={5}
           variants={cardVariants}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-teal-500 text-white">
-            <CardTitle className="text-xs font-medium flex items-center">
-              <BarChart4 className="h-3.5 w-3.5 mr-1" />
+          <CardHeader className="pb-2 pt-3 px-3 border-b">
+            <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
+              <BarChart4 className="h-3.5 w-3.5 mr-1 text-teal-500" />
               Face Enrolled
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3 px-3 pb-3">
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold text-tanseeq">
               {currentProject.employees.filter(e => e.isFaceEnrolled).length}
             </div>
           </CardContent>

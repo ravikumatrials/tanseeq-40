@@ -13,14 +13,14 @@ const CheckIn = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <motion.div 
-        className="p-4 flex items-center bg-card/95 backdrop-blur-md sticky top-0 z-10 shadow-sm border-b"
+        className="mobile-header"
         initial={{ y: -20 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.3 }}
       >
         <Button 
           variant="ghost" 
-          className="p-2"
+          className="p-2 rounded-full"
           onClick={() => navigate('/dashboard')}
         >
           <ArrowLeft className="h-5 w-5 animated-icon" />
@@ -34,7 +34,7 @@ const CheckIn = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="bg-card/30 backdrop-blur-sm rounded-xl p-6 shadow-soft">
+        <div className="mobile-card p-6">
           <FaceRecognition isCheckIn={true} />
         </div>
       </motion.div>

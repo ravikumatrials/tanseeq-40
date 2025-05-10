@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -108,7 +108,7 @@
   }
   
   .card-stats {
-    @apply p-4 rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col hover:shadow-md transition-all duration-200;
+    @apply p-4 rounded-lg border bg-card text-card-foreground shadow-card-enterprise flex flex-col hover:shadow-md transition-all duration-200;
   }
   
   .input-field {
@@ -119,17 +119,17 @@
     @apply w-6 h-6 rounded-full animate-pulse-green bg-tanseeq;
   }
   
-  /* Enhanced UI styles */
+  /* Enhanced UI styles for enterprise look */
   .card-hover {
-    @apply hover:shadow-md hover:border-tanseeq/40 transition-all duration-200;
+    @apply hover:shadow-enterprise hover:border-tanseeq/40 transition-all duration-200;
   }
   
   .nav-item {
-    @apply relative flex flex-col items-center justify-center px-4 py-2 transition-colors duration-200;
+    @apply relative flex flex-col items-center justify-center px-4 py-3 transition-colors duration-200;
   }
   
   .nav-item-active {
-    @apply text-tanseeq;
+    @apply text-tanseeq font-medium;
   }
   
   .nav-item-inactive {
@@ -137,7 +137,7 @@
   }
   
   .animated-badge {
-    @apply inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full transition-all duration-200;
+    @apply inline-flex items-center justify-center px-2.5 py-1 text-xs font-medium rounded-full transition-all duration-200;
   }
   
   .badge-success {
@@ -156,9 +156,9 @@
     @apply transition-transform hover:scale-110 active:scale-95 duration-200;
   }
   
-  /* New enhanced styles */
+  /* Enhanced styles for modern enterprise look */
   .glassmorphism {
-    @apply backdrop-blur-sm bg-background/80 border border-border/50 shadow-sm;
+    @apply backdrop-blur-md bg-background/80 border border-border/50 shadow-enterprise;
   }
 
   .hover-scale {
@@ -166,7 +166,7 @@
   }
   
   .btn-icon {
-    @apply p-2 rounded-full flex items-center justify-center transition-all;
+    @apply p-2.5 rounded-full flex items-center justify-center transition-all;
   }
 
   .animate-presence {
@@ -174,81 +174,42 @@
   }
   
   .card-gradient {
-    @apply bg-gradient-to-br from-card to-muted/20;
+    @apply bg-gradient-to-br from-white to-secondary/20;
+  }
+  
+  /* Enterprise mobile UI specific styles */
+  .mobile-card {
+    @apply rounded-xl border border-border/60 shadow-card-enterprise bg-card overflow-hidden;
+  }
+  
+  .mobile-header {
+    @apply sticky top-0 z-40 bg-card/95 backdrop-blur-md shadow-top-nav border-b border-border/60 px-4 py-3 flex items-center;
+  }
+  
+  .mobile-footer {
+    @apply fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md shadow-bottom-nav border-t border-border/60 py-2 z-40;
+  }
+  
+  .mobile-container {
+    @apply px-4 py-3;
+  }
+  
+  .mobile-button {
+    @apply rounded-lg px-4 py-2.5 font-medium text-sm transition-all active:scale-95;
+  }
+  
+  .mobile-input {
+    @apply rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm focus:border-tanseeq focus:ring-1 focus:ring-tanseeq focus:outline-none transition-all;
+  }
+  
+  .mobile-avatar {
+    @apply rounded-full overflow-hidden shadow-soft;
   }
 }
 
 @layer utilities {
-  .page-transition {
-    @apply animate-fade-in;
-  }
-  
-  .hover-scale {
-    @apply transition-transform hover:scale-105 active:scale-95 duration-200;
-  }
-  
-  .glassmorphism {
-    @apply backdrop-blur-sm bg-background/80 border border-border/50 shadow-sm;
-  }
-  
-  .text-balance {
-    text-wrap: balance;
-  }
-  
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+  /* ... keep existing code (utility classes) */
 }
 
-/* Individual keyframes definitions - proper CSS syntax */
-@keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
-}
+/* ... keep existing code (keyframes definitions) */
 
-@keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
-}
-
-@keyframes pulse-green {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes fade-in {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-out {
-  0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(10px); }
-}
-
-@keyframes slide-in {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(0); }
-}
-
-@keyframes slide-out {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-
-@keyframes slide-up {
-  0% { transform: translateY(20px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-/* Note: Animation rules are defined in tailwind.config.ts */

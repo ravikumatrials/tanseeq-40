@@ -68,6 +68,9 @@ export default {
 					gold: '#D4AF37',    // Gold accent
 					dark: '#1A1F2C',    // Dark mode background
 					light: '#FFFFFF',   // Light mode background
+					gray: '#8E9196',    // Neutral gray
+					silver: '#F6F6F7',  // Silver gray
+					charcoal: '#403E43', // Charcoal gray
 				}
 			},
 			borderRadius: {
@@ -82,6 +85,12 @@ export default {
 				'elevation-2': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
 				'elevation-3': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
 				'soft': '0 2px 10px rgba(22, 28, 36, 0.08)',
+				'enterprise': '0 3px 6px rgba(140, 149, 159, 0.15)',
+				'card-enterprise': '0 2px 8px rgba(140, 149, 159, 0.12)',
+				'bottom-nav': '0 -2px 10px rgba(0, 0, 0, 0.05)',
+				'top-nav': '0 2px 10px rgba(0, 0, 0, 0.05)',
+				'float': '0 8px 16px rgba(0, 0, 0, 0.08)',
+				'inner': 'inset 0 2px 4px rgba(0, 0, 0, 0.05)',
 			},
 			keyframes: {
 				'accordion-down': {

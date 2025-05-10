@@ -29,11 +29,11 @@ const Profile = () => {
   
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <div className="p-4 flex items-center justify-between border-b bg-card/95 backdrop-blur-md sticky top-0 z-10">
+      <div className="mobile-header justify-between">
         <Button 
           variant="ghost" 
           onClick={() => navigate(-1)}
-          className="p-2"
+          className="p-2 rounded-full"
         >
           <ArrowLeft className="h-5 w-5 animated-icon" />
         </Button>
@@ -49,7 +49,7 @@ const Profile = () => {
           transition={{ duration: 0.4 }}
         >
           <motion.div 
-            className="h-24 w-24 bg-tanseeq/10 text-tanseeq rounded-full flex items-center justify-center mb-4 shadow-md"
+            className="h-24 w-24 bg-tanseeq/10 text-tanseeq rounded-full flex items-center justify-center mb-4 shadow-enterprise"
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.3, delay: 0.2 }}
@@ -67,26 +67,26 @@ const Profile = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
           >
-            <Card className="card-hover shadow-soft overflow-hidden">
+            <Card className="mobile-card overflow-hidden">
               <CardHeader className="pb-2 bg-gradient-to-r from-tanseeq/5 to-transparent">
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Settings className="h-4 w-4 text-tanseeq" />
                   Project Settings
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-4">
                 <div className="space-y-2">
                   <div className="text-sm text-muted-foreground mb-1">Select Project</div>
                   <Select
                     value={currentProject?.id}
                     onValueChange={handleProjectChange}
                   >
-                    <SelectTrigger className="w-full border-tanseeq/30 focus:border-tanseeq shadow-soft">
+                    <SelectTrigger className="w-full rounded-lg border-input/80 focus:border-tanseeq shadow-inner">
                       <SelectValue placeholder="Select Project" />
                     </SelectTrigger>
-                    <SelectContent className="bg-card border-tanseeq/30 shadow-elevation-2">
+                    <SelectContent className="bg-card border-tanseeq/30 shadow-enterprise rounded-lg">
                       {projects.map((project) => (
-                        <SelectItem key={project.id} value={project.id} className="hover:bg-tanseeq/10">
+                        <SelectItem key={project.id} value={project.id} className="hover:bg-tanseeq/10 rounded-md my-0.5">
                           {project.name}
                         </SelectItem>
                       ))}
@@ -102,15 +102,15 @@ const Profile = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.4 }}
           >
-            <Card className="card-hover shadow-soft overflow-hidden">
+            <Card className="mobile-card overflow-hidden">
               <CardHeader className="pb-2 bg-gradient-to-r from-tanseeq/5 to-transparent">
                 <CardTitle className="text-lg flex items-center gap-2">
                   <User className="h-4 w-4 text-tanseeq" />
                   App Settings
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between items-center p-2 rounded-lg bg-muted/30">
+              <CardContent className="space-y-4 pt-4">
+                <div className="flex justify-between items-center p-3 rounded-lg bg-muted/30">
                   <span className="font-medium">Theme</span>
                   <ThemeToggle />
                 </div>
@@ -118,7 +118,7 @@ const Profile = () => {
                 <div className="pt-2">
                   <Button 
                     variant="outline" 
-                    className="w-full hover:bg-tanseeq/10 hover:border-tanseeq/30 shadow-soft"
+                    className="w-full hover:bg-tanseeq/10 hover:border-tanseeq/30 shadow-soft rounded-lg py-2.5"
                     onClick={() => navigate('/change-password')}
                   >
                     Change Password
@@ -128,7 +128,7 @@ const Profile = () => {
                 <div>
                   <Button 
                     variant="outline" 
-                    className="w-full hover:bg-tanseeq/10 hover:border-tanseeq/30 flex items-center gap-2 justify-center shadow-soft"
+                    className="w-full hover:bg-tanseeq/10 hover:border-tanseeq/30 flex items-center gap-2 justify-center shadow-soft rounded-lg py-2.5"
                     onClick={() => navigate('/employees')}
                   >
                     <Users className="h-4 w-4 text-tanseeq" />
@@ -147,7 +147,7 @@ const Profile = () => {
             whileTap={{ scale: 0.98 }}
           >
             <Button 
-              className="w-full" 
+              className="w-full rounded-lg py-2.5" 
               variant="destructive"
               onClick={handleLogout}
             >

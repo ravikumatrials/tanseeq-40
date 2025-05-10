@@ -35,7 +35,7 @@ const TopNavbar = () => {
 
   return (
     <motion.div 
-      className="flex items-center justify-between bg-card/95 backdrop-blur-md p-4 shadow-sm border-b sticky top-0 z-30"
+      className="mobile-header justify-between"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -49,18 +49,18 @@ const TopNavbar = () => {
         <img 
           src="/lovable-uploads/801b965c-36e1-485f-8e8e-fa408775a70f.png" 
           alt="Tanseeq Investment" 
-          className="h-10 mr-4" 
+          className="h-9 mr-3" 
         />
       </motion.div>
       
       {currentProject && (
-        <div className="flex-1 max-w-xs mx-4 relative">
+        <div className="flex-1 max-w-xs mx-2 relative">
           <Select
             value={currentProject.id}
             onValueChange={handleProjectChange}
             onOpenChange={setShowProjects}
           >
-            <SelectTrigger className="w-full border-tanseeq/30 focus:border-tanseeq bg-background/80 backdrop-blur-sm shadow-soft">
+            <SelectTrigger className="w-full rounded-lg border-input/80 focus:border-tanseeq bg-background/90 backdrop-blur-sm shadow-inner text-sm">
               <div className="flex items-center">
                 <SelectValue placeholder="Select Project" />
                 <motion.div
@@ -72,7 +72,7 @@ const TopNavbar = () => {
                 </motion.div>
               </div>
             </SelectTrigger>
-            <SelectContent className="bg-card/95 backdrop-blur-md border-tanseeq/30 shadow-elevation-2">
+            <SelectContent className="bg-card/95 backdrop-blur-md border-tanseeq/30 rounded-lg shadow-enterprise">
               <AnimatePresence>
                 {projects.map((project, index) => (
                   <motion.div
@@ -84,7 +84,7 @@ const TopNavbar = () => {
                   >
                     <SelectItem 
                       value={project.id} 
-                      className="hover:bg-tanseeq/10 cursor-pointer"
+                      className="hover:bg-tanseeq/10 cursor-pointer rounded-md my-0.5"
                     >
                       {project.name}
                     </SelectItem>
@@ -113,41 +113,41 @@ const TopNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <motion.button 
-              className="rounded-full bg-tanseeq/10 text-tanseeq p-2 flex items-center justify-center h-10 w-10 shadow-soft hover:bg-tanseeq/20"
+              className="mobile-avatar bg-tanseeq/10 text-tanseeq p-2 flex items-center justify-center h-9 w-9 shadow-soft hover:bg-tanseeq/20"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
               {user?.name.charAt(0)}
             </motion.button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-card/95 backdrop-blur-md border-tanseeq/30 shadow-elevation-2 w-56">
-            <div className="px-3 py-2.5 text-sm font-medium flex items-center gap-2">
+          <DropdownMenuContent align="end" className="bg-card/95 backdrop-blur-md border-tanseeq/30 shadow-enterprise rounded-xl w-56 mt-1">
+            <div className="px-3.5 py-2.5 text-sm font-medium flex items-center gap-2">
               <User className="h-4 w-4 text-tanseeq" />
               {user?.name}
             </div>
             <DropdownMenuSeparator className="bg-border" />
-            <div className="px-3 py-2">
+            <div className="px-3.5 py-2">
               <div className="text-xs text-muted-foreground mb-1.5">Theme</div>
               <ThemeToggle className="w-full justify-between" />
             </div>
             <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem 
               onClick={() => navigate('/profile')}
-              className="cursor-pointer hover:bg-tanseeq/10 gap-2"
+              className="cursor-pointer hover:bg-tanseeq/10 gap-2 rounded-md mx-1 px-3 py-2"
             >
               <Settings className="h-4 w-4 text-tanseeq" />
               Profile
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={() => navigate('/employees')}
-              className="cursor-pointer hover:bg-tanseeq/10 gap-2"
+              className="cursor-pointer hover:bg-tanseeq/10 gap-2 rounded-md mx-1 px-3 py-2"
             >
               <Users className="h-4 w-4 text-tanseeq" />
               Employees
             </DropdownMenuItem>
             <DropdownMenuItem 
               onClick={logout}
-              className="cursor-pointer hover:bg-destructive/10 text-destructive gap-2"
+              className="cursor-pointer hover:bg-destructive/10 text-destructive gap-2 rounded-md mx-1 px-3 py-2 mb-1"
             >
               <LogOut className="h-4 w-4" />
               Logout

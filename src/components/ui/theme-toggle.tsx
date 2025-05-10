@@ -19,7 +19,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       />
       <Label 
         htmlFor="theme-switch" 
-        className="cursor-pointer flex items-center gap-1.5 flex-1"
+        className="cursor-pointer flex items-center gap-1.5 flex-1 text-sm"
       >
         {theme === "dark" ? (
           <motion.div

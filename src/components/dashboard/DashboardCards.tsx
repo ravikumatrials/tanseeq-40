@@ -60,9 +60,9 @@ const DashboardCards = () => {
         animate="visible"
         custom={0}
         variants={cardVariants}
-        className="border-teal-500 bg-white rounded-lg overflow-hidden"
+        className="border border-gray-200 bg-white rounded-lg shadow-sm overflow-hidden"
       >
-        <CardHeader className="flex flex-row items-center justify-between pb-2 bg-teal-500 text-white">
+        <CardHeader className="flex flex-row items-center justify-between pb-2 bg-white text-tanseeq border-b">
           <CardTitle className="text-lg font-medium">
             {new Date().toLocaleString('en-US', {
               weekday: 'long',
@@ -80,10 +80,10 @@ const DashboardCards = () => {
             )}
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold flex items-center">
-              <Clock className="h-5 w-5 mr-2 text-teal-500" />
+            <div className="text-lg font-medium flex items-center text-gray-700">
+              <Clock className="h-5 w-5 mr-2 text-tanseeq-gold" />
               {currentTime.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -93,14 +93,14 @@ const DashboardCards = () => {
             <Button 
               onClick={handleSync}
               disabled={isSyncing || (pendingChanges === 0 && lastSync !== null)}
-              variant={pendingChanges > 0 ? "teal" : "outline"}
+              variant={pendingChanges > 0 ? "default" : "outline"}
               size="sm"
-              className="rounded-md px-4"
+              className={`rounded-md px-4 ${pendingChanges > 0 ? "bg-tanseeq hover:bg-tanseeq/90" : ""}`}
             >
               {isSyncing ? (
                 <>
-                  <div className="h-4 w-4 rounded-full animate-spin border-2 border-teal-500 border-t-transparent"></div>
-                  <span>Syncing...</span>
+                  <div className="h-4 w-4 rounded-full animate-spin border-2 border-white border-t-transparent"></div>
+                  <span className="ml-2">Syncing...</span>
                 </>
               ) : (
                 <>
@@ -110,7 +110,7 @@ const DashboardCards = () => {
                     <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
                     <path d="M8 16H3v5" />
                   </svg>
-                  <span>{pendingChanges ? `Sync (${pendingChanges})` : 'Sync'}</span>
+                  <span className="ml-2">{pendingChanges ? `Sync (${pendingChanges})` : 'Sync'}</span>
                 </>
               )}
             </Button>
@@ -128,26 +128,26 @@ const DashboardCards = () => {
         animate="visible"
         custom={1}
         variants={cardVariants}
-        className="border-violet-500 bg-white rounded-lg overflow-hidden"
+        className="border border-gray-200 bg-white rounded-lg shadow-sm overflow-hidden"
       >
-        <CardHeader className="pb-2 bg-violet-500 text-white">
+        <CardHeader className="pb-2 bg-white text-tanseeq border-b">
           <CardTitle className="flex items-center text-sm font-medium">
-            <MapPin className="mr-2 h-4 w-4" />
+            <MapPin className="mr-2 h-4 w-4 text-tanseeq-gold" />
             Current Location
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <div className="flex items-center space-x-2">
-            <span className="text-sm">
+            <span className="text-sm text-gray-700">
               {locationLoading ? (
                 <span className="flex items-center">
-                  <div className="h-3 w-3 rounded-full animate-spin border-2 border-violet-500 border-t-transparent mr-2"></div>
+                  <div className="h-3 w-3 rounded-full animate-spin border-2 border-tanseeq border-t-transparent mr-2"></div>
                   Fetching location...
                 </span>
               ) : address}
             </span>
           </div>
-          <div className="text-xs text-violet-500 mt-2 italic">
+          <div className="text-xs text-tanseeq-gold mt-2 italic">
             {currentProject.location}
           </div>
         </CardContent>
@@ -156,74 +156,74 @@ const DashboardCards = () => {
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-2 gap-4">
         <MotionCard 
-          className="rounded-lg border-amber-500 bg-white overflow-hidden" 
+          className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={2}
           variants={cardVariants}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-amber-500 text-white">
+          <CardHeader className="pb-2 pt-3 px-3 bg-white text-tanseeq border-b">
             <CardTitle className="text-xs font-medium flex items-center px-0 py-0">
-              <Users className="h-3.5 w-3.5 mr-1" />
+              <Users className="h-3.5 w-3.5 mr-1 text-tanseeq-gold" />
               Total Employees
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3 px-3 pb-3">
-            <div className="text-2xl font-bold mx-0">{currentProject.employeeCount}</div>
+            <div className="text-2xl font-semibold mx-0 text-tanseeq">{currentProject.employeeCount}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="rounded-lg border-emerald-500 bg-white overflow-hidden" 
+          className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={3}
           variants={cardVariants}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-emerald-500 text-white">
+          <CardHeader className="pb-2 pt-3 px-3 bg-white text-tanseeq border-b">
             <CardTitle className="text-xs font-medium flex items-center">
-              <UserCheck className="h-3.5 w-3.5 mr-1" />
+              <UserCheck className="h-3.5 w-3.5 mr-1 text-tanseeq-gold" />
               Check-Ins Today
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3 px-3 pb-3">
-            <div className="text-2xl font-bold">{stats.totalCheckIns}</div>
+            <div className="text-2xl font-semibold text-tanseeq">{stats.totalCheckIns}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="rounded-lg border-rose-500 bg-white overflow-hidden" 
+          className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={4}
           variants={cardVariants}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-rose-500 text-white">
+          <CardHeader className="pb-2 pt-3 px-3 bg-white text-tanseeq border-b">
             <CardTitle className="text-xs font-medium flex items-center">
-              <CheckCheck className="h-3.5 w-3.5 mr-1" />
+              <CheckCheck className="h-3.5 w-3.5 mr-1 text-tanseeq-gold" />
               Check-Outs Today
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3 px-3 pb-3">
-            <div className="text-2xl font-bold">{stats.totalCheckOuts}</div>
+            <div className="text-2xl font-semibold text-tanseeq">{stats.totalCheckOuts}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="rounded-lg border-teal-500 bg-white overflow-hidden" 
+          className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={5}
           variants={cardVariants}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-teal-500 text-white">
+          <CardHeader className="pb-2 pt-3 px-3 bg-white text-tanseeq border-b">
             <CardTitle className="text-xs font-medium flex items-center">
-              <BarChart4 className="h-3.5 w-3.5 mr-1" />
+              <BarChart4 className="h-3.5 w-3.5 mr-1 text-tanseeq-gold" />
               Face Enrolled
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-3 px-3 pb-3">
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-semibold text-tanseeq">
               {currentProject.employees.filter(e => e.isFaceEnrolled).length}
             </div>
           </CardContent>

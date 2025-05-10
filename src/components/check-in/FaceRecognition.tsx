@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useProject } from '@/context/ProjectContext';
@@ -8,10 +9,18 @@ import { useOfflineSync } from '@/hooks/useOfflineSync';
 import { RotateCw } from 'lucide-react';
 
 interface FaceRecognitionProps {
-  isCheckIn: boolean;
+  isCheckIn?: boolean;
+  onSuccess?: (employeeId: string) => void;
+  employeeToVerify?: string;
+  mode?: 'scan' | 'verify';
 }
 
-const FaceRecognition: React.FC<FaceRecognitionProps> = ({ isCheckIn }) => {
+const FaceRecognition: React.FC<FaceRecognitionProps> = ({ 
+  isCheckIn = true,
+  onSuccess,
+  employeeToVerify,
+  mode = 'scan'
+}) => {
   const [isScanning, setIsScanning] = useState(false);
   const [scannedEmployees, setScannedEmployees] = useState<{
     id: string;
@@ -64,62 +73,96 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({ isCheckIn }) => {
     if (!isScanning || !currentProject) return;
     
     let lastScanned = new Set<string>();
+    let scanInterval: NodeJS.Timeout;
     
-    const scanInterval = setInterval(() => {
-      // Randomly select an employee to "recognize"
-      const availableEmployees = currentProject.employees.filter(
-        e => e.isFaceEnrolled && !lastScanned.has(e.id)
-      );
+    if (mode === 'verify' && employeeToVerify) {
+      // In verification mode, only scan for the specific employee
+      scanInterval = setTimeout(() => {
+        const employee = currentProject.employees.find(e => e.id === employeeToVerify && e.isFaceEnrolled);
+        
+        if (employee) {
+          // Found the employee, complete verification
+          if (onSuccess) {
+            onSuccess(employee.id);
+          }
+          
+          toast({
+            title: "Face Verification Successful",
+            description: `${employee.name}'s identity has been verified.`,
+          });
+          
+          setIsScanning(false);
+        } else {
+          toast({
+            title: "Verification Failed",
+            description: "Could not verify employee's face. Please try again.",
+            variant: "destructive",
+          });
+          setIsScanning(false);
+        }
+      }, 2000); // Simulate a 2-second verification process
       
-      if (availableEmployees.length === 0) {
-        // Everyone has been scanned
-        if (lastScanned.size === currentProject.employees.filter(e => e.isFaceEnrolled).length) {
-          clearInterval(scanInterval);
+      return () => {
+        clearTimeout(scanInterval);
+      };
+    } else {
+      // Normal scanning mode (multiple employees)
+      scanInterval = setInterval(() => {
+        // Randomly select an employee to "recognize"
+        const availableEmployees = currentProject.employees.filter(
+          e => e.isFaceEnrolled && !lastScanned.has(e.id)
+        );
+        
+        if (availableEmployees.length === 0) {
+          // Everyone has been scanned
+          if (lastScanned.size === currentProject.employees.filter(e => e.isFaceEnrolled).length) {
+            clearInterval(scanInterval);
+            return;
+          }
+          
+          // Reset for another round (in a real app we wouldn't do this)
+          lastScanned = new Set<string>();
           return;
         }
         
-        // Reset for another round (in a real app we wouldn't do this)
-        lastScanned = new Set<string>();
-        return;
-      }
-      
-      const randomIndex = Math.floor(Math.random() * availableEmployees.length);
-      const employee = availableEmployees[randomIndex];
-      
-      // Add to scanned list
-      const now = new Date();
-      const timeString = now.toLocaleTimeString();
-      
-      if (isCheckIn) {
-        addCheckIn(employee.id, employee.name, address);
-      } else {
-        addCheckOut(employee.id);
-      }
-      
-      addPendingChange();
-      
-      const newScannedEmployee = {
-        id: employee.id,
-        name: employee.name,
-        time: timeString,
-        project: currentProject.name,
-        location: address,
-      };
-      
-      setScannedEmployees(prev => [...prev, newScannedEmployee]);
-      lastScanned.add(employee.id);
-      
-      // Show toast for each recognized face
-      toast({
-        title: "Face Captured Successfully",
-        description: `${employee.name} has been ${isCheckIn ? 'checked in' : 'checked out'}`,
-      });
-    }, 3000); // Scan every 3 seconds
+        const randomIndex = Math.floor(Math.random() * availableEmployees.length);
+        const employee = availableEmployees[randomIndex];
+        
+        // Add to scanned list
+        const now = new Date();
+        const timeString = now.toLocaleTimeString();
+        
+        if (isCheckIn) {
+          addCheckIn(employee.id, employee.name, address);
+        } else {
+          addCheckOut(employee.id);
+        }
+        
+        addPendingChange();
+        
+        const newScannedEmployee = {
+          id: employee.id,
+          name: employee.name,
+          time: timeString,
+          project: currentProject.name,
+          location: address,
+        };
+        
+        setScannedEmployees(prev => [...prev, newScannedEmployee]);
+        lastScanned.add(employee.id);
+        
+        // Show toast for each recognized face
+        toast({
+          title: "Face Captured Successfully",
+          description: `${employee.name} has been ${isCheckIn ? 'checked in' : 'checked out'}`,
+        });
+      }, 3000); // Scan every 3 seconds
+    }
     
     return () => {
       clearInterval(scanInterval);
     };
-  }, [isScanning, currentProject, isCheckIn, addCheckIn, addCheckOut, address, toast, addPendingChange]);
+  }, [isScanning, currentProject, isCheckIn, addCheckIn, addCheckOut, address, toast, addPendingChange, mode, employeeToVerify, onSuccess]);
   
   if (!currentProject) {
     return (
@@ -129,6 +172,37 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({ isCheckIn }) => {
     );
   }
   
+  // For verification mode, auto-start scanning and show different UI
+  useEffect(() => {
+    if (mode === 'verify') {
+      startScanning();
+    }
+  }, [mode]);
+  
+  // Special UI for verification mode
+  if (mode === 'verify') {
+    return (
+      <div className="aspect-video bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
+        {isScanning ? (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-r from-tanseeq/10 via-transparent to-tanseeq/10 animate-pulse"></div>
+            <div className="text-center space-y-2 z-10">
+              <div className="mx-auto w-20 h-20 rounded-full border-4 border-t-tanseeq animate-spin"></div>
+              <div>Verifying face...</div>
+            </div>
+          </>
+        ) : (
+          <div className="text-center space-y-4">
+            <Button onClick={startScanning} className="bg-tanseeq hover:bg-tanseeq/90">
+              Retry Verification
+            </Button>
+          </div>
+        )}
+      </div>
+    );
+  }
+  
+  // Default UI for normal scanning mode
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">

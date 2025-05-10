@@ -6,7 +6,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { useAttendance } from '@/hooks/useAttendance';
 import { useToast } from '@/hooks/use-toast';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
-import { RotateCw } from 'lucide-react';
+import { RotateCw, CheckCheck } from 'lucide-react';
 
 interface FaceRecognitionProps {
   isCheckIn?: boolean;
@@ -57,6 +57,8 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
         description: "All attendance records have been synced successfully.",
       });
       setHasSynced(true);
+      // Clear scanned employees after successful sync
+      setScannedEmployees([]);
     } catch (error) {
       toast({
         title: "Sync Failed",
@@ -269,25 +271,32 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
             ))}
           </div>
           
+          {/* New Sync Status Footer Section */}
           {!isScanning && scannedEmployees.length > 0 && (
-            <div className="flex justify-center pt-4">
-              <Button 
-                onClick={handleSync} 
-                className="bg-tanseeq hover:bg-tanseeq/90 flex items-center gap-2"
-                disabled={isSyncing || hasSynced}
-              >
-                {isSyncing ? (
-                  <>
-                    <div className="h-4 w-4 rounded-full border-2 border-t-transparent border-white animate-spin"></div>
-                    <span>Syncing...</span>
-                  </>
-                ) : (
-                  <>
-                    <RotateCw className="h-4 w-4" />
-                    <span>{hasSynced ? 'Synced' : 'Sync to History'}</span>
-                  </>
-                )}
-              </Button>
+            <div className="border-t pt-4 mt-6">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <CheckCheck className="h-5 w-5 text-tanseeq mr-2" />
+                  <span className="text-sm font-medium">Total Scanned: {scannedEmployees.length}</span>
+                </div>
+                <Button 
+                  onClick={handleSync} 
+                  className="bg-tanseeq hover:bg-tanseeq/90 flex items-center gap-2"
+                  disabled={isSyncing || hasSynced}
+                >
+                  {isSyncing ? (
+                    <>
+                      <div className="h-4 w-4 rounded-full border-2 border-t-transparent border-white animate-spin"></div>
+                      <span>Syncing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <RotateCw className="h-4 w-4" />
+                      <span>{hasSynced ? 'Synced' : 'Sync'}</span>
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
           )}
         </div>

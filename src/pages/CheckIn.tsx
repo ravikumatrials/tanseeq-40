@@ -19,6 +19,7 @@ const CheckIn = () => {
         >
           <ArrowLeft className="h-5 w-5 animated-icon" />
         </Button>
+        <h1 className="text-xl font-bold ml-2">Check In</h1>
       </div>
       
       <div className="flex-1 container max-w-4xl mx-auto p-4 pb-20">

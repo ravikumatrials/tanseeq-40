@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,6 +8,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { useNavigate } from 'react-router-dom';
 import { BarChart4, Info, Users, UserCheck, Clock, CheckCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ProjectList from '@/components/dashboard/ProjectList';
 
 const MotionCard = motion(Card);
 

@@ -62,9 +62,9 @@ const DashboardCards = () => {
         variants={cardVariants}
         whileHover={{ scale: 1.01 }}
         transition={{ duration: 0.2 }}
-        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise"
+        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise rounded-xl overflow-hidden"
       >
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardHeader className="flex flex-row items-center justify-between pb-2 bg-gradient-to-r from-tanseeq/5 to-transparent">
           <CardTitle className="text-lg font-medium text-tanseeq">
             {new Date().toLocaleString('en-US', {
               weekday: 'long',
@@ -97,7 +97,7 @@ const DashboardCards = () => {
               disabled={isSyncing || (pendingChanges === 0 && lastSync !== null)}
               variant="outline"
               size="sm"
-              className={`flex items-center gap-2 ${pendingChanges > 0 ? 'animate-pulse-slow bg-tanseeq/10 border-tanseeq/20' : 'bg-background'}`}
+              className={`flex items-center gap-2 ${pendingChanges > 0 ? 'animate-pulse-slow bg-tanseeq/10 border-tanseeq/20' : 'bg-background'} rounded-lg`}
             >
               {isSyncing ? (
                 <>
@@ -132,9 +132,9 @@ const DashboardCards = () => {
         variants={cardVariants}
         whileHover={{ scale: 1.01 }}
         transition={{ duration: 0.2 }}
-        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise"
+        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise rounded-xl overflow-hidden"
       >
-        <CardHeader className="pb-2">
+        <CardHeader className="pb-2 bg-gradient-to-r from-tanseeq/5 to-transparent">
           <CardTitle className="flex items-center text-sm font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-tanseeq mr-2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -163,7 +163,7 @@ const DashboardCards = () => {
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-2 gap-4">
         <MotionCard 
-          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise" 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise rounded-xl overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={2}
@@ -171,7 +171,7 @@ const DashboardCards = () => {
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.2 }}
         >
-          <CardHeader className="pb-2 pt-3 px-3">
+          <CardHeader className="pb-2 pt-3 px-3 bg-gradient-to-r from-tanseeq/5 to-transparent">
             <CardTitle className="text-xs font-medium text-muted-foreground flex items-center px-0 py-0">
               <Users className="h-3.5 w-3.5 mr-1 text-tanseeq" />
               Total Employees
@@ -183,7 +183,7 @@ const DashboardCards = () => {
         </MotionCard>
         
         <MotionCard 
-          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise" 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise rounded-xl overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={3}
@@ -191,7 +191,7 @@ const DashboardCards = () => {
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.2 }}
         >
-          <CardHeader className="pb-2 pt-3 px-3">
+          <CardHeader className="pb-2 pt-3 px-3 bg-gradient-to-r from-tanseeq/5 to-transparent">
             <CardTitle className="text-xs font-medium text-muted-foreground flex items-center">
               <UserCheck className="h-3.5 w-3.5 mr-1 text-tanseeq" />
               Check-Ins Today
@@ -203,7 +203,7 @@ const DashboardCards = () => {
         </MotionCard>
         
         <MotionCard 
-          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise" 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise rounded-xl overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={4}
@@ -211,7 +211,7 @@ const DashboardCards = () => {
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.2 }}
         >
-          <CardHeader className="pb-2 pt-3 px-3">
+          <CardHeader className="pb-2 pt-3 px-3 bg-gradient-to-r from-tanseeq/5 to-transparent">
             <CardTitle className="text-xs font-medium text-muted-foreground flex items-center">
               <CheckCheck className="h-3.5 w-3.5 mr-1 text-tanseeq" />
               Check-Outs Today
@@ -223,7 +223,7 @@ const DashboardCards = () => {
         </MotionCard>
         
         <MotionCard 
-          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise" 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise rounded-xl overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={5}
@@ -231,7 +231,7 @@ const DashboardCards = () => {
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.2 }}
         >
-          <CardHeader className="pb-2 pt-3 px-3">
+          <CardHeader className="pb-2 pt-3 px-3 bg-gradient-to-r from-tanseeq/5 to-transparent">
             <CardTitle className="text-xs font-medium text-muted-foreground flex items-center">
               <BarChart4 className="h-3.5 w-3.5 mr-1 text-tanseeq" />
               Face Enrolled

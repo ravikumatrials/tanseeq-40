@@ -60,7 +60,7 @@ const TopNavbar = () => {
             onValueChange={handleProjectChange}
             onOpenChange={setShowProjects}
           >
-            <SelectTrigger className="w-full rounded-lg border-input/80 focus:border-tanseeq bg-background/90 backdrop-blur-sm shadow-inner text-sm">
+            <SelectTrigger className="w-full rounded-lg border-input/80 focus:border-tanseeq bg-background/90 backdrop-blur-sm shadow-soft text-sm">
               <div className="flex items-center">
                 <SelectValue placeholder="Select Project" />
                 <motion.div

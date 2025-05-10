@@ -68,15 +68,15 @@
 @layer components {
   /* Base components */
   .btn-primary {
-    @apply bg-tanseeq text-primary-foreground px-4 py-2 rounded-md hover:bg-tanseeq/90 transition-colors;
+    @apply bg-tanseeq text-primary-foreground px-4 py-2.5 rounded-lg hover:bg-tanseeq/90 transition-colors shadow-soft;
   }
   
   .card-stats {
-    @apply p-4 rounded-lg border bg-card text-card-foreground shadow-card-enterprise flex flex-col hover:shadow-md transition-all duration-200;
+    @apply p-4 rounded-xl border bg-card text-card-foreground shadow-card-enterprise flex flex-col hover:shadow-md transition-all duration-200;
   }
   
   .input-field {
-    @apply w-full p-2 rounded-md border border-input bg-background text-foreground focus:border-tanseeq focus:ring-1 focus:ring-tanseeq focus:outline-none transition-all duration-200;
+    @apply w-full p-2 rounded-lg border border-input bg-background text-foreground focus:border-tanseeq focus:ring-1 focus:ring-tanseeq focus:outline-none transition-all duration-200;
   }
 
   .green-loader {
@@ -122,7 +122,7 @@
   
   /* Enhanced styles for modern enterprise look */
   .glassmorphism {
-    @apply backdrop-blur-md bg-background/80 border border-border/50 shadow-enterprise;
+    @apply backdrop-blur-md bg-background/80 border border-border/50 shadow-enterprise rounded-xl;
   }
 
   .hover-scale {

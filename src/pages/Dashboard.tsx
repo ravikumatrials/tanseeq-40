@@ -4,6 +4,7 @@ import TopNavbar from '@/components/layout/TopNavbar';
 import BottomNavbar from '@/components/layout/BottomNavbar';
 import DashboardCards from '@/components/dashboard/DashboardCards';
 import { motion } from 'framer-motion';
+import { LayoutDashboard } from 'lucide-react';
 
 const Dashboard = () => {
   return (
@@ -16,25 +17,24 @@ const Dashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-2xl font-bold mb-6 text-tanseeq flex items-center">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="24" 
-            height="24" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            className="mr-2"
-          >
-            <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-            <line x1="3" x2="21" y1="9" y2="9" />
-            <line x1="9" x2="9" y1="21" y2="9" />
-          </svg>
-          Dashboard
-        </h1>
+        <motion.div
+          className="flex items-center justify-between mb-6"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <h1 className="text-2xl font-bold text-tanseeq flex items-center">
+            <LayoutDashboard className="mr-2 h-6 w-6" />
+            Dashboard
+          </h1>
+          <div className="text-xs text-tanseeq/80 font-medium bg-tanseeq/10 px-3 py-1.5 rounded-full">
+            {new Date().toLocaleDateString('en-US', { 
+              month: 'short', 
+              day: 'numeric',
+              year: 'numeric'
+            })}
+          </div>
+        </motion.div>
         
         <DashboardCards />
       </motion.div>

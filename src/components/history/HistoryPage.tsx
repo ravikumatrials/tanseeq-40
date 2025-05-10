@@ -47,6 +47,12 @@ const HistoryPage = () => {
     return project ? project.name : 'Unknown Project';
   };
 
+  // Get unique locations from all records
+  const uniqueLocations = React.useMemo(() => {
+    const locations = allRecords.map(record => record.location);
+    return [...new Set(locations)].filter(Boolean).sort();
+  }, [allRecords]);
+
   // Apply filters to records
   const filteredRecords = allRecords.filter(record => {
     const matchesDate = record.date === dateFilter;
@@ -112,20 +118,42 @@ const HistoryPage = () => {
                 
                 <div className="space-y-2">
                   <div className="text-sm font-medium">Project</div>
-                  <Input 
-                    placeholder="Filter by project..." 
+                  <Select
                     value={projectFilter}
-                    onChange={e => setProjectFilter(e.target.value)}
-                  />
+                    onValueChange={setProjectFilter}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select project" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All Projects</SelectItem>
+                      {projects.map((project) => (
+                        <SelectItem key={project.id} value={project.name}>
+                          {project.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 
                 <div className="space-y-2">
                   <div className="text-sm font-medium">Location</div>
-                  <Input 
-                    placeholder="Filter by location..." 
+                  <Select
                     value={locationFilter}
-                    onChange={e => setLocationFilter(e.target.value)}
-                  />
+                    onValueChange={setLocationFilter}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All Locations</SelectItem>
+                      {uniqueLocations.map((location) => (
+                        <SelectItem key={location} value={location}>
+                          {location}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 
                 <div className="flex justify-end">

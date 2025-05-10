@@ -75,6 +75,14 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			boxShadow: {
+				'card': '0 2px 10px rgba(0, 0, 0, 0.05)',
+				'card-hover': '0 5px 15px rgba(0, 0, 0, 0.08)',
+				'elevation-1': '0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)',
+				'elevation-2': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+				'elevation-3': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+				'soft': '0 2px 10px rgba(22, 28, 36, 0.08)',
+			},
 			keyframes: {
 				'accordion-down': {
 					from: {
@@ -123,6 +131,14 @@ export default {
 				'bounce-small': {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-4px)' }
+				},
+				'slide-up': {
+					'0%': { transform: 'translateY(20px)', opacity: '0' },
+					'100%': { transform: 'translateY(0)', opacity: '1' }
+				},
+				'pulse': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' }
 				}
 			},
 			animation: {
@@ -136,15 +152,13 @@ export default {
 				'slide-right': 'slide-right 0.3s ease-out',
 				'scale-in': 'scale-in 0.2s ease-out',
 				'scale-out': 'scale-out 0.2s ease-out',
-				'bounce-small': 'bounce-small 2s infinite ease-in-out'
+				'bounce-small': 'bounce-small 2s infinite ease-in-out',
+				'slide-up': 'slide-up 0.3s ease-out',
+				'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 			},
 			fontFamily: {
 				sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-			},
-			boxShadow: {
-				'card': '0 2px 10px rgba(0, 0, 0, 0.05)',
-				'card-hover': '0 5px 15px rgba(0, 0, 0, 0.08)',
-			},
+			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

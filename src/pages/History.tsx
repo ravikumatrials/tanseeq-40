@@ -5,13 +5,19 @@ import BottomNavbar from '@/components/layout/BottomNavbar';
 import HistoryPage from '@/components/history/HistoryPage';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const History = () => {
   const navigate = useNavigate();
   
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <div className="p-4 flex items-center justify-between">
+      <motion.div 
+        className="p-4 flex items-center justify-between bg-card/95 backdrop-blur-md sticky top-0 z-10 shadow-sm border-b"
+        initial={{ y: -20 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
         <Button 
           variant="ghost" 
           className="p-2"
@@ -21,11 +27,18 @@ const History = () => {
         </Button>
         <h1 className="text-xl font-bold">History</h1>
         <div className="w-10"></div> {/* Spacer for centering */}
-      </div>
+      </motion.div>
       
-      <div className="flex-1 container max-w-4xl mx-auto p-4 pb-20">
-        <HistoryPage />
-      </div>
+      <motion.div 
+        className="flex-1 container max-w-4xl mx-auto p-4 pb-24"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <div className="bg-card/30 backdrop-blur-sm rounded-xl p-6 shadow-soft">
+          <HistoryPage />
+        </div>
+      </motion.div>
       
       <BottomNavbar />
     </div>

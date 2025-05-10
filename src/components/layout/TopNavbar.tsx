@@ -35,7 +35,7 @@ const TopNavbar = () => {
 
   return (
     <motion.div 
-      className="flex items-center justify-between bg-card p-4 shadow-sm border-b"
+      className="flex items-center justify-between bg-card/95 backdrop-blur-md p-4 shadow-sm border-b sticky top-0 z-30"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -60,7 +60,7 @@ const TopNavbar = () => {
             onValueChange={handleProjectChange}
             onOpenChange={setShowProjects}
           >
-            <SelectTrigger className="w-full border-tanseeq/30 focus:border-tanseeq">
+            <SelectTrigger className="w-full border-tanseeq/30 focus:border-tanseeq bg-background/80 backdrop-blur-sm shadow-soft">
               <div className="flex items-center">
                 <SelectValue placeholder="Select Project" />
                 <motion.div
@@ -72,7 +72,7 @@ const TopNavbar = () => {
                 </motion.div>
               </div>
             </SelectTrigger>
-            <SelectContent className="bg-card border-tanseeq/30 shadow-lg">
+            <SelectContent className="bg-card/95 backdrop-blur-md border-tanseeq/30 shadow-elevation-2">
               <AnimatePresence>
                 {projects.map((project, index) => (
                   <motion.div
@@ -98,12 +98,12 @@ const TopNavbar = () => {
       
       <div className="flex items-center space-x-3">
         <motion.div 
-          className="hidden sm:flex items-center text-sm text-muted-foreground"
+          className="hidden sm:flex items-center text-sm text-muted-foreground px-3 py-1.5 rounded-full bg-background/50 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Clock className="h-4 w-4 mr-1 text-tanseeq" />
+          <Clock className="h-4 w-4 mr-1.5 text-tanseeq" />
           {currentTime.toLocaleTimeString('en-US', {
             hour: '2-digit',
             minute: '2-digit'
@@ -113,14 +113,14 @@ const TopNavbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <motion.button 
-              className="rounded-full bg-tanseeq/10 text-tanseeq p-2 flex items-center justify-center h-10 w-10"
+              className="rounded-full bg-tanseeq/10 text-tanseeq p-2 flex items-center justify-center h-10 w-10 shadow-soft hover:bg-tanseeq/20"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
               {user?.name.charAt(0)}
             </motion.button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-card border-tanseeq/30 shadow-lg w-56">
+          <DropdownMenuContent align="end" className="bg-card/95 backdrop-blur-md border-tanseeq/30 shadow-elevation-2 w-56">
             <div className="px-3 py-2.5 text-sm font-medium flex items-center gap-2">
               <User className="h-4 w-4 text-tanseeq" />
               {user?.name}

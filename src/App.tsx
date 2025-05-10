@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { ProjectProvider } from "@/context/ProjectContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Index from "./pages/Index";
 import Login from "./pages/Login";
@@ -29,6 +30,19 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+// Page transition wrapper
+const PageTransition = ({ children }: { children: React.ReactNode }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.3 }}
+    className="w-full"
+  >
+    {children}
+  </motion.div>
+);
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -40,24 +54,26 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
-              <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                
-                {/* Protected routes */}
-                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/check-in" element={<ProtectedRoute><CheckIn /></ProtectedRoute>} />
-                <Route path="/check-out" element={<ProtectedRoute><CheckOut /></ProtectedRoute>} />
-                <Route path="/exceptions" element={<ProtectedRoute><Exceptions /></ProtectedRoute>} />
-                <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-                <Route path="/employees" element={<ProtectedRoute><Employees /></ProtectedRoute>} />
-                
-                {/* 404 route */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+              <AnimatePresence mode="wait">
+                <Routes>
+                  {/* Public routes */}
+                  <Route path="/" element={<PageTransition><Index /></PageTransition>} />
+                  <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+                  <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
+                  
+                  {/* Protected routes */}
+                  <Route path="/dashboard" element={<ProtectedRoute><PageTransition><Dashboard /></PageTransition></ProtectedRoute>} />
+                  <Route path="/check-in" element={<ProtectedRoute><PageTransition><CheckIn /></PageTransition></ProtectedRoute>} />
+                  <Route path="/check-out" element={<ProtectedRoute><PageTransition><CheckOut /></PageTransition></ProtectedRoute>} />
+                  <Route path="/exceptions" element={<ProtectedRoute><PageTransition><Exceptions /></PageTransition></ProtectedRoute>} />
+                  <Route path="/history" element={<ProtectedRoute><PageTransition><History /></PageTransition></ProtectedRoute>} />
+                  <Route path="/profile" element={<ProtectedRoute><PageTransition><Profile /></PageTransition></ProtectedRoute>} />
+                  <Route path="/employees" element={<ProtectedRoute><PageTransition><Employees /></PageTransition></ProtectedRoute>} />
+                  
+                  {/* 404 route */}
+                  <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+                </Routes>
+              </AnimatePresence>
             </BrowserRouter>
           </TooltipProvider>
         </ProjectProvider>

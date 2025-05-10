@@ -7,7 +7,7 @@ import { useOfflineSync } from '@/hooks/useOfflineSync';
 import { useProject } from '@/context/ProjectContext';
 import { useLocation } from '@/hooks/useLocation';
 import { useNavigate } from 'react-router-dom';
-import { BarChart4, Users, UserCheck, Clock, CheckCheck, MapPin } from 'lucide-react';
+import { BarChart4, Users, UserCheck, Clock, CheckCheck, MapPin, LogIn, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 

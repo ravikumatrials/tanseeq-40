@@ -9,6 +9,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { useNavigate } from 'react-router-dom';
 import { BarChart4, Users, UserCheck, Clock, CheckCheck, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/badge';
 
 const MotionCard = motion(Card);
 
@@ -73,10 +74,13 @@ const DashboardCards = () => {
           </CardTitle>
           <div>
             {pendingChanges > 0 && (
-              <span className="relative flex h-3 w-3 mr-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-teal-500"></span>
-              </span>
+              <Badge variant="warning" className="flex h-6 items-center gap-1 px-2 text-xs">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75 animate-ping"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                </span>
+                <span>Pending sync</span>
+              </Badge>
             )}
           </div>
         </CardHeader>
@@ -95,7 +99,7 @@ const DashboardCards = () => {
               disabled={isSyncing || (pendingChanges === 0 && lastSync !== null)}
               variant={pendingChanges > 0 ? "teal" : "outline"}
               size="sm"
-              className="rounded-md px-4"
+              className="rounded-md px-4 shadow-sm"
             >
               {isSyncing ? (
                 <>
@@ -115,9 +119,13 @@ const DashboardCards = () => {
               )}
             </Button>
           </div>
-          <div className="text-xs text-muted-foreground mt-2">
-            {lastSync ? `Last synced: ${new Date(lastSync).toLocaleString()}` : 'Never synced'} · 
-            {isOnline ? <span className="text-teal-500"> Online</span> : <span className="text-tanseeq"> Offline</span>}
+          <div className="text-xs text-muted-foreground mt-2 flex items-center justify-between">
+            <div>
+              {lastSync ? `Last synced: ${new Date(lastSync).toLocaleString()}` : 'Never synced'}
+            </div>
+            <Badge variant={isOnline ? "success" : "danger"} className="text-xs px-2 py-0.5">
+              {isOnline ? 'Online' : 'Offline'}
+            </Badge>
           </div>
         </CardContent>
       </MotionCard>
@@ -161,6 +169,7 @@ const DashboardCards = () => {
           animate="visible"
           custom={2}
           variants={cardVariants}
+          whileHover={{ y: -3, transition: { duration: 0.2 } }}
         >
           <CardHeader className="pb-2 pt-3 px-3 border-b">
             <CardTitle className="text-xs font-medium flex items-center px-0 py-0 text-tanseeq">
@@ -179,6 +188,7 @@ const DashboardCards = () => {
           animate="visible"
           custom={3}
           variants={cardVariants}
+          whileHover={{ y: -3, transition: { duration: 0.2 } }}
         >
           <CardHeader className="pb-2 pt-3 px-3 border-b">
             <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
@@ -197,6 +207,7 @@ const DashboardCards = () => {
           animate="visible"
           custom={4}
           variants={cardVariants}
+          whileHover={{ y: -3, transition: { duration: 0.2 } }}
         >
           <CardHeader className="pb-2 pt-3 px-3 border-b">
             <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
@@ -215,6 +226,7 @@ const DashboardCards = () => {
           animate="visible"
           custom={5}
           variants={cardVariants}
+          whileHover={{ y: -3, transition: { duration: 0.2 } }}
         >
           <CardHeader className="pb-2 pt-3 px-3 border-b">
             <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
@@ -225,10 +237,44 @@ const DashboardCards = () => {
           <CardContent className="pt-3 px-3 pb-3">
             <div className="text-2xl font-bold text-tanseeq">
               {currentProject.employees.filter(e => e.isFaceEnrolled).length}
+              <span className="text-xs text-muted-foreground ml-1">
+                / {currentProject.employeeCount}
+              </span>
             </div>
           </CardContent>
         </MotionCard>
       </div>
+      
+      {/* Quick Actions */}
+      <MotionCard
+        initial="hidden"
+        animate="visible"
+        custom={6}
+        variants={cardVariants}
+        className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
+      >
+        <CardHeader className="pb-2 border-b">
+          <CardTitle className="flex items-center text-sm font-medium text-tanseeq">
+            Quick Actions
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="pt-4 grid grid-cols-2 gap-2">
+          <Button 
+            variant="teal" 
+            className="rounded-md text-xs flex items-center justify-center h-10"
+            onClick={() => navigate('/check-in')}
+          >
+            <LogIn className="mr-1 h-4 w-4" /> Check-In
+          </Button>
+          <Button 
+            variant="outline" 
+            className="rounded-md text-xs border-teal-500 text-teal-500 flex items-center justify-center h-10"
+            onClick={() => navigate('/check-out')}
+          >
+            <LogOut className="mr-1 h-4 w-4" /> Check-Out
+          </Button>
+        </CardContent>
+      </MotionCard>
     </div>
   );
 };

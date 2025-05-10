@@ -19,9 +19,9 @@ const badgeVariants = cva(
         success:
           "border-transparent bg-teal-500 text-white",
         warning:
-          "border-teal-500 bg-white text-tanseeq",
+          "border border-amber-500 bg-amber-50 text-amber-700",
         danger:
-          "border-tanseeq bg-white text-tanseeq",
+          "border border-rose-300 bg-rose-50 text-rose-700",
         info:
           "border-transparent bg-teal-500 text-white",
       },

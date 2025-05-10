@@ -2,7 +2,6 @@
 import React from 'react';
 import LoginForm from '@/components/auth/LoginForm';
 import { motion } from 'framer-motion';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Login = () => {
   return (
@@ -41,9 +40,6 @@ const Login = () => {
           >
             Enterprise Attendance Solution
           </motion.div>
-          
-          {/* Theme toggle added below the login card */}
-          <ThemeToggle className="mt-2" />
         </div>
       </motion.div>
     </div>

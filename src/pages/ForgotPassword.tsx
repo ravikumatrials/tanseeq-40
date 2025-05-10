@@ -2,7 +2,6 @@
 import React from 'react';
 import ForgotPasswordForm from '@/components/auth/ForgotPasswordForm';
 import { motion } from 'framer-motion';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const ForgotPassword = () => {
   return (
@@ -41,9 +40,6 @@ const ForgotPassword = () => {
           >
             Enterprise Attendance Solution
           </motion.div>
-          
-          {/* Theme toggle added below the form card */}
-          <ThemeToggle className="mt-2" />
         </div>
       </motion.div>
     </div>

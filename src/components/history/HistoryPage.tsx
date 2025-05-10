@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { RotateCw, Calendar, User, Briefcase, MapPin } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format, subDays } from 'date-fns';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { useProject } from '@/context/ProjectContext';
 
 const HistoryPage = () => {
   const {
@@ -16,6 +17,8 @@ const HistoryPage = () => {
     syncRecords,
     stats
   } = useAttendance();
+
+  const { projects } = useProject();
   
   // Filters
   const [dateFilter, setDateFilter] = useState(new Date().toISOString().split('T')[0]);
@@ -38,6 +41,12 @@ const HistoryPage = () => {
     setIsFilterOpen(false);
   };
 
+  // Helper function to get project name from project ID
+  const getProjectName = (projectId: string) => {
+    const project = projects.find(p => p.id === projectId);
+    return project ? project.name : 'Unknown Project';
+  };
+
   // Apply filters to records
   const filteredRecords = allRecords.filter(record => {
     const matchesDate = record.date === dateFilter;
@@ -45,7 +54,7 @@ const HistoryPage = () => {
       record.employeeName.toLowerCase().includes(employeeFilter.toLowerCase()) || 
       record.employeeId.toLowerCase().includes(employeeFilter.toLowerCase());
     const matchesProject = !projectFilter || 
-      record.project?.toLowerCase().includes(projectFilter.toLowerCase());
+      getProjectName(record.projectId).toLowerCase().includes(projectFilter.toLowerCase());
     const matchesLocation = !locationFilter || 
       record.location.toLowerCase().includes(locationFilter.toLowerCase());
     
@@ -225,9 +234,17 @@ const HistoryPage = () => {
 const AttendanceRecordItem: React.FC<{
   record: AttendanceRecord;
 }> = ({ record }) => {
+  const { projects } = useProject();
+  
   const formatTime = (dateTimeString: string | null) => {
     if (!dateTimeString) return 'N/A';
     return new Date(dateTimeString).toLocaleTimeString();
+  };
+  
+  // Get project name from projectId
+  const getProjectName = (projectId: string) => {
+    const project = projects.find(p => p.id === projectId);
+    return project ? project.name : 'Unknown Project';
   };
 
   return (
@@ -262,7 +279,7 @@ const AttendanceRecordItem: React.FC<{
           <div className="flex items-center gap-1">
             <Briefcase className="h-3.5 w-3.5 text-muted-foreground" />
             <div className="text-xs text-muted-foreground">Project:</div>
-            <div className="text-sm font-medium">{record.project || 'Not Assigned'}</div>
+            <div className="text-sm font-medium">{getProjectName(record.projectId)}</div>
           </div>
         </div>
       </div>

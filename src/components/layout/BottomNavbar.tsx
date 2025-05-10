@@ -28,13 +28,13 @@ const NavItem: React.FC<NavItemProps> = ({
       <motion.div 
         whileHover={{ scale: 1.1 }} 
         whileTap={{ scale: 0.95 }}
-        className={`text-lg mb-1 p-2.5 relative ${isActive ? 'text-white' : 'text-white/70'}`}
+        className={`text-lg mb-1 p-2.5 relative ${isActive ? 'text-tanseeq-gold' : 'text-white/80'}`}
       >
         {children}
         {showNotification && (
           <span className="absolute -top-0.5 -right-0.5">
             <span className="flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+              <span className="absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
             </span>
           </span>
@@ -42,12 +42,12 @@ const NavItem: React.FC<NavItemProps> = ({
         {isActive && (
           <motion.div 
             layoutId="bottomNavIndicator"
-            className="absolute inset-0 bg-white/20 rounded-full -z-10"
+            className="absolute inset-0 bg-white/10 rounded-md -z-10"
             transition={{ type: "spring", duration: 0.5 }}
           />
         )}
       </motion.div>
-      <span className={`text-[10px] font-medium ${isActive ? 'text-white' : 'text-white/70'}`}>
+      <span className={`text-[10px] font-medium ${isActive ? 'text-tanseeq-gold' : 'text-white/80'}`}>
         {label}
       </span>
     </NavLink>
@@ -82,7 +82,7 @@ const BottomNavbar = () => {
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="mobile-footer flex justify-around items-center h-[68px]"
+      className="fixed bottom-0 left-0 right-0 bg-tanseeq border-t border-tanseeq-gold/20 py-2 z-40 flex justify-around items-center h-[68px]"
     >
       <NavItem to="/dashboard" label="Dashboard">
         <LayoutDashboard className="h-5 w-5" />

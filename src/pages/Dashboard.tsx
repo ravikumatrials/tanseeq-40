@@ -8,7 +8,7 @@ import { LayoutDashboard } from 'lucide-react';
 
 const Dashboard = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-tanseeq/5">
+    <div className="flex flex-col min-h-screen bg-background">
       <TopNavbar />
       
       <motion.div 
@@ -23,11 +23,11 @@ const Dashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h1 className="text-2xl font-bold text-tanseeq flex items-center bg-gradient-to-r from-tanseeq to-tanseeq-gold bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold text-tanseeq flex items-center">
             <LayoutDashboard className="mr-2 h-6 w-6 text-tanseeq" />
             Dashboard
           </h1>
-          <div className="text-xs font-medium bg-tanseeq-gold/20 text-tanseeq-gold px-4 py-2 rounded-full flex items-center shadow-sm">
+          <div className="text-xs font-medium bg-tanseeq-gold text-white px-4 py-2 rounded-md flex items-center">
             {new Date().toLocaleDateString('en-US', { 
               month: 'short', 
               day: 'numeric',

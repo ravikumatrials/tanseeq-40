@@ -10,18 +10,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-tanseeq text-primary-foreground hover:bg-tanseeq/90 shadow-md",
+        default: "bg-tanseeq text-primary-foreground hover:bg-tanseeq/90",
         destructive:
-          "bg-rose-500 text-destructive-foreground hover:bg-rose-600/90 shadow-md",
+          "bg-rose-500 text-destructive-foreground hover:bg-rose-600",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border-2 border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        teal: "bg-teal-500 text-white hover:bg-teal-600 shadow-md",
-        amber: "bg-amber-500 text-white hover:bg-amber-600 shadow-md",
-        violet: "bg-violet-500 text-white hover:bg-violet-600 shadow-md",
+        teal: "bg-teal-500 text-white hover:bg-teal-600",
+        amber: "bg-amber-500 text-white hover:bg-amber-600",
+        violet: "bg-violet-500 text-white hover:bg-violet-600",
       },
       size: {
         default: "h-10 px-4 py-2",

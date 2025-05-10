@@ -60,12 +60,10 @@ const DashboardCards = () => {
         animate="visible"
         custom={0}
         variants={cardVariants}
-        whileHover={{ scale: 1.01 }}
-        transition={{ duration: 0.2 }}
-        className="border-tanseeq-gold/30 shadow-lg rounded-2xl overflow-hidden bg-gradient-to-br from-card to-teal-50"
+        className="border-teal-500 bg-white rounded-lg overflow-hidden"
       >
-        <CardHeader className="flex flex-row items-center justify-between pb-2 bg-gradient-to-r from-teal-100/20 to-transparent">
-          <CardTitle className="text-lg font-medium text-tanseeq">
+        <CardHeader className="flex flex-row items-center justify-between pb-2 bg-teal-500 text-white">
+          <CardTitle className="text-lg font-medium">
             {new Date().toLocaleString('en-US', {
               weekday: 'long',
               year: 'numeric',
@@ -76,8 +74,8 @@ const DashboardCards = () => {
           <div>
             {pendingChanges > 0 && (
               <span className="relative flex h-3 w-3 mr-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tanseeq opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-tanseeq"></span>
+                <span className="absolute inline-flex h-full w-full rounded-full bg-tanseeq-gold opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-tanseeq-gold"></span>
               </span>
             )}
           </div>
@@ -95,18 +93,18 @@ const DashboardCards = () => {
             <Button 
               onClick={handleSync}
               disabled={isSyncing || (pendingChanges === 0 && lastSync !== null)}
-              variant="outline"
+              variant={pendingChanges > 0 ? "teal" : "outline"}
               size="sm"
-              className={`flex items-center gap-2 ${pendingChanges > 0 ? 'animate-pulse-slow bg-teal-500/10 border-teal-500/30 text-teal-600' : 'bg-background'} rounded-full px-4`}
+              className="rounded-md px-4"
             >
               {isSyncing ? (
                 <>
-                  <div className="green-loader h-4 w-4 rounded-full"></div>
+                  <div className="h-4 w-4 rounded-full animate-spin border-2 border-teal-500 border-t-transparent"></div>
                   <span>Syncing...</span>
                 </>
               ) : (
                 <>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sync text-teal-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sync">
                     <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
                     <path d="M21 3v5h-5" />
                     <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
@@ -130,13 +128,11 @@ const DashboardCards = () => {
         animate="visible"
         custom={1}
         variants={cardVariants}
-        whileHover={{ scale: 1.01 }}
-        transition={{ duration: 0.2 }}
-        className="border-violet-200 shadow-lg rounded-2xl overflow-hidden bg-gradient-to-br from-card to-violet-50"
+        className="border-violet-500 bg-white rounded-lg overflow-hidden"
       >
-        <CardHeader className="pb-2 bg-gradient-to-r from-violet-100/20 to-transparent">
+        <CardHeader className="pb-2 bg-violet-500 text-white">
           <CardTitle className="flex items-center text-sm font-medium">
-            <MapPin className="text-violet-500 mr-2 h-4 w-4" />
+            <MapPin className="mr-2 h-4 w-4" />
             Current Location
           </CardTitle>
         </CardHeader>
@@ -145,7 +141,7 @@ const DashboardCards = () => {
             <span className="text-sm">
               {locationLoading ? (
                 <span className="flex items-center">
-                  <div className="green-loader h-3 w-3 rounded-full mr-2 bg-violet-400"></div>
+                  <div className="h-3 w-3 rounded-full animate-spin border-2 border-violet-500 border-t-transparent mr-2"></div>
                   Fetching location...
                 </span>
               ) : address}
@@ -160,81 +156,73 @@ const DashboardCards = () => {
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-2 gap-4">
         <MotionCard 
-          className="p-4 rounded-2xl border-amber-200 bg-gradient-to-br from-card to-amber-50 shadow-lg overflow-hidden" 
+          className="rounded-lg border-amber-500 bg-white overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={2}
           variants={cardVariants}
-          whileHover={{ scale: 1.03 }}
-          transition={{ duration: 0.2 }}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-gradient-to-r from-amber-100/20 to-transparent">
-            <CardTitle className="text-xs font-medium text-amber-600 flex items-center px-0 py-0">
-              <Users className="h-3.5 w-3.5 mr-1 text-amber-500" />
+          <CardHeader className="pb-2 pt-3 px-3 bg-amber-500 text-white">
+            <CardTitle className="text-xs font-medium flex items-center px-0 py-0">
+              <Users className="h-3.5 w-3.5 mr-1" />
               Total Employees
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-0 px-3 pb-3">
+          <CardContent className="pt-3 px-3 pb-3">
             <div className="text-2xl font-bold mx-0">{currentProject.employeeCount}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="p-4 rounded-2xl border-emerald-200 bg-gradient-to-br from-card to-emerald-50 shadow-lg overflow-hidden" 
+          className="rounded-lg border-emerald-500 bg-white overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={3}
           variants={cardVariants}
-          whileHover={{ scale: 1.03 }}
-          transition={{ duration: 0.2 }}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-gradient-to-r from-emerald-100/20 to-transparent">
-            <CardTitle className="text-xs font-medium text-emerald-600 flex items-center">
-              <UserCheck className="h-3.5 w-3.5 mr-1 text-emerald-500" />
+          <CardHeader className="pb-2 pt-3 px-3 bg-emerald-500 text-white">
+            <CardTitle className="text-xs font-medium flex items-center">
+              <UserCheck className="h-3.5 w-3.5 mr-1" />
               Check-Ins Today
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-0 px-3 pb-3">
+          <CardContent className="pt-3 px-3 pb-3">
             <div className="text-2xl font-bold">{stats.totalCheckIns}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="p-4 rounded-2xl border-rose-200 bg-gradient-to-br from-card to-rose-50 shadow-lg overflow-hidden" 
+          className="rounded-lg border-rose-500 bg-white overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={4}
           variants={cardVariants}
-          whileHover={{ scale: 1.03 }}
-          transition={{ duration: 0.2 }}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-gradient-to-r from-rose-100/20 to-transparent">
-            <CardTitle className="text-xs font-medium text-rose-600 flex items-center">
-              <CheckCheck className="h-3.5 w-3.5 mr-1 text-rose-500" />
+          <CardHeader className="pb-2 pt-3 px-3 bg-rose-500 text-white">
+            <CardTitle className="text-xs font-medium flex items-center">
+              <CheckCheck className="h-3.5 w-3.5 mr-1" />
               Check-Outs Today
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-0 px-3 pb-3">
+          <CardContent className="pt-3 px-3 pb-3">
             <div className="text-2xl font-bold">{stats.totalCheckOuts}</div>
           </CardContent>
         </MotionCard>
         
         <MotionCard 
-          className="p-4 rounded-2xl border-teal-200 bg-gradient-to-br from-card to-teal-50 shadow-lg overflow-hidden" 
+          className="rounded-lg border-teal-500 bg-white overflow-hidden" 
           initial="hidden"
           animate="visible"
           custom={5}
           variants={cardVariants}
-          whileHover={{ scale: 1.03 }}
-          transition={{ duration: 0.2 }}
         >
-          <CardHeader className="pb-2 pt-3 px-3 bg-gradient-to-r from-teal-100/20 to-transparent">
-            <CardTitle className="text-xs font-medium text-teal-600 flex items-center">
-              <BarChart4 className="h-3.5 w-3.5 mr-1 text-teal-500" />
+          <CardHeader className="pb-2 pt-3 px-3 bg-teal-500 text-white">
+            <CardTitle className="text-xs font-medium flex items-center">
+              <BarChart4 className="h-3.5 w-3.5 mr-1" />
               Face Enrolled
             </CardTitle>
           </CardHeader>
-          <CardContent className="pt-0 px-3 pb-3">
+          <CardContent className="pt-3 px-3 pb-3">
             <div className="text-2xl font-bold">
               {currentProject.employees.filter(e => e.isFaceEnrolled).length}
             </div>

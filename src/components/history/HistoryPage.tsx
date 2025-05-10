@@ -23,8 +23,8 @@ const HistoryPage = () => {
   // Filters
   const [dateFilter, setDateFilter] = useState(new Date().toISOString().split('T')[0]);
   const [employeeFilter, setEmployeeFilter] = useState('');
-  const [projectFilter, setProjectFilter] = useState('');
-  const [locationFilter, setLocationFilter] = useState('');
+  const [projectFilter, setProjectFilter] = useState('all');
+  const [locationFilter, setLocationFilter] = useState('all');
   
   const [isSyncing, setIsSyncing] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -59,9 +59,9 @@ const HistoryPage = () => {
     const matchesEmployee = !employeeFilter || 
       record.employeeName.toLowerCase().includes(employeeFilter.toLowerCase()) || 
       record.employeeId.toLowerCase().includes(employeeFilter.toLowerCase());
-    const matchesProject = !projectFilter || 
+    const matchesProject = projectFilter === 'all' || 
       getProjectName(record.projectId).toLowerCase().includes(projectFilter.toLowerCase());
-    const matchesLocation = !locationFilter || 
+    const matchesLocation = locationFilter === 'all' || 
       record.location.toLowerCase().includes(locationFilter.toLowerCase());
     
     return matchesDate && matchesEmployee && matchesProject && matchesLocation;
@@ -126,7 +126,7 @@ const HistoryPage = () => {
                       <SelectValue placeholder="Select project" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Projects</SelectItem>
+                      <SelectItem value="all">All Projects</SelectItem>
                       {projects.map((project) => (
                         <SelectItem key={project.id} value={project.name}>
                           {project.name}
@@ -146,7 +146,7 @@ const HistoryPage = () => {
                       <SelectValue placeholder="Select location" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Locations</SelectItem>
+                      <SelectItem value="all">All Locations</SelectItem>
                       {uniqueLocations.map((location) => (
                         <SelectItem key={location} value={location}>
                           {location}
@@ -230,13 +230,13 @@ const HistoryPage = () => {
               <span>Employee: {employeeFilter}</span>
             </div>
           )}
-          {projectFilter && (
+          {projectFilter !== 'all' && (
             <div className="text-sm bg-tanseeq/10 text-tanseeq px-3 py-1 rounded-full flex items-center gap-1">
               <Briefcase className="h-3 w-3" />
               <span>Project: {projectFilter}</span>
             </div>
           )}
-          {locationFilter && (
+          {locationFilter !== 'all' && (
             <div className="text-sm bg-tanseeq/10 text-tanseeq px-3 py-1 rounded-full flex items-center gap-1">
               <MapPin className="h-3 w-3" />
               <span>Location: {locationFilter}</span>

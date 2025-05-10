@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,9 +7,8 @@ import { useOfflineSync } from '@/hooks/useOfflineSync';
 import { useProject } from '@/context/ProjectContext';
 import { useLocation } from '@/hooks/useLocation';
 import { useNavigate } from 'react-router-dom';
-import { BarChart4, Info, Users, UserCheck, Clock, CheckCheck } from 'lucide-react';
+import { BarChart4, Users, UserCheck, Clock, CheckCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
-import ProjectList from '@/components/dashboard/ProjectList';
 
 const MotionCard = motion(Card);
 
@@ -54,14 +54,6 @@ const DashboardCards = () => {
 
   return (
     <div className="space-y-6">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <ProjectList />
-      </motion.div>
-      
       {/* Date/Time & Sync Card */}
       <MotionCard 
         initial="hidden"
@@ -70,10 +62,10 @@ const DashboardCards = () => {
         variants={cardVariants}
         whileHover={{ scale: 1.01 }}
         transition={{ duration: 0.2 }}
-        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5"
+        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise"
       >
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-lg">
+          <CardTitle className="text-lg font-medium text-tanseeq">
             {new Date().toLocaleString('en-US', {
               weekday: 'long',
               year: 'numeric',
@@ -93,7 +85,7 @@ const DashboardCards = () => {
         <CardContent>
           <div className="flex justify-between items-center">
             <div className="text-lg font-semibold flex items-center">
-              <Clock className="h-4 w-4 mr-2 text-tanseeq" />
+              <Clock className="h-5 w-5 mr-2 text-tanseeq" />
               {currentTime.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -140,17 +132,19 @@ const DashboardCards = () => {
         variants={cardVariants}
         whileHover={{ scale: 1.01 }}
         transition={{ duration: 0.2 }}
-        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5"
+        className="border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise"
       >
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium">Current Location</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center space-x-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-tanseeq">
+          <CardTitle className="flex items-center text-sm font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-tanseeq mr-2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
               <circle cx="12" cy="10" r="3" />
             </svg>
+            Current Location
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center space-x-2">
             <span className="text-sm">
               {locationLoading ? (
                 <span className="flex items-center">
@@ -160,13 +154,16 @@ const DashboardCards = () => {
               ) : address}
             </span>
           </div>
+          <div className="text-xs text-tanseeq/80 mt-2 italic">
+            {currentProject.location}
+          </div>
         </CardContent>
       </MotionCard>
       
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-2 gap-4">
         <MotionCard 
-          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5" 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise" 
           initial="hidden"
           animate="visible"
           custom={2}
@@ -186,7 +183,7 @@ const DashboardCards = () => {
         </MotionCard>
         
         <MotionCard 
-          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5" 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise" 
           initial="hidden"
           animate="visible"
           custom={3}
@@ -206,7 +203,7 @@ const DashboardCards = () => {
         </MotionCard>
         
         <MotionCard 
-          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5" 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise" 
           initial="hidden"
           animate="visible"
           custom={4}
@@ -226,7 +223,7 @@ const DashboardCards = () => {
         </MotionCard>
         
         <MotionCard 
-          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5" 
+          className="card-stats border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5 shadow-enterprise" 
           initial="hidden"
           animate="visible"
           custom={5}

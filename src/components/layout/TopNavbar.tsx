@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useProject } from '@/context/ProjectContext';
 import { useTheme } from '@/context/ThemeContext';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,10 +11,8 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const TopNavbar = () => {
   const { logout, user } = useAuth();
-  const { projects, currentProject, setCurrentProject } = useProject();
   const { theme } = useTheme();
   const navigate = useNavigate();
-  const [showProjects, setShowProjects] = useState(false);
   const [currentTime, setCurrentTime] = React.useState(new Date());
   
   React.useEffect(() => {
@@ -25,13 +22,6 @@ const TopNavbar = () => {
     
     return () => clearInterval(timer);
   }, []);
-  
-  const handleProjectChange = (projectId: string) => {
-    const selectedProject = projects.find(p => p.id === projectId);
-    if (selectedProject) {
-      setCurrentProject(selectedProject);
-    }
-  };
 
   return (
     <motion.div 
@@ -52,40 +42,6 @@ const TopNavbar = () => {
           className="h-9 mr-3" 
         />
       </motion.div>
-      
-      {currentProject && (
-        <div className="flex-1 max-w-xs mx-2 relative">
-          <Select
-            value={currentProject.id}
-            onValueChange={handleProjectChange}
-            onOpenChange={setShowProjects}
-          >
-            <SelectTrigger className="w-full rounded-md border-white/20 focus:border-white bg-white/20 text-sm text-white">
-              <SelectValue placeholder="Select Project" />
-            </SelectTrigger>
-            <SelectContent className="bg-white border-tanseeq/30 rounded-lg">
-              <AnimatePresence>
-                {projects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ delay: index * 0.05, duration: 0.2 }}
-                  >
-                    <SelectItem 
-                      value={project.id} 
-                      className="hover:bg-tanseeq/10 cursor-pointer rounded-md my-0.5"
-                    >
-                      {project.name}
-                    </SelectItem>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </SelectContent>
-          </Select>
-        </div>
-      )}
       
       <div className="flex items-center space-x-3">
         <motion.div 

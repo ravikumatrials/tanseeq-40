@@ -34,7 +34,7 @@ const DashboardCards = () => {
   };
 
   if (!currentProject) {
-    return <div className="text-center py-8 text-tanseeq">Please select a project</div>;
+    return <div className="text-center py-6 text-tanseeq">Please select a project</div>;
   }
 
   // Check if any employee is missing face enrollment
@@ -54,8 +54,8 @@ const DashboardCards = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Date/Time & Sync Card */}
+    <div className="space-y-4">
+      {/* Sync Card */}
       <MotionCard 
         initial="hidden"
         animate="visible"
@@ -63,14 +63,10 @@ const DashboardCards = () => {
         variants={cardVariants}
         className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
       >
-        <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
-          <CardTitle className="text-lg font-medium text-tanseeq">
-            {new Date().toLocaleString('en-US', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
+        <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4 px-4 border-b">
+          <CardTitle className="text-sm font-medium text-tanseeq flex items-center gap-2">
+            <Clock className="h-4 w-4 text-teal-500" />
+            Current Time
           </CardTitle>
           <div>
             {pendingChanges > 0 && (
@@ -84,10 +80,9 @@ const DashboardCards = () => {
             )}
           </div>
         </CardHeader>
-        <CardContent className="pt-4">
+        <CardContent className="pt-3 px-4 pb-4">
           <div className="flex justify-between items-center">
             <div className="text-lg font-semibold flex items-center text-tanseeq">
-              <Clock className="h-5 w-5 mr-2 text-teal-500" />
               {currentTime.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -138,13 +133,13 @@ const DashboardCards = () => {
         variants={cardVariants}
         className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
       >
-        <CardHeader className="pb-2 border-b">
+        <CardHeader className="pb-2 pt-4 px-4 border-b">
           <CardTitle className="flex items-center text-sm font-medium text-tanseeq">
             <MapPin className="mr-2 h-4 w-4 text-teal-500" />
             Current Location
           </CardTitle>
         </CardHeader>
-        <CardContent className="pt-4">
+        <CardContent className="pt-3 px-4 pb-4">
           <div className="flex items-center space-x-2">
             <span className="text-sm text-tanseeq">
               {locationLoading ? (
@@ -162,7 +157,7 @@ const DashboardCards = () => {
       </MotionCard>
       
       {/* Stats Cards Grid */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         <MotionCard 
           className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
           initial="hidden"
@@ -253,12 +248,12 @@ const DashboardCards = () => {
         variants={cardVariants}
         className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
       >
-        <CardHeader className="pb-2 border-b">
+        <CardHeader className="pb-2 pt-4 px-4 border-b">
           <CardTitle className="flex items-center text-sm font-medium text-tanseeq">
             Quick Actions
           </CardTitle>
         </CardHeader>
-        <CardContent className="pt-4 grid grid-cols-2 gap-2">
+        <CardContent className="pt-3 px-4 pb-4 grid grid-cols-2 gap-3">
           <Button 
             variant="teal" 
             className="rounded-md text-xs flex items-center justify-center h-10"

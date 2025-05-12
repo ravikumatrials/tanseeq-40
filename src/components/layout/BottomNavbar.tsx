@@ -58,7 +58,8 @@ const BottomNavbar = () => {
   const [hasExceptions, setHasExceptions] = useState(false);
   const location = useLocation();
   
-  // List of main routes where bottom nav should be visible
+  // Enhanced list of main routes where bottom nav should be visible
+  // Now explicitly checking just the main routes, not their sub-routes
   const mainRoutes = ['/dashboard', '/check-in', '/check-out', '/exceptions', '/history', '/employees'];
   const isMainRoute = mainRoutes.includes(location.pathname);
   

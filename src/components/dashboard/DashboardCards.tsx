@@ -6,10 +6,10 @@ import { useAttendance } from '@/hooks/useAttendance';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
 import { useProject } from '@/context/ProjectContext';
 import { useLocation } from '@/hooks/useLocation';
-import { useNavigate } from 'react-router-dom';
-import { BarChart4, Users, UserCheck, Clock, CheckCheck, MapPin, LogIn, LogOut } from 'lucide-react';
+import { BarChart4, Users, UserCheck, Clock, CheckCheck, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
+import { format } from 'date-fns';
 
 const MotionCard = motion(Card);
 
@@ -19,7 +19,6 @@ const DashboardCards = () => {
   const { pendingChanges, lastSync, isOnline, isSyncing, syncChanges } = useOfflineSync();
   const { address, isLoading: locationLoading } = useLocation();
   const [currentTime, setCurrentTime] = useState(new Date());
-  const navigate = useNavigate();
 
   // Update the clock every second
   useEffect(() => {
@@ -52,6 +51,11 @@ const DashboardCards = () => {
       }
     })
   };
+
+  // Format last sync time
+  const formattedLastSync = lastSync ? 
+    format(new Date(lastSync), "dd MMM yyyy, h:mm a") : 
+    'Never synced';
 
   return (
     <div className="space-y-4">
@@ -240,36 +244,10 @@ const DashboardCards = () => {
         </MotionCard>
       </div>
       
-      {/* Quick Actions */}
-      <MotionCard
-        initial="hidden"
-        animate="visible"
-        custom={6}
-        variants={cardVariants}
-        className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
-      >
-        <CardHeader className="pb-2 pt-4 px-4 border-b">
-          <CardTitle className="flex items-center text-sm font-medium text-tanseeq">
-            Quick Actions
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-3 px-4 pb-4 grid grid-cols-2 gap-3">
-          <Button 
-            variant="teal" 
-            className="rounded-md text-xs flex items-center justify-center h-10"
-            onClick={() => navigate('/check-in')}
-          >
-            <LogIn className="mr-1 h-4 w-4" /> Check-In
-          </Button>
-          <Button 
-            variant="outline" 
-            className="rounded-md text-xs border-teal-500 text-teal-500 flex items-center justify-center h-10"
-            onClick={() => navigate('/check-out')}
-          >
-            <LogOut className="mr-1 h-4 w-4" /> Check-Out
-          </Button>
-        </CardContent>
-      </MotionCard>
+      {/* Last Sync Timestamp */}
+      <div className="text-center text-sm text-muted-foreground mt-6">
+        Last synced on: {formattedLastSync}
+      </div>
     </div>
   );
 };

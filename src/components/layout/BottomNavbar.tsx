@@ -58,10 +58,22 @@ const BottomNavbar = () => {
   const [hasExceptions, setHasExceptions] = useState(false);
   const location = useLocation();
   
-  // Enhanced list of main routes where bottom nav should be visible
-  // Now explicitly checking just the main routes, not their sub-routes
+  // Define main routes where bottom nav should be visible
+  // These are the exact paths where we want to show the bottom navbar
   const mainRoutes = ['/dashboard', '/check-in', '/check-out', '/exceptions', '/history', '/employees'];
+  
+  // Define sub-routes patterns that should hide the bottom navbar
+  // Any path that includes these patterns will hide the bottom navbar
+  const subRoutePatterns = ['/employees/'];
+  
+  // Check if the current route is a main route (show navbar)
   const isMainRoute = mainRoutes.includes(location.pathname);
+  
+  // Check if the current route is a sub-route (hide navbar)
+  const isSubRoute = subRoutePatterns.some(pattern => location.pathname.includes(pattern));
+  
+  // Determine if we should show the navbar
+  const shouldShowNavbar = isMainRoute && !isSubRoute;
   
   // Check for exceptions
   useEffect(() => {
@@ -74,7 +86,7 @@ const BottomNavbar = () => {
 
   return (
     <AnimatePresence>
-      {isMainRoute && (
+      {shouldShowNavbar && (
         <motion.div
           initial={{ y: 100 }}
           animate={{ y: 0 }}

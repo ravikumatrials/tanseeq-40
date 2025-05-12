@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, LogIn, LogOut, AlertTriangle, Clock, Users } from 'lucide-react';
 import { useAttendance } from '@/hooks/useAttendance';
 
@@ -56,6 +56,11 @@ const NavItem: React.FC<NavItemProps> = ({
 const BottomNavbar = () => {
   const { exceptions } = useAttendance();
   const [hasExceptions, setHasExceptions] = useState(false);
+  const location = useLocation();
+  
+  // List of main routes where bottom nav should be visible
+  const mainRoutes = ['/dashboard', '/check-in', '/check-out', '/exceptions', '/history', '/employees'];
+  const isMainRoute = mainRoutes.includes(location.pathname);
   
   // Check for exceptions
   useEffect(() => {
@@ -67,36 +72,41 @@ const BottomNavbar = () => {
   }, [exceptions]);
 
   return (
-    <motion.div
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed bottom-0 left-0 right-0 bg-tanseeq border-t border-tanseeq-gold/20 py-1.5 z-40 flex justify-between items-center h-[60px] px-2"
-    >
-      <NavItem to="/dashboard" label="Dashboard">
-        <LayoutDashboard className="h-4.5 w-4.5" />
-      </NavItem>
-      
-      <NavItem to="/check-in" label="Check In">
-        <LogIn className="h-4.5 w-4.5" />
-      </NavItem>
-      
-      <NavItem to="/check-out" label="Check Out">
-        <LogOut className="h-4.5 w-4.5" />
-      </NavItem>
-      
-      <NavItem to="/exceptions" label="Exceptions" showNotification={hasExceptions}>
-        <AlertTriangle className="h-4.5 w-4.5" />
-      </NavItem>
-      
-      <NavItem to="/history" label="History">
-        <Clock className="h-4.5 w-4.5" />
-      </NavItem>
-      
-      <NavItem to="/employees" label="Employees">
-        <Users className="h-4.5 w-4.5" />
-      </NavItem>
-    </motion.div>
+    <AnimatePresence>
+      {isMainRoute && (
+        <motion.div
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          exit={{ y: 100 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="fixed bottom-0 left-0 right-0 bg-tanseeq border-t border-tanseeq-gold/20 py-1.5 z-40 flex justify-between items-center h-[60px] px-2"
+        >
+          <NavItem to="/dashboard" label="Dashboard">
+            <LayoutDashboard className="h-4.5 w-4.5" />
+          </NavItem>
+          
+          <NavItem to="/check-in" label="Check In">
+            <LogIn className="h-4.5 w-4.5" />
+          </NavItem>
+          
+          <NavItem to="/check-out" label="Check Out">
+            <LogOut className="h-4.5 w-4.5" />
+          </NavItem>
+          
+          <NavItem to="/exceptions" label="Exceptions" showNotification={hasExceptions}>
+            <AlertTriangle className="h-4.5 w-4.5" />
+          </NavItem>
+          
+          <NavItem to="/history" label="History">
+            <Clock className="h-4.5 w-4.5" />
+          </NavItem>
+          
+          <NavItem to="/employees" label="Employees">
+            <Users className="h-4.5 w-4.5" />
+          </NavItem>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

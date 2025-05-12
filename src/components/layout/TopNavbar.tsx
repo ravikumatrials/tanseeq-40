@@ -6,7 +6,6 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, Clock, Settings, LogOut } from 'lucide-react';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const TopNavbar = () => {
   const { logout, user } = useAuth();
@@ -72,11 +71,6 @@ const TopNavbar = () => {
             <div className="px-3.5 py-2.5 text-sm font-medium flex items-center gap-2">
               <User className="h-4 w-4 text-tanseeq" />
               {user?.name}
-            </div>
-            <DropdownMenuSeparator className="bg-border" />
-            <div className="px-3.5 py-2">
-              <div className="text-xs text-muted-foreground mb-1.5">Theme</div>
-              <ThemeToggle className="w-full justify-between" />
             </div>
             <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem 

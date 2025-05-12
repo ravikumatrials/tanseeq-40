@@ -37,9 +37,9 @@ const Profile = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate(-1)}
-          className="p-2 rounded-full"
+          className="p-2.5 rounded-full hover:bg-gray-100"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-6 w-6 text-gray-800" />
         </Button>
         <h1 className="text-xl font-semibold">Profile</h1>
         <div className="w-10"></div> {/* Spacer for centering */}

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, LogIn, LogOut, AlertTriangle, History, Users } from 'lucide-react';
+import { LayoutDashboard, LogIn, LogOut, AlertTriangle } from 'lucide-react';
 import { useAttendance } from '@/hooks/useAttendance';
 import { useProject } from '@/context/ProjectContext';
 
@@ -24,7 +24,7 @@ const NavItem: React.FC<NavItemProps> = ({
   const isActive = location.pathname === to || location.pathname.startsWith(`${to}/`);
   
   return (
-    <NavLink to={to} className="flex flex-col items-center justify-center min-w-[68px]">
+    <NavLink to={to} className="flex flex-col items-center justify-center min-w-[80px]">
       <motion.div 
         whileHover={{ scale: 1.1 }} 
         whileTap={{ scale: 0.95 }}
@@ -47,7 +47,7 @@ const NavItem: React.FC<NavItemProps> = ({
           />
         )}
       </motion.div>
-      <span className={`text-[10px] font-medium ${isActive ? 'text-tanseeq-gold' : 'text-white/80'}`}>
+      <span className={`text-[11px] font-medium ${isActive ? 'text-tanseeq-gold' : 'text-white/80'}`}>
         {label}
       </span>
     </NavLink>
@@ -56,9 +56,7 @@ const NavItem: React.FC<NavItemProps> = ({
 
 const BottomNavbar = () => {
   const { exceptions } = useAttendance();
-  const { currentProject } = useProject();
   const [hasExceptions, setHasExceptions] = useState(false);
-  const [needsFaceEnrollment, setNeedsFaceEnrollment] = useState(false);
   
   // Check for exceptions
   useEffect(() => {
@@ -68,14 +66,6 @@ const BottomNavbar = () => {
       setHasExceptions(false);
     }
   }, [exceptions]);
-  
-  // Check if any employees need face enrollment
-  useEffect(() => {
-    if (currentProject && currentProject.employees) {
-      const unenrolledEmployees = currentProject.employees.filter(emp => !emp.isFaceEnrolled);
-      setNeedsFaceEnrollment(unenrolledEmployees.length > 0);
-    }
-  }, [currentProject]);
 
   return (
     <motion.div
@@ -98,14 +88,6 @@ const BottomNavbar = () => {
       
       <NavItem to="/exceptions" label="Exceptions" showNotification={hasExceptions}>
         <AlertTriangle className="h-5 w-5" />
-      </NavItem>
-      
-      <NavItem to="/employees" label="Employees" showNotification={needsFaceEnrollment}>
-        <Users className="h-5 w-5" />
-      </NavItem>
-      
-      <NavItem to="/history" label="History">
-        <History className="h-5 w-5" />
       </NavItem>
     </motion.div>
   );

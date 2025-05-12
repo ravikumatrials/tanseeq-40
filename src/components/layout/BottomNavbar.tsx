@@ -1,9 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Users, LogIn, History, AlertTriangle } from 'lucide-react';
+import { LayoutDashboard, LogIn, LogOut, AlertTriangle } from 'lucide-react';
 import { useAttendance } from '@/hooks/useAttendance';
+import { useProject } from '@/context/ProjectContext';
 
 interface NavItemProps {
   to: string;
@@ -23,11 +24,11 @@ const NavItem: React.FC<NavItemProps> = ({
   const isActive = location.pathname === to || location.pathname.startsWith(`${to}/`);
   
   return (
-    <NavLink to={to} className="flex flex-col items-center justify-center min-w-[64px]">
+    <NavLink to={to} className="flex flex-col items-center justify-center min-w-[80px]">
       <motion.div 
         whileHover={{ scale: 1.1 }} 
         whileTap={{ scale: 0.95 }}
-        className={`text-lg mb-1 p-2 relative ${isActive ? 'text-tanseeq-gold' : 'text-white/80'}`}
+        className={`text-lg mb-1 p-2.5 relative ${isActive ? 'text-tanseeq-gold' : 'text-white/80'}`}
       >
         {children}
         {showNotification && (
@@ -46,7 +47,7 @@ const NavItem: React.FC<NavItemProps> = ({
           />
         )}
       </motion.div>
-      <span className={`text-[10px] font-medium ${isActive ? 'text-tanseeq-gold' : 'text-white/80'}`}>
+      <span className={`text-[11px] font-medium ${isActive ? 'text-tanseeq-gold' : 'text-white/80'}`}>
         {label}
       </span>
     </NavLink>
@@ -56,7 +57,6 @@ const NavItem: React.FC<NavItemProps> = ({
 const BottomNavbar = () => {
   const { exceptions } = useAttendance();
   const [hasExceptions, setHasExceptions] = useState(false);
-  const navigate = useNavigate();
   
   // Check for exceptions
   useEffect(() => {
@@ -67,42 +67,23 @@ const BottomNavbar = () => {
     }
   }, [exceptions]);
 
-  // Handle FAB click
-  const handleFabClick = () => {
-    navigate('/check-in');
-  };
-
   return (
     <motion.div
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed bottom-0 left-0 right-0 bg-tanseeq border-t border-tanseeq-gold/20 py-1 z-40 flex justify-around items-center h-[64px] px-2"
+      className="fixed bottom-0 left-0 right-0 bg-tanseeq border-t border-tanseeq-gold/20 py-2 z-40 flex justify-around items-center h-[68px]"
     >
       <NavItem to="/dashboard" label="Dashboard">
         <LayoutDashboard className="h-5 w-5" />
       </NavItem>
       
-      <NavItem to="/employees" label="Employees">
-        <Users className="h-5 w-5" />
+      <NavItem to="/check-in" label="Check In">
+        <LogIn className="h-5 w-5" />
       </NavItem>
       
-      {/* Center FAB Button */}
-      <div className="relative flex flex-col items-center">
-        <motion.button
-          onClick={handleFabClick}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="absolute -top-8 flex items-center justify-center w-14 h-14 rounded-full bg-tanseeq text-white shadow-lg"
-        >
-          <LogIn className="h-6 w-6" />
-        </motion.button>
-        <div className="h-5"></div>
-        <span className="text-[10px] font-medium text-white/80 mt-6">Check In</span>
-      </div>
-      
-      <NavItem to="/history" label="History">
-        <History className="h-5 w-5" />
+      <NavItem to="/check-out" label="Check Out">
+        <LogOut className="h-5 w-5" />
       </NavItem>
       
       <NavItem to="/exceptions" label="Exceptions" showNotification={hasExceptions}>

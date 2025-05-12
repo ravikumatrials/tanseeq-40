@@ -58,22 +58,31 @@ const BottomNavbar = () => {
   const [hasExceptions, setHasExceptions] = useState(false);
   const location = useLocation();
   
-  // Define main routes where bottom nav should be visible
-  // These are the exact paths where we want to show the bottom navbar
+  // Main routes where the bottom navigation should be visible
   const mainRoutes = ['/dashboard', '/check-in', '/check-out', '/exceptions', '/history', '/employees'];
   
-  // Define sub-routes patterns that should hide the bottom navbar
-  // Any path that includes these patterns will hide the bottom navbar
-  const subRoutePatterns = ['/employees/'];
+  // Patterns for secondary screens that should hide the navbar
+  // These patterns indicate that we're on a sub-page with a back button
+  const secondaryScreenPatterns = [
+    '/employees/',      // Employee details pages
+    '/exceptions/',     // Exception detail pages
+    '/history/',        // History detail pages
+    '/employee-edit/',  // Employee editing pages
+    '/settings/',       // Settings pages
+    '/profile/',        // Profile sub-pages
+    '/reports/'         // Report detail pages
+  ];
   
-  // Check if the current route is a main route (show navbar)
+  // Check if we're on a main route (top-level tab)
   const isMainRoute = mainRoutes.includes(location.pathname);
   
-  // Check if the current route is a sub-route (hide navbar)
-  const isSubRoute = subRoutePatterns.some(pattern => location.pathname.includes(pattern));
+  // Check if we're on a secondary screen that shows a back button
+  const isSecondaryScreen = secondaryScreenPatterns.some(pattern => 
+    location.pathname.includes(pattern)
+  );
   
-  // Determine if we should show the navbar
-  const shouldShowNavbar = isMainRoute && !isSubRoute;
+  // Show navbar only on main routes and not on secondary screens
+  const shouldShowNavbar = isMainRoute && !isSecondaryScreen;
   
   // Check for exceptions
   useEffect(() => {

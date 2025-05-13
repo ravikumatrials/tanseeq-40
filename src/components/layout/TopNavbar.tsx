@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
@@ -41,6 +42,16 @@ const TopNavbar = () => {
             className="h-9 mr-2" 
           />
         </motion.div>
+      </motion.div>
+      
+      {/* Added Dashboard title in the center */}
+      <motion.div 
+        className="absolute left-1/2 transform -translate-x-1/2 text-white font-medium"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+      >
+        Dashboard
       </motion.div>
       
       <div className="flex items-center space-x-3">

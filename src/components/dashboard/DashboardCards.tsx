@@ -6,7 +6,7 @@ import { useAttendance } from '@/hooks/useAttendance';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
 import { useProject } from '@/context/ProjectContext';
 import { useLocation } from '@/hooks/useLocation';
-import { BarChart4, Users, UserCheck, Clock, CheckCheck, MapPin } from 'lucide-react';
+import { BarChart4, Users, UserCheck, Clock, CheckCheck, MapPin, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
@@ -86,12 +86,19 @@ const DashboardCards = () => {
         </CardHeader>
         <CardContent className="pt-3 px-4 pb-4">
           <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold flex items-center text-tanseeq">
-              {currentTime.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-              })}
+            <div className="flex flex-col">
+              <div className="text-lg font-semibold flex items-center text-tanseeq">
+                {currentTime.toLocaleTimeString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit'
+                })}
+              </div>
+              {/* Added date display here */}
+              <div className="text-xs text-gray-500 mt-0.5 flex items-center">
+                <Calendar className="h-3 w-3 mr-1" />
+                {format(currentTime, "EEEE, MMMM dd, yyyy")}
+              </div>
             </div>
             <Button 
               onClick={handleSync}

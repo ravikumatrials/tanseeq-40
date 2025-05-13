@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,13 @@ import {
   DrawerTitle, 
   DrawerTrigger 
 } from "@/components/ui/drawer";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // Sample profile pictures for employees
 const profilePictures = ['https://images.unsplash.com/photo-1535713875002-d1d0cf377fde', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330', 'https://images.unsplash.com/photo-1599566150163-29194dcaad36', 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80', 'https://images.unsplash.com/photo-1629467057571-42d22d8f0cbd'];
@@ -28,15 +36,22 @@ interface EmployeeCardProps {
   name: string;
   isFaceEnrolled: boolean;
   profilePic: string;
+  entity?: string;
+  classification?: string;
+  category?: string;
   onEnroll: () => void;
   onRetake: () => void;
   onView: () => void;
 }
+
 const EmployeeCard: React.FC<EmployeeCardProps> = ({
   id,
   name,
   isFaceEnrolled,
   profilePic,
+  entity = "Default Company",
+  classification = "Staff",
+  category = "General",
   onEnroll,
   onRetake,
   onView
@@ -48,59 +63,91 @@ const EmployeeCard: React.FC<EmployeeCardProps> = ({
       exit={{ opacity: 0, scale: 0.95 }}
       className="w-full"
     >
-      <Card className="p-4 flex items-center gap-4 border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5">
-        <div className="relative">
-          <div className="h-14 w-14 rounded-full overflow-hidden bg-tanseeq/20 flex-shrink-0">
-            <img src={profilePic} alt={name} className="h-full w-full object-cover" />
-          </div>
-          {!isFaceEnrolled && (
-            <span className="absolute -top-1 -right-1">
-              <span className="flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+      <Card className="p-4 flex flex-col border-tanseeq/20 bg-gradient-to-br from-card to-tanseeq/5">
+        <div className="flex items-center gap-4 mb-2">
+          <div className="relative">
+            <div className="h-14 w-14 rounded-full overflow-hidden bg-tanseeq/20 flex-shrink-0">
+              <img src={profilePic} alt={name} className="h-full w-full object-cover" />
+            </div>
+            {!isFaceEnrolled && (
+              <span className="absolute -top-1 -right-1">
+                <span className="flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
               </span>
-            </span>
-          )}
+            )}
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <h3 className="font-medium text-sm truncate">{name}</h3>
+            <p className="text-xs text-muted-foreground truncate">ID: {id}</p>
+            <div className="flex flex-wrap gap-1 mt-1">
+              {isFaceEnrolled ? (
+                <span className="inline-flex items-center bg-teal-50 text-teal-700 text-[10px] px-2 py-0.5 rounded-full">
+                  <Check className="h-2.5 w-2.5 mr-0.5" />
+                  Enrolled
+                </span>
+              ) : (
+                <span className="inline-flex items-center bg-rose-50 text-rose-700 text-[10px] px-2 py-0.5 rounded-full">
+                  <X className="h-2.5 w-2.5 mr-0.5" />
+                  Not Enrolled
+                </span>
+              )}
+            </div>
+          </div>
         </div>
         
-        <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-sm truncate">{name}</h3>
-          <p className="text-xs text-muted-foreground truncate">ID: {id}</p>
-          <div className="flex gap-2 mt-2">
-            {isFaceEnrolled ? (
-              <Button 
-                size="sm" 
-                variant="outline" 
-                className="h-7 text-xs bg-transparent border-tanseeq text-tanseeq hover:bg-tanseeq/10"
-                onClick={onRetake}
-              >
-                <Camera className="h-3.5 w-3.5 mr-1" />
-                UPDATE
-              </Button>
-            ) : (
-              <Button 
-                size="sm" 
-                className="h-7 text-xs bg-tanseeq hover:bg-tanseeq/90 relative"
-                onClick={onEnroll}
-              >
-                <Plus className="h-3.5 w-3.5 mr-1" />
-                Enroll Face
-              </Button>
-            )}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs mt-1 mb-3 px-1">
+          <div>
+            <span className="text-muted-foreground">Entity:</span>
+            <p className="font-medium truncate">{entity}</p>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Classification:</span>
+            <p className="font-medium truncate">{classification}</p>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Category:</span>
+            <p className="font-medium truncate">{category}</p>
+          </div>
+        </div>
+        
+        <div className="flex gap-2 mt-auto">
+          {isFaceEnrolled ? (
             <Button 
               size="sm" 
-              variant="secondary" 
-              className="h-7 text-xs"
-              onClick={onView}
+              variant="outline" 
+              className="h-7 text-xs bg-transparent border-tanseeq text-tanseeq hover:bg-tanseeq/10"
+              onClick={onRetake}
             >
-              View
+              <Camera className="h-3.5 w-3.5 mr-1" />
+              UPDATE
             </Button>
-          </div>
+          ) : (
+            <Button 
+              size="sm" 
+              className="h-7 text-xs bg-tanseeq hover:bg-tanseeq/90 relative"
+              onClick={onEnroll}
+            >
+              <Plus className="h-3.5 w-3.5 mr-1" />
+              Enroll Face
+            </Button>
+          )}
+          <Button 
+            size="sm" 
+            variant="secondary" 
+            className="h-7 text-xs"
+            onClick={onView}
+          >
+            View
+          </Button>
         </div>
       </Card>
     </motion.div>
   );
 };
+
 const EmployeeInfo: React.FC<{
   employee: any;
   onClose: () => void;
@@ -114,13 +161,18 @@ const EmployeeInfo: React.FC<{
 
   // Sample data for employee details
   const employeeDetails = {
-    daysPresent: 18
+    daysPresent: 18,
+    entity: employee.entity || "Default Company",
+    classification: employee.classification || "Staff",
+    category: employee.category || "General",
   };
 
   // Generate a random profile image URL
   const profileImageIndex = parseInt(employee.id.replace(/\D/g, '')) % 8;
   const profilePicture = `${profilePictures[profileImageIndex]}?${employee.id}`;
-  return <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50 p-4">
+  
+  return (
+    <div className="fixed inset-0 bg-black/70 flex flex-col items-center justify-center z-50 p-4">
       <div className="bg-card rounded-lg p-6 w-full max-w-sm">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-medium">Employee Details</h3>
@@ -159,12 +211,33 @@ const EmployeeInfo: React.FC<{
           </div>
         </div>
         
+        <div className="space-y-4 mb-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs text-muted-foreground">Entity</p>
+              <p className="text-sm font-medium">{employeeDetails.entity}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">Classification</p>
+              <p className="text-sm font-medium">{employeeDetails.classification}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs text-muted-foreground">Category</p>
+              <p className="text-sm font-medium">{employeeDetails.category}</p>
+            </div>
+          </div>
+        </div>
+        
         <Button className="w-full" onClick={onClose}>
           Close
         </Button>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 const Employees = () => {
   const navigate = useNavigate();
   const {
@@ -172,7 +245,7 @@ const Employees = () => {
     setCurrentProject
   } = useProject();
   const [isLoading, setIsLoading] = useState(false);
-  const [employees, setEmployees] = useState(currentProject?.employees || []);
+  const [employees, setEmployees] = useState<Array<any>>(currentProject?.employees || []);
   const [showCamera, setShowCamera] = useState(false);
   const [currentEmployeeId, setCurrentEmployeeId] = useState<string | null>(null);
   const [viewingEmployee, setViewingEmployee] = useState<any>(null);
@@ -183,15 +256,32 @@ const Employees = () => {
   // Enrollment status filter state
   const [enrollmentFilter, setEnrollmentFilter] = useState<'all' | 'enrolled' | 'not-enrolled'>('all');
   
+  // New filter states
+  const [entityFilter, setEntityFilter] = useState<string>('all');
+  const [classificationFilter, setClassificationFilter] = useState<string>('all');
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  
   // Filter drawer state
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // Sample entity, classification, and category options
+  const entityOptions = ['all', 'Tanseeq Inc', 'National Industries', 'Global Co'];
+  const classificationOptions = ['all', 'Staff', 'Management', 'Executive', 'Contractor'];
+  const categoryOptions = ['all', 'General', 'Supervisor', 'Admin', 'IT'];
 
   useEffect(() => {
     if (currentProject) {
       setIsLoading(true);
       // Simulate loading data
       setTimeout(() => {
-        setEmployees(currentProject.employees);
+        // Add entity, classification, and category to each employee
+        const enhancedEmployees = currentProject.employees.map((employee, index) => ({
+          ...employee,
+          entity: entityOptions[Math.min((index % (entityOptions.length - 1)) + 1, entityOptions.length - 1)],
+          classification: classificationOptions[Math.min((index % (classificationOptions.length - 1)) + 1, classificationOptions.length - 1)],
+          category: categoryOptions[Math.min((index % (categoryOptions.length - 1)) + 1, categoryOptions.length - 1)]
+        }));
+        setEmployees(enhancedEmployees);
         setIsLoading(false);
       }, 500);
     }
@@ -213,7 +303,16 @@ const Employees = () => {
       enrollmentMatch = !employee.isFaceEnrolled;
     }
     
-    return nameMatch && enrollmentMatch;
+    // Entity filter
+    const entityMatch = entityFilter === 'all' || employee.entity === entityFilter;
+    
+    // Classification filter
+    const classificationMatch = classificationFilter === 'all' || employee.classification === classificationFilter;
+    
+    // Category filter
+    const categoryMatch = categoryFilter === 'all' || employee.category === categoryFilter;
+    
+    return nameMatch && enrollmentMatch && entityMatch && classificationMatch && categoryMatch;
   });
 
   const handleEnrollFace = (employeeId: string, name: string) => {
@@ -237,6 +336,7 @@ const Employees = () => {
       });
     }, 2000);
   };
+  
   const handleRetakeFace = (employeeId: string, name: string) => {
     setCurrentEmployeeId(employeeId);
     setShowCamera(true);
@@ -250,6 +350,7 @@ const Employees = () => {
       });
     }, 2000);
   };
+  
   const handleViewEmployee = (employeeId: string) => {
     // Open employee info modal instead of navigating
     const employee = employees.find(emp => emp.id === employeeId);
@@ -257,6 +358,7 @@ const Employees = () => {
       setViewingEmployee(employee);
     }
   };
+  
   const closeEmployeeView = () => {
     setViewingEmployee(null);
   };
@@ -269,12 +371,18 @@ const Employees = () => {
   const clearFilters = () => {
     setNameFilter('');
     setEnrollmentFilter('all');
+    setEntityFilter('all');
+    setClassificationFilter('all');
+    setCategoryFilter('all');
     setIsFilterOpen(false);
   };
 
   const activeFiltersCount = [
     nameFilter !== '',
-    enrollmentFilter !== 'all'
+    enrollmentFilter !== 'all',
+    entityFilter !== 'all',
+    classificationFilter !== 'all',
+    categoryFilter !== 'all'
   ].filter(Boolean).length;
 
   if (!currentProject) {
@@ -354,6 +462,57 @@ const Employees = () => {
                       <Label htmlFor="not-enrolled" className="text-sm cursor-pointer">Not Enrolled</Label>
                     </div>
                   </RadioGroup>
+                </div>
+                
+                {/* Entity Filter */}
+                <div className="space-y-2">
+                  <Label htmlFor="entity">Entity</Label>
+                  <Select value={entityFilter} onValueChange={setEntityFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select entity" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {entityOptions.map((entity) => (
+                        <SelectItem key={entity} value={entity}>
+                          {entity === 'all' ? 'All Entities' : entity}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Classification Filter */}
+                <div className="space-y-2">
+                  <Label htmlFor="classification">Classification</Label>
+                  <Select value={classificationFilter} onValueChange={setClassificationFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select classification" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {classificationOptions.map((classification) => (
+                        <SelectItem key={classification} value={classification}>
+                          {classification === 'all' ? 'All Classifications' : classification}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {/* Category Filter */}
+                <div className="space-y-2">
+                  <Label htmlFor="category">Category</Label>
+                  <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categoryOptions.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category === 'all' ? 'All Categories' : category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
               <DrawerFooter className="flex-row gap-3 pt-2">
@@ -465,6 +624,9 @@ const Employees = () => {
                     name={employee.name} 
                     isFaceEnrolled={employee.isFaceEnrolled} 
                     profilePic={getProfilePic(index)} 
+                    entity={employee.entity}
+                    classification={employee.classification}
+                    category={employee.category}
                     onEnroll={() => handleEnrollFace(employee.id, employee.name)} 
                     onRetake={() => handleRetakeFace(employee.id, employee.name)} 
                     onView={() => handleViewEmployee(employee.id)} 

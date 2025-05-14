@@ -26,14 +26,14 @@ const TopNavbar = () => {
   const handleBackNavigation = () => {
     navigate('/dashboard');
   };
-  return <motion.div className="p-4 flex items-center justify-between bg-tanseeq text-white shadow-md relative" initial={{
+  return <motion.div initial={{
     y: -100
   }} animate={{
     y: 0
   }} transition={{
     duration: 0.5,
     ease: "easeOut"
-  }}>
+  }} className="p-3 flex items-center justify-between bg-tanseeq text-white shadow-md relative">
       {/* Logo section */}
       <motion.div className="flex-1 flex items-center">
         {window.location.pathname !== '/dashboard' && <motion.button className="mr-2 p-1.5 hover:bg-white/20 rounded-full" onClick={handleBackNavigation} whileHover={{

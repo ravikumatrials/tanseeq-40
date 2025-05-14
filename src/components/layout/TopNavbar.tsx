@@ -51,7 +51,7 @@ const TopNavbar = () => {
     }} transition={{
       delay: 0.2,
       duration: 0.4
-    }} className="absolute left-1/2 transform -translate-x-1/2 text-white font-medium text-base md:text-lg  \n">
+    }} className="">
         Dashboard
       </motion.div>
       

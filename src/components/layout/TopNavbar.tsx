@@ -49,7 +49,7 @@ const TopNavbar = () => {
       }} whileTap={{
         scale: 0.95
       }} onClick={() => navigate('/dashboard')}>
-          <img src="/lovable-uploads/801b965c-36e1-485f-8e8e-fa408775a70f.png" alt="Tanseeq Investment" className="h-10" />
+          <img src="/lovable-uploads/801b965c-36e1-485f-8e8e-fa408775a70f.png" alt="Tanseeq Investment" className="h-15" />
         </motion.div>
       </motion.div>
       

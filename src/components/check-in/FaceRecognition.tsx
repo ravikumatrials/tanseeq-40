@@ -71,6 +71,13 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
     }
   };
   
+  // Auto-start scanning for verification mode
+  useEffect(() => {
+    if (mode === 'verify') {
+      startScanning();
+    }
+  }, [mode]);
+  
   // Simulate face scanning process
   useEffect(() => {
     if (!isScanning || !currentProject) return;
@@ -104,10 +111,6 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
           setIsScanning(false);
         }
       }, 2000); // Simulate a 2-second verification process
-      
-      return () => {
-        clearTimeout(scanInterval);
-      };
     } else {
       // Normal scanning mode (multiple employees)
       scanInterval = setInterval(() => {
@@ -163,7 +166,13 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
     }
     
     return () => {
-      clearInterval(scanInterval);
+      if (scanInterval) {
+        if (mode === 'verify') {
+          clearTimeout(scanInterval);
+        } else {
+          clearInterval(scanInterval);
+        }
+      }
     };
   }, [isScanning, currentProject, isCheckIn, addCheckIn, addCheckOut, address, toast, addPendingChange, mode, employeeToVerify, onSuccess]);
   
@@ -174,13 +183,6 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
       </div>
     );
   }
-  
-  // For verification mode, auto-start scanning and show different UI
-  useEffect(() => {
-    if (mode === 'verify') {
-      startScanning();
-    }
-  }, [mode]);
   
   // Special UI for verification mode
   if (mode === 'verify') {

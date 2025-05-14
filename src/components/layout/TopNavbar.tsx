@@ -25,7 +25,7 @@ const TopNavbar = () => {
 
   return (
     <motion.div 
-      className="mobile-header justify-between bg-tanseeq shadow-md"
+      className="p-4 flex items-center justify-between bg-tanseeq text-white shadow-md"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}

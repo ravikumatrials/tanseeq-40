@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,14 +9,26 @@ import { BarChart4, Users, UserCheck, Clock, CheckCheck, MapPin, Calendar } from
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
-
 const MotionCard = motion(Card);
-
 const DashboardCards = () => {
-  const { currentProject } = useProject();
-  const { stats, syncRecords } = useAttendance();
-  const { pendingChanges, lastSync, isOnline, isSyncing, syncChanges } = useOfflineSync();
-  const { address, isLoading: locationLoading } = useLocation();
+  const {
+    currentProject
+  } = useProject();
+  const {
+    stats,
+    syncRecords
+  } = useAttendance();
+  const {
+    pendingChanges,
+    lastSync,
+    isOnline,
+    isSyncing,
+    syncChanges
+  } = useOfflineSync();
+  const {
+    address,
+    isLoading: locationLoading
+  } = useLocation();
   const [currentTime, setCurrentTime] = useState(new Date());
 
   // Update the clock every second
@@ -27,20 +38,20 @@ const DashboardCards = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-
   const handleSync = async () => {
     await Promise.all([syncRecords(), syncChanges()]);
   };
-
   if (!currentProject) {
     return <div className="text-center py-6 text-tanseeq">Please select a project</div>;
   }
 
   // Check if any employee is missing face enrollment
   const hasMissingFaceEnrollments = currentProject.employees.some(e => !e.isFaceEnrolled);
-
   const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: {
+      opacity: 0,
+      y: 20
+    },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
@@ -53,46 +64,20 @@ const DashboardCards = () => {
   };
 
   // Format last sync time
-  const formattedLastSync = lastSync ? 
-    format(new Date(lastSync), "dd MMM yyyy, h:mm a") : 
-    'Never synced';
-
-  return (
-    <div className="space-y-4">
+  const formattedLastSync = lastSync ? format(new Date(lastSync), "dd MMM yyyy, h:mm a") : 'Never synced';
+  return <div className="space-y-4">
       {/* Sync Card */}
-      <MotionCard 
-        initial="hidden"
-        animate="visible"
-        custom={0}
-        variants={cardVariants}
-        className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
-      >
-        <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4 px-4 border-b">
-          <CardTitle className="text-sm font-medium text-tanseeq flex items-center gap-2">
-            <Clock className="h-4 w-4 text-teal-500" />
-            Current Time
-          </CardTitle>
-          <div>
-            {pendingChanges > 0 && (
-              <Badge variant="warning" className="flex h-6 items-center gap-1 px-2 text-xs">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-teal-500 opacity-75 animate-ping"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-                </span>
-                <span>Pending sync</span>
-              </Badge>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="pt-3 px-4 pb-4">
+      <MotionCard initial="hidden" animate="visible" custom={0} variants={cardVariants} className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
+        
+        <CardContent className="pt-1 px-4 pb-2">
           <div className="flex justify-between items-center">
             <div className="flex flex-col">
               <div className="text-lg font-semibold flex items-center text-tanseeq">
                 {currentTime.toLocaleTimeString('en-US', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  second: '2-digit'
-                })}
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              })}
               </div>
               {/* Added date display here */}
               <div className="text-xs text-gray-500 mt-0.5 flex items-center">
@@ -100,20 +85,11 @@ const DashboardCards = () => {
                 {format(currentTime, "EEEE, MMMM dd, yyyy")}
               </div>
             </div>
-            <Button 
-              onClick={handleSync}
-              disabled={isSyncing || (pendingChanges === 0 && lastSync !== null)}
-              variant={pendingChanges > 0 ? "teal" : "outline"}
-              size="sm"
-              className="rounded-md px-4 shadow-sm"
-            >
-              {isSyncing ? (
-                <>
+            <Button onClick={handleSync} disabled={isSyncing || pendingChanges === 0 && lastSync !== null} variant={pendingChanges > 0 ? "teal" : "outline"} size="sm" className="rounded-md px-4 shadow-sm">
+              {isSyncing ? <>
                   <div className="h-4 w-4 rounded-full animate-spin border-2 border-white border-t-transparent"></div>
                   <span>Syncing...</span>
-                </>
-              ) : (
-                <>
+                </> : <>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sync">
                     <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
                     <path d="M21 3v5h-5" />
@@ -121,8 +97,7 @@ const DashboardCards = () => {
                     <path d="M8 16H3v5" />
                   </svg>
                   <span>{pendingChanges ? `Sync (${pendingChanges})` : 'Sync'}</span>
-                </>
-              )}
+                </>}
             </Button>
           </div>
           <div className="text-xs text-muted-foreground mt-2 flex items-center justify-between">
@@ -137,28 +112,15 @@ const DashboardCards = () => {
       </MotionCard>
       
       {/* Location Card */}
-      <MotionCard 
-        initial="hidden"
-        animate="visible"
-        custom={1}
-        variants={cardVariants}
-        className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm"
-      >
-        <CardHeader className="pb-2 pt-4 px-4 border-b">
-          <CardTitle className="flex items-center text-sm font-medium text-tanseeq">
-            <MapPin className="mr-2 h-4 w-4 text-teal-500" />
-            Current Location
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-3 px-4 pb-4">
+      <MotionCard initial="hidden" animate="visible" custom={1} variants={cardVariants} className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
+        
+        <CardContent className="pt-1 px-3 pb-2">
           <div className="flex items-center space-x-2">
             <span className="text-base md:text-lg font-medium text-tanseeq">
-              {locationLoading ? (
-                <span className="flex items-center">
+              {locationLoading ? <span className="flex items-center">
                   <div className="h-3 w-3 rounded-full animate-spin border-2 border-teal-500 border-t-transparent mr-2"></div>
                   Fetching location...
-                </span>
-              ) : address}
+                </span> : address}
             </span>
           </div>
           <div className="text-sm text-teal-500 mt-2 italic">
@@ -169,14 +131,12 @@ const DashboardCards = () => {
       
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-2 gap-3">
-        <MotionCard 
-          className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
-          initial="hidden"
-          animate="visible"
-          custom={2}
-          variants={cardVariants}
-          whileHover={{ y: -3, transition: { duration: 0.2 } }}
-        >
+        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={2} variants={cardVariants} whileHover={{
+        y: -3,
+        transition: {
+          duration: 0.2
+        }
+      }}>
           <CardHeader className="pb-2 pt-3 px-3 border-b">
             <CardTitle className="text-xs font-medium flex items-center px-0 py-0 text-tanseeq">
               <Users className="h-3.5 w-3.5 mr-1 text-teal-500" />
@@ -188,14 +148,12 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard 
-          className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
-          initial="hidden"
-          animate="visible"
-          custom={3}
-          variants={cardVariants}
-          whileHover={{ y: -3, transition: { duration: 0.2 } }}
-        >
+        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={3} variants={cardVariants} whileHover={{
+        y: -3,
+        transition: {
+          duration: 0.2
+        }
+      }}>
           <CardHeader className="pb-2 pt-3 px-3 border-b">
             <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
               <UserCheck className="h-3.5 w-3.5 mr-1 text-teal-500" />
@@ -207,14 +165,12 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard 
-          className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
-          initial="hidden"
-          animate="visible"
-          custom={4}
-          variants={cardVariants}
-          whileHover={{ y: -3, transition: { duration: 0.2 } }}
-        >
+        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={4} variants={cardVariants} whileHover={{
+        y: -3,
+        transition: {
+          duration: 0.2
+        }
+      }}>
           <CardHeader className="pb-2 pt-3 px-3 border-b">
             <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
               <CheckCheck className="h-3.5 w-3.5 mr-1 text-teal-500" />
@@ -226,14 +182,12 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard 
-          className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" 
-          initial="hidden"
-          animate="visible"
-          custom={5}
-          variants={cardVariants}
-          whileHover={{ y: -3, transition: { duration: 0.2 } }}
-        >
+        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={5} variants={cardVariants} whileHover={{
+        y: -3,
+        transition: {
+          duration: 0.2
+        }
+      }}>
           <CardHeader className="pb-2 pt-3 px-3 border-b">
             <CardTitle className="text-xs font-medium flex items-center text-tanseeq">
               <BarChart4 className="h-3.5 w-3.5 mr-1 text-teal-500" />
@@ -252,11 +206,7 @@ const DashboardCards = () => {
       </div>
       
       {/* Last Sync Timestamp */}
-      <div className="text-center text-sm text-muted-foreground mt-6">
-        Last synced on: {formattedLastSync}
-      </div>
-    </div>
-  );
+      
+    </div>;
 };
-
 export default DashboardCards;

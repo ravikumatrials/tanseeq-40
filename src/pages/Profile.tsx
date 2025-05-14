@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
-import { ArrowLeft, KeyRound } from 'lucide-react';
+import { ArrowLeft, KeyRound, UserRound } from 'lucide-react';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -33,17 +33,38 @@ const Profile = () => {
   
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-gray-50">
-      <div className="mobile-header justify-between bg-white shadow-sm">
+      {/* Updated TopNavbar to match Dashboard styling */}
+      <motion.div 
+        className="p-4 flex items-center justify-between bg-tanseeq text-white shadow-md" 
+        initial={{ y: -100 }} 
+        animate={{ y: 0 }} 
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <Button 
           variant="ghost" 
           onClick={() => navigate(-1)}
-          className="p-2.5 rounded-full hover:bg-gray-100"
+          className="p-2.5 rounded-full hover:bg-white/20 text-white"
         >
-          <ArrowLeft className="h-6 w-6 text-gray-800" />
+          <ArrowLeft className="h-6 w-6" />
         </Button>
-        <h1 className="text-xl font-semibold">Profile</h1>
-        <div className="w-10"></div> {/* Spacer for centering */}
-      </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
+          className="text-white font-medium text-base"
+        >
+          Profile
+        </motion.div>
+        
+        <div className="w-10 flex items-center justify-center">
+          <Avatar className="h-9 w-9 bg-white/20 text-white border-2 border-white/30">
+            <AvatarFallback>
+              <UserRound className="h-5 w-5" />
+            </AvatarFallback>
+          </Avatar>
+        </div>
+      </motion.div>
       
       <div className="flex-1 container max-w-md mx-auto p-4 pb-6">
         <motion.div 

@@ -1,14 +1,12 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TopNavbar from '@/components/layout/TopNavbar';
 import BottomNavbar from '@/components/layout/BottomNavbar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
-import { Check, Eye, EyeOff, KeyRound, UserRound } from 'lucide-react';
+import { Check, Eye, EyeOff, KeyRound, ArrowLeft } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -81,7 +79,28 @@ const Profile = () => {
   
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-gray-50">
-      <TopNavbar />
+      <motion.div 
+        className="p-4 flex items-center justify-between bg-tanseeq text-white shadow-md"
+        initial={{ y: -20 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="flex items-center">
+          <Button 
+            variant="ghost" 
+            className="p-2 text-white mr-2"
+            onClick={() => navigate('/dashboard')}
+          >
+            <ArrowLeft className="h-7 w-7" />
+          </Button>
+          
+          <div className="text-white font-medium text-base md:text-lg">
+            Profile
+          </div>
+        </div>
+        
+        <div className="w-10"></div> {/* Spacer for balancing */}
+      </motion.div>
       
       <div className="flex-1 container max-w-md mx-auto p-5 pb-8">
         <motion.div 

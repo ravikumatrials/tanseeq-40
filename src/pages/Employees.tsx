@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -394,14 +393,19 @@ const Employees = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <div className="p-4 flex items-center justify-between border-b">
-        <Button variant="ghost" onClick={() => navigate('/dashboard')} className="p-2">
+      <div className="p-4 flex items-center justify-between bg-tanseeq text-white shadow-md">
+        <Button variant="ghost" onClick={() => navigate('/dashboard')} className="p-2 text-white">
           <ArrowLeft className="h-5 w-5 animated-icon" />
         </Button>
-        <h1 className="text-xl font-bold">Employee Details</h1>
+        
+        {/* Center-aligned title for all screen sizes, especially mobile */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 text-white font-medium text-base md:text-lg">
+          Employee Details
+        </div>
+        
         <Drawer open={isFilterOpen} onOpenChange={setIsFilterOpen}>
           <DrawerTrigger asChild>
-            <Button variant="ghost" className="p-2 relative">
+            <Button variant="ghost" className="p-2 relative text-white">
               <Filter className="h-5 w-5" />
               {activeFiltersCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-teal-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">

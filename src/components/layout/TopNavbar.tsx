@@ -25,7 +25,7 @@ const TopNavbar = () => {
 
   return (
     <motion.div 
-      className="mobile-header justify-between bg-tanseeq"
+      className="mobile-header justify-between bg-tanseeq shadow-md"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -67,6 +67,12 @@ const TopNavbar = () => {
             hour: '2-digit',
             minute: '2-digit'
           })}
+          <span className="ml-1.5 text-white/80">
+            {currentTime.toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric'
+            })}
+          </span>
         </motion.div>
         
         <DropdownMenu>

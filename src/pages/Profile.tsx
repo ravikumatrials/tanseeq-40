@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -22,6 +21,11 @@ const Profile = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // Function to handle back navigation
+  const handleBackNavigation = () => {
+    navigate('/dashboard');
+  };
 
   // Mock employee data - in a real app, this would come from an API or context
   const employeeData = {
@@ -88,8 +92,9 @@ const Profile = () => {
       >
         <Button 
           variant="ghost" 
-          onClick={() => navigate('/dashboard')} 
+          onClick={handleBackNavigation} 
           className="p-2.5 rounded-full hover:bg-white/20 text-white"
+          type="button"
         >
           <ArrowLeft className="h-5 w-5" />
         </Button>
@@ -104,7 +109,7 @@ const Profile = () => {
         </motion.div>
         
         <Avatar className="h-9 w-9 bg-white/20 text-white">
-          <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${employeeData.name}`} alt={employeeData.name} />
+          <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${user?.name || 'User'}`} alt={user?.name || 'User'} />
           <AvatarFallback className="bg-white/20 text-white">
             <UserRound className="h-5 w-5" />
           </AvatarFallback>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -41,11 +40,9 @@ const DashboardCards = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
-  
   const handleSync = async () => {
     await Promise.all([syncRecords(), syncChanges()]);
   };
-  
   if (!currentProject) {
     return <div className="text-center py-6 text-tanseeq">Please select a project</div>;
   }
@@ -69,10 +66,7 @@ const DashboardCards = () => {
   };
 
   // Format coordinates for display
-  const formattedCoordinates = latitude && longitude 
-    ? `${latitude.toFixed(6)}, ${longitude.toFixed(6)}` 
-    : 'Coordinates unavailable';
-
+  const formattedCoordinates = latitude && longitude ? `${latitude.toFixed(6)}, ${longitude.toFixed(6)}` : 'Coordinates unavailable';
   return <div className="space-y-4">
       {/* Sync Card (moved to be 3rd) */}
       
@@ -82,14 +76,10 @@ const DashboardCards = () => {
           <div className="flex items-center mb-1">
             <MapPin className="h-4 w-4 text-teal-500 mr-1.5" />
             <span className="text-lg font-semibold text-tanseeq">
-              {locationLoading ? 
-                <span className="flex items-center">
+              {locationLoading ? <span className="flex items-center">
                   <div className="h-3 w-3 rounded-full animate-spin border-2 border-teal-500 border-t-transparent mr-2"></div>
                   Fetching location...
-                </span> 
-                : 
-                currentProject.location
-              }
+                </span> : currentProject.location}
             </span>
           </div>
           <div className="text-sm text-gray-500 mt-1 ml-5.5">
@@ -111,8 +101,8 @@ const DashboardCards = () => {
               })}
               </div>
               {/* Added date display here */}
-              <div className="text-xs text-gray-500 mt-0.5 flex items-center">
-                <Calendar className="h-3 w-3 mr-1" />
+              <div className="text-base text-tanseeq mt-0.5 flex items-center">
+                <Calendar className="h-3 w-3 mr-1 text-teal-500" />
                 {format(currentTime, "EEEE, MMMM dd, yyyy")}
               </div>
             </div>

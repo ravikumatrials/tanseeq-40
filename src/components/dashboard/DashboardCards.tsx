@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -27,6 +28,8 @@ const DashboardCards = () => {
   } = useOfflineSync();
   const {
     address,
+    latitude,
+    longitude,
     isLoading: locationLoading
   } = useLocation();
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -38,9 +41,11 @@ const DashboardCards = () => {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+  
   const handleSync = async () => {
     await Promise.all([syncRecords(), syncChanges()]);
   };
+  
   if (!currentProject) {
     return <div className="text-center py-6 text-tanseeq">Please select a project</div>;
   }
@@ -63,12 +68,38 @@ const DashboardCards = () => {
     })
   };
 
-  // Format last sync time
-  const formattedLastSync = lastSync ? format(new Date(lastSync), "dd MMM yyyy, h:mm a") : 'Never synced';
+  // Format coordinates for display
+  const formattedCoordinates = latitude && longitude 
+    ? `${latitude.toFixed(6)}, ${longitude.toFixed(6)}` 
+    : 'Coordinates unavailable';
+
   return <div className="space-y-4">
-      {/* Sync Card */}
-      <MotionCard initial="hidden" animate="visible" custom={0} variants={cardVariants} className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
-        
+      {/* Sync Card (moved to be 3rd) */}
+      
+      {/* Location Card (moved to be 2nd) */}
+      <MotionCard initial="hidden" animate="visible" custom={1} variants={cardVariants} className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
+        <CardContent className="pt-4 px-4 pb-3">
+          <div className="flex items-center mb-1">
+            <MapPin className="h-4 w-4 text-teal-500 mr-1.5" />
+            <span className="text-lg font-semibold text-tanseeq">
+              {locationLoading ? 
+                <span className="flex items-center">
+                  <div className="h-3 w-3 rounded-full animate-spin border-2 border-teal-500 border-t-transparent mr-2"></div>
+                  Fetching location...
+                </span> 
+                : 
+                currentProject.location
+              }
+            </span>
+          </div>
+          <div className="text-sm text-gray-500 mt-1 ml-5.5">
+            {formattedCoordinates}
+          </div>
+        </CardContent>
+      </MotionCard>
+      
+      {/* Sync Card (now 3rd) */}
+      <MotionCard initial="hidden" animate="visible" custom={2} variants={cardVariants} className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
         <CardContent className="pt-1 px-4 pb-2">
           <div className="flex justify-between items-center">
             <div className="flex flex-col">
@@ -111,27 +142,9 @@ const DashboardCards = () => {
         </CardContent>
       </MotionCard>
       
-      {/* Location Card */}
-      <MotionCard initial="hidden" animate="visible" custom={1} variants={cardVariants} className="border border-gray-200 bg-white rounded-lg overflow-hidden shadow-sm">
-        
-        <CardContent className="pt-1 px-3 pb-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-base md:text-lg font-medium text-tanseeq">
-              {locationLoading ? <span className="flex items-center">
-                  <div className="h-3 w-3 rounded-full animate-spin border-2 border-teal-500 border-t-transparent mr-2"></div>
-                  Fetching location...
-                </span> : address}
-            </span>
-          </div>
-          <div className="text-sm text-teal-500 mt-2 italic">
-            {currentProject.location}
-          </div>
-        </CardContent>
-      </MotionCard>
-      
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-2 gap-3">
-        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={2} variants={cardVariants} whileHover={{
+        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={3} variants={cardVariants} whileHover={{
         y: -3,
         transition: {
           duration: 0.2
@@ -148,7 +161,7 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={3} variants={cardVariants} whileHover={{
+        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={4} variants={cardVariants} whileHover={{
         y: -3,
         transition: {
           duration: 0.2
@@ -165,7 +178,7 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={4} variants={cardVariants} whileHover={{
+        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={5} variants={cardVariants} whileHover={{
         y: -3,
         transition: {
           duration: 0.2
@@ -182,7 +195,7 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
         
-        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={5} variants={cardVariants} whileHover={{
+        <MotionCard className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm" initial="hidden" animate="visible" custom={6} variants={cardVariants} whileHover={{
         y: -3,
         transition: {
           duration: 0.2
@@ -204,9 +217,6 @@ const DashboardCards = () => {
           </CardContent>
         </MotionCard>
       </div>
-      
-      {/* Last Sync Timestamp */}
-      
     </div>;
 };
 export default DashboardCards;

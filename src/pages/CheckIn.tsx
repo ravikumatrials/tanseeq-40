@@ -18,20 +18,21 @@ const CheckIn = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <Button 
-          variant="ghost" 
-          className="p-2 text-white"
-          onClick={() => navigate('/dashboard')}
-        >
-          <ArrowLeft className="h-6 w-6" />
-        </Button>
-        
-        {/* Center-aligned title for all screen sizes, especially mobile */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 text-white font-medium text-base md:text-lg">
-          Check In
+        <div className="flex items-center">
+          <Button 
+            variant="ghost" 
+            className="p-2 text-white mr-2"
+            onClick={() => navigate('/dashboard')}
+          >
+            <ArrowLeft className="h-7 w-7" />
+          </Button>
+          
+          <div className="text-white font-medium text-base md:text-lg">
+            Check In
+          </div>
         </div>
         
-        <div className="w-10"></div> {/* Spacer for centering */}
+        <div className="w-10"></div> {/* Spacer for balancing */}
       </motion.div>
       
       <motion.div 

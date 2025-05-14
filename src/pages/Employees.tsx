@@ -394,13 +394,14 @@ const Employees = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <div className="p-4 flex items-center justify-between bg-tanseeq text-white shadow-md">
-        <Button variant="ghost" onClick={() => navigate('/dashboard')} className="p-2 text-white">
-          <ArrowLeft className="h-5 w-5 animated-icon" />
-        </Button>
-        
-        {/* Center-aligned title for all screen sizes, especially mobile */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 text-white font-medium text-base md:text-lg">
-          Employee Details
+        <div className="flex items-center">
+          <Button variant="ghost" onClick={() => navigate('/dashboard')} className="p-2 text-white mr-2">
+            <ArrowLeft className="h-7 w-7" />
+          </Button>
+          
+          <div className="text-white font-medium text-base md:text-lg">
+            Employee Details
+          </div>
         </div>
         
         <Drawer open={isFilterOpen} onOpenChange={setIsFilterOpen}>

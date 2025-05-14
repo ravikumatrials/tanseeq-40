@@ -119,11 +119,15 @@ const EmployeeDetails = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <div className="p-4 flex items-center justify-between border-b">
-        <Button variant="ghost" onClick={() => navigate('/employees')} className="p-2">
-          <ArrowLeft className="h-5 w-5 animated-icon" />
-        </Button>
-        <h1 className="text-xl font-bold">Employee Details</h1>
-        <div className="w-10"></div> {/* Spacer for centering */}
+        <div className="flex items-center">
+          <Button variant="ghost" onClick={() => navigate('/employees')} className="p-2 mr-2">
+            <ArrowLeft className="h-7 w-7" />
+          </Button>
+          
+          <h1 className="text-xl font-bold">Employee Details</h1>
+        </div>
+        
+        <div className="w-10"></div> {/* Spacer for balancing */}
       </div>
       
       <div className="flex-1 container max-w-md mx-auto p-4 pb-24">

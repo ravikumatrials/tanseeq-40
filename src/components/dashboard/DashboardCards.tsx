@@ -152,7 +152,7 @@ const DashboardCards = () => {
         </CardHeader>
         <CardContent className="pt-3 px-4 pb-4">
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-tanseeq">
+            <span className="text-base md:text-lg font-medium text-tanseeq">
               {locationLoading ? (
                 <span className="flex items-center">
                   <div className="h-3 w-3 rounded-full animate-spin border-2 border-teal-500 border-t-transparent mr-2"></div>
@@ -161,7 +161,7 @@ const DashboardCards = () => {
               ) : address}
             </span>
           </div>
-          <div className="text-xs text-teal-500 mt-2 italic">
+          <div className="text-sm text-teal-500 mt-2 italic">
             {currentProject.location}
           </div>
         </CardContent>

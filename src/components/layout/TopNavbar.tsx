@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
@@ -7,11 +6,13 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, Clock, Settings, LogOut } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const TopNavbar = () => {
   const { logout, user } = useAuth();
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [currentTime, setCurrentTime] = React.useState(new Date());
   
   React.useEffect(() => {
@@ -29,7 +30,7 @@ const TopNavbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <motion.div className="flex items-center">
+      <motion.div className={`flex items-center ${isMobile ? "w-1/3" : ""}`}>
         <motion.div 
           className="flex items-center ml-2 cursor-pointer"
           whileHover={{ scale: 1.05 }}
@@ -44,9 +45,9 @@ const TopNavbar = () => {
         </motion.div>
       </motion.div>
       
-      {/* Added Dashboard title in the center */}
+      {/* Dashboard title in the center - optimized for mobile */}
       <motion.div 
-        className="absolute left-1/2 transform -translate-x-1/2 text-white font-medium"
+        className="absolute left-1/2 transform -translate-x-1/2 text-white font-medium text-base md:text-lg"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
@@ -54,7 +55,7 @@ const TopNavbar = () => {
         Dashboard
       </motion.div>
       
-      <div className="flex items-center space-x-3">
+      <div className={`flex items-center space-x-3 ${isMobile ? "w-1/3 justify-end" : ""}`}>
         <motion.div 
           className="hidden sm:flex items-center text-sm text-white px-3 py-1.5 rounded-md bg-white/20"
           initial={{ opacity: 0 }}

@@ -25,7 +25,7 @@ const TopNavbar = () => {
 
   return (
     <motion.div 
-      className="mobile-header justify-between bg-gradient-to-r from-[#9b87f5] to-[#7E69AB]"
+      className="mobile-header justify-between bg-tanseeq"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
@@ -79,17 +79,17 @@ const TopNavbar = () => {
               {user?.name.charAt(0)}
             </motion.button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white border-[#9b87f5]/30 rounded-lg w-56 mt-1">
+          <DropdownMenuContent align="end" className="bg-white border-tanseeq/30 rounded-lg w-56 mt-1">
             <div className="px-3.5 py-2.5 text-sm font-medium flex items-center gap-2">
-              <User className="h-4 w-4 text-[#9b87f5]" />
+              <User className="h-4 w-4 text-tanseeq" />
               {user?.name}
             </div>
             <DropdownMenuSeparator className="bg-border" />
             <DropdownMenuItem 
               onClick={() => navigate('/profile')}
-              className="cursor-pointer hover:bg-[#9b87f5]/10 gap-2 rounded-md mx-1 px-3 py-2"
+              className="cursor-pointer hover:bg-tanseeq/10 gap-2 rounded-md mx-1 px-3 py-2"
             >
-              <Settings className="h-4 w-4 text-[#9b87f5]" />
+              <Settings className="h-4 w-4 text-tanseeq" />
               Profile
             </DropdownMenuItem>
             <DropdownMenuItem 

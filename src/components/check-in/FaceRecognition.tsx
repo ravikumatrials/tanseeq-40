@@ -260,7 +260,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                 <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-teal-400"></div>
               </div>
               
-              {/* New prominent green Stop button */}
+              {/* Prominent green Manual Stop button */}
               <div className="absolute inset-x-0 bottom-1/2 transform translate-y-36 flex justify-center">
                 <Button 
                   onClick={stopScanning} 

@@ -269,7 +269,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                   className="shadow-xl px-12 py-4 text-lg font-semibold rounded-full border-2 border-white/50 animate-pulse"
                 >
                   <CircleStop className="h-6 w-6 mr-2" />
-                  STOP
+                  MANUAL STOP
                 </Button>
               </div>
             </div>

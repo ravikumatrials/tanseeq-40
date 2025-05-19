@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useProject } from '@/context/ProjectContext';
@@ -5,7 +6,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { useAttendance } from '@/hooks/useAttendance';
 import { useToast } from '@/hooks/use-toast';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
-import { RotateCw, CheckCheck, Check } from 'lucide-react';
+import { RotateCw, CheckCheck, Check, CircleStop } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface FaceRecognitionProps {
@@ -259,15 +260,16 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                 <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-teal-400"></div>
               </div>
               
-              {/* Stop button at bottom */}
-              <div className="absolute bottom-8 inset-x-0 flex justify-center">
+              {/* New prominent green Stop button */}
+              <div className="absolute inset-x-0 bottom-1/2 transform translate-y-36 flex justify-center">
                 <Button 
                   onClick={stopScanning} 
-                  variant="destructive"
-                  size="lg"
-                  className="shadow-xl px-8 text-base font-medium"
+                  variant="green"
+                  size="xl"
+                  className="shadow-xl px-12 py-4 text-lg font-semibold rounded-full border-2 border-white/50 animate-pulse"
                 >
-                  Stop Capture
+                  <CircleStop className="h-6 w-6 mr-2" />
+                  STOP
                 </Button>
               </div>
             </div>

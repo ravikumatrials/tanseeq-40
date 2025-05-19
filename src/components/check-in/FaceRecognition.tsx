@@ -5,7 +5,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { useAttendance } from '@/hooks/useAttendance';
 import { useToast } from '@/hooks/use-toast';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
-import { RotateCw, CheckCheck, Check, X } from 'lucide-react';
+import { RotateCw, CheckCheck, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface FaceRecognitionProps {
@@ -19,17 +19,10 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
   isCheckIn = true,
   onSuccess,
   employeeToVerify,
-  mode = 'scan'
+  mode = 'verify'
 }) => {
   const [isScanning, setIsScanning] = useState(false);
-  const [scannedEmployees, setScannedEmployees] = useState<{
-    id: string;
-    name: string;
-    time: string;
-    project: string;
-    location: string;
-    synced: boolean;
-  }[]>([]);
+  const [scannedCount, setScannedCount] = useState(0);
   const [isSyncing, setIsSyncing] = useState(false);
   const [hasSynced, setHasSynced] = useState(false);
   const { currentProject } = useProject();
@@ -57,11 +50,6 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
         description: "All records have been synced to the server.",
         variant: "default",
       });
-      
-      // Update synced status for all scanned employees
-      setScannedEmployees(prev => 
-        prev.map(emp => ({ ...emp, synced: true }))
-      );
       
       setHasSynced(true);
     } catch (error) {
@@ -147,7 +135,6 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
     
     function processEmployeeScan(employee: any) {
       const now = new Date();
-      const timeString = now.toLocaleTimeString();
       const locationStr = `${address}`;
       
       // Log the check in/out in the attendance system
@@ -160,18 +147,8 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
       // Add to pending offline changes
       addPendingChange();
       
-      // Add to local scanned list without showing employee details
-      setScannedEmployees(prev => [
-        ...prev,
-        {
-          id: employee.id,
-          name: employee.name, // We'll store but not display this
-          time: timeString,
-          project: currentProject?.name || '',
-          location: locationStr,
-          synced: false
-        }
-      ]);
+      // Increment scanned count
+      setScannedCount(prev => prev + 1);
       
       // Show success toast with check mark
       toast({
@@ -329,7 +306,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
             
             {/* Scanned records summary (shown after stopping) */}
             <AnimatePresence>
-              {scannedEmployees.length > 0 && (
+              {scannedCount > 0 && (
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -340,40 +317,19 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                     <div className="flex items-center gap-2 bg-teal-50 px-3 py-1 rounded-full">
                       <CheckCheck className="h-4 w-4 text-teal-600" />
                       <span className="text-sm font-medium text-teal-700">
-                        {scannedEmployees.length} {scannedEmployees.length === 1 ? 'Record' : 'Records'}
+                        {scannedCount} {scannedCount === 1 ? 'Record' : 'Records'} Captured
                       </span>
                     </div>
                   </div>
                   
-                  {/* Summary list */}
-                  <div className="max-h-56 overflow-y-auto space-y-2 pr-1">
-                    {scannedEmployees.map((record, index) => (
-                      <motion.div
-                        key={`${record.id}-${index}`}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                        className="bg-gray-50 rounded-lg p-3 border flex justify-between items-center"
-                      >
-                        <div>
-                          <div className="text-xs text-gray-500">ID: {record.id.substring(0, 8)}...</div>
-                          <div className="text-sm">{isCheckIn ? 'Checked in' : 'Checked out'}: {record.time}</div>
-                        </div>
-                        <div className={`flex items-center rounded-full px-2 py-1 text-xs ${record.synced ? 'bg-teal-50 text-teal-700' : 'bg-amber-50 text-amber-700'}`}>
-                          {record.synced ? (
-                            <>
-                              <Check className="h-3 w-3 mr-1" />
-                              <span>Synced</span>
-                            </>
-                          ) : (
-                            <>
-                              <span className="block h-2 w-2 rounded-full bg-amber-500 mr-1"></span>
-                              <span>Pending</span>
-                            </>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
+                  {/* Summary count only */}
+                  <div className="bg-gray-50 rounded-lg p-4 border text-center">
+                    <div className="text-sm text-gray-800">
+                      {scannedCount} {isCheckIn ? 'check-in' : 'check-out'} records have been stored locally.
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      No employee details are displayed for privacy.
+                    </div>
                   </div>
                   
                   {/* Sync button */}
@@ -382,7 +338,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                       onClick={handleSync} 
                       variant="teal"
                       className="w-full flex items-center justify-center gap-2"
-                      disabled={isSyncing || hasSynced || scannedEmployees.length === 0}
+                      disabled={isSyncing || hasSynced || scannedCount === 0}
                     >
                       {isSyncing ? (
                         <>

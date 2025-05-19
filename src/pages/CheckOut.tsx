@@ -11,7 +11,8 @@ const CheckOut = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-secondary/10">
+    <div className="flex flex-col h-screen bg-white">
+      {/* Header - only visible when not scanning */}
       <motion.div 
         className="p-4 flex items-center justify-between bg-tanseeq text-white shadow-md"
         initial={{ y: -20 }}
@@ -35,16 +36,10 @@ const CheckOut = () => {
         <div className="w-10"></div> {/* Spacer for balancing */}
       </motion.div>
       
-      <motion.div 
-        className="flex-1 container max-w-4xl mx-auto p-4 pb-24"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        <div className="glassmorphism mobile-card p-6">
-          <FaceRecognition isCheckIn={false} />
-        </div>
-      </motion.div>
+      {/* Full-height container for FaceRecognition */}
+      <div className="flex-1 flex flex-col relative">
+        <FaceRecognition isCheckIn={false} />
+      </div>
       
       <BottomNavbar />
     </div>

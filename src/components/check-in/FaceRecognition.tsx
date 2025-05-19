@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useProject } from '@/context/ProjectContext';
@@ -35,10 +34,12 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
   const startScanning = () => {
     setIsScanning(true);
     setHasSynced(false);
+    console.log('Scanning started');
   };
   
   const stopScanning = () => {
     setIsScanning(false);
+    console.log('Scanning stopped');
   };
   
   const handleSync = async () => {

@@ -5,7 +5,7 @@ import { useLocation } from '@/hooks/useLocation';
 import { useAttendance } from '@/hooks/useAttendance';
 import { useToast } from '@/hooks/use-toast';
 import { useOfflineSync } from '@/hooks/useOfflineSync';
-import { RotateCw, CheckCheck, Check, CircleStop } from 'lucide-react';
+import { RotateCw, CheckCheck, Check, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface FaceRecognitionProps {
@@ -19,10 +19,17 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
   isCheckIn = true,
   onSuccess,
   employeeToVerify,
-  mode = 'verify'
+  mode = 'scan'
 }) => {
   const [isScanning, setIsScanning] = useState(false);
-  const [scannedCount, setScannedCount] = useState(0);
+  const [scannedEmployees, setScannedEmployees] = useState<{
+    id: string;
+    name: string;
+    time: string;
+    project: string;
+    location: string;
+    synced: boolean;
+  }[]>([]);
   const [isSyncing, setIsSyncing] = useState(false);
   const [hasSynced, setHasSynced] = useState(false);
   const { currentProject } = useProject();
@@ -34,12 +41,10 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
   const startScanning = () => {
     setIsScanning(true);
     setHasSynced(false);
-    console.log('Scanning started');
   };
   
   const stopScanning = () => {
     setIsScanning(false);
-    console.log('Scanning stopped');
   };
   
   const handleSync = async () => {
@@ -52,6 +57,11 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
         description: "All records have been synced to the server.",
         variant: "default",
       });
+      
+      // Update synced status for all scanned employees
+      setScannedEmployees(prev => 
+        prev.map(emp => ({ ...emp, synced: true }))
+      );
       
       setHasSynced(true);
     } catch (error) {
@@ -137,6 +147,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
     
     function processEmployeeScan(employee: any) {
       const now = new Date();
+      const timeString = now.toLocaleTimeString();
       const locationStr = `${address}`;
       
       // Log the check in/out in the attendance system
@@ -149,8 +160,18 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
       // Add to pending offline changes
       addPendingChange();
       
-      // Increment scanned count
-      setScannedCount(prev => prev + 1);
+      // Add to local scanned list without showing employee details
+      setScannedEmployees(prev => [
+        ...prev,
+        {
+          id: employee.id,
+          name: employee.name, // We'll store but not display this
+          time: timeString,
+          project: currentProject?.name || '',
+          location: locationStr,
+          synced: false
+        }
+      ]);
       
       // Show success toast with check mark
       toast({
@@ -261,16 +282,15 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                 <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-teal-400"></div>
               </div>
               
-              {/* Prominent green Manual Stop button */}
-              <div className="absolute inset-x-0 bottom-1/2 transform translate-y-36 flex justify-center">
+              {/* Stop button at bottom */}
+              <div className="absolute bottom-8 inset-x-0 flex justify-center">
                 <Button 
                   onClick={stopScanning} 
-                  variant="green"
-                  size="xl"
-                  className="shadow-xl px-12 py-4 text-lg font-semibold rounded-full border-2 border-white/50 animate-pulse"
+                  variant="destructive"
+                  size="lg"
+                  className="shadow-xl px-8 text-base font-medium"
                 >
-                  <CircleStop className="h-6 w-6 mr-2" />
-                  MANUAL STOP
+                  Stop Capture
                 </Button>
               </div>
             </div>
@@ -283,7 +303,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
             exit={{ opacity: 0 }}
             className="flex-1 flex flex-col"
           >
-            {/* Start scanning UI - Centered green button */}
+            {/* Start scanning UI */}
             <div className="flex-1 flex flex-col items-center justify-center p-6">
               <div className="bg-muted/30 aspect-video w-full max-w-md rounded-xl flex items-center justify-center shadow-inner">
                 <div className="text-center space-y-4">
@@ -298,18 +318,18 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
               <div className="mt-8">
                 <Button 
                   onClick={startScanning} 
-                  variant="green"
+                  variant="teal"
                   size="lg"
                   className="shadow-md px-8 text-base font-medium"
                 >
-                  Start Scan
+                  Start Scanning
                 </Button>
               </div>
             </div>
             
             {/* Scanned records summary (shown after stopping) */}
             <AnimatePresence>
-              {scannedCount > 0 && (
+              {scannedEmployees.length > 0 && (
                 <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -320,19 +340,40 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                     <div className="flex items-center gap-2 bg-teal-50 px-3 py-1 rounded-full">
                       <CheckCheck className="h-4 w-4 text-teal-600" />
                       <span className="text-sm font-medium text-teal-700">
-                        {scannedCount} {scannedCount === 1 ? 'Record' : 'Records'} Captured
+                        {scannedEmployees.length} {scannedEmployees.length === 1 ? 'Record' : 'Records'}
                       </span>
                     </div>
                   </div>
                   
-                  {/* Summary count only */}
-                  <div className="bg-gray-50 rounded-lg p-4 border text-center">
-                    <div className="text-sm text-gray-800">
-                      {scannedCount} {isCheckIn ? 'check-in' : 'check-out'} records have been stored locally.
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      No employee details are displayed for privacy.
-                    </div>
+                  {/* Summary list */}
+                  <div className="max-h-56 overflow-y-auto space-y-2 pr-1">
+                    {scannedEmployees.map((record, index) => (
+                      <motion.div
+                        key={`${record.id}-${index}`}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="bg-gray-50 rounded-lg p-3 border flex justify-between items-center"
+                      >
+                        <div>
+                          <div className="text-xs text-gray-500">ID: {record.id.substring(0, 8)}...</div>
+                          <div className="text-sm">{isCheckIn ? 'Checked in' : 'Checked out'}: {record.time}</div>
+                        </div>
+                        <div className={`flex items-center rounded-full px-2 py-1 text-xs ${record.synced ? 'bg-teal-50 text-teal-700' : 'bg-amber-50 text-amber-700'}`}>
+                          {record.synced ? (
+                            <>
+                              <Check className="h-3 w-3 mr-1" />
+                              <span>Synced</span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="block h-2 w-2 rounded-full bg-amber-500 mr-1"></span>
+                              <span>Pending</span>
+                            </>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
                   
                   {/* Sync button */}
@@ -341,7 +382,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                       onClick={handleSync} 
                       variant="teal"
                       className="w-full flex items-center justify-center gap-2"
-                      disabled={isSyncing || hasSynced || scannedCount === 0}
+                      disabled={isSyncing || hasSynced || scannedEmployees.length === 0}
                     >
                       {isSyncing ? (
                         <>

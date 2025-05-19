@@ -282,7 +282,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
             exit={{ opacity: 0 }}
             className="flex-1 flex flex-col"
           >
-            {/* Start scanning UI */}
+            {/* Start scanning UI - Centered green button */}
             <div className="flex-1 flex flex-col items-center justify-center p-6">
               <div className="bg-muted/30 aspect-video w-full max-w-md rounded-xl flex items-center justify-center shadow-inner">
                 <div className="text-center space-y-4">
@@ -297,11 +297,11 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
               <div className="mt-8">
                 <Button 
                   onClick={startScanning} 
-                  variant="teal"
+                  variant="green"
                   size="lg"
                   className="shadow-md px-8 text-base font-medium"
                 >
-                  Start Scanning
+                  Start Scan
                 </Button>
               </div>
             </div>

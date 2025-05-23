@@ -70,15 +70,23 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
     }
   };
   
-  // Simulate face scanning process
+  // Auto-start scanning for verification mode
   useEffect(() => {
+    if (mode === 'verify') {
+      startScanning();
+    }
+  }, [mode]);
+
+  // Separate effects for scanning modes
+  useEffect(() => {
+    // Don't proceed if not scanning or if no project is selected
     if (!isScanning || !currentProject) return;
     
     let lastScanned = new Set<string>();
-    let scanInterval: NodeJS.Timeout;
+    let scanInterval: NodeJS.Timeout | null = null;
     
+    // Handle verification mode scanning
     if (mode === 'verify' && employeeToVerify) {
-      // In verification mode, only scan for the specific employee
       scanInterval = setTimeout(() => {
         const employee = currentProject.employees.find(e => e.id === employeeToVerify && e.isFaceEnrolled);
         
@@ -103,12 +111,9 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
           setIsScanning(false);
         }
       }, 2000); // Simulate a 2-second verification process
-      
-      return () => {
-        clearTimeout(scanInterval);
-      };
-    } else {
-      // Normal scanning mode (multiple employees)
+    } 
+    // Handle normal scanning mode
+    else {
       scanInterval = setInterval(() => {
         // Randomly select an employee to "recognize"
         const availableEmployees = currentProject.employees.filter(
@@ -118,7 +123,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
         if (availableEmployees.length === 0) {
           // Everyone has been scanned
           if (lastScanned.size === currentProject.employees.filter(e => e.isFaceEnrolled).length) {
-            clearInterval(scanInterval);
+            if (scanInterval) clearInterval(scanInterval);
             return;
           }
           
@@ -162,7 +167,13 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
     }
     
     return () => {
-      clearInterval(scanInterval);
+      if (scanInterval) {
+        if (mode === 'verify') {
+          clearTimeout(scanInterval);
+        } else {
+          clearInterval(scanInterval);
+        }
+      }
     };
   }, [isScanning, currentProject, isCheckIn, addCheckIn, addCheckOut, address, toast, addPendingChange, mode, employeeToVerify, onSuccess]);
   
@@ -173,13 +184,6 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
       </div>
     );
   }
-  
-  // For verification mode, auto-start scanning and show different UI
-  useEffect(() => {
-    if (mode === 'verify') {
-      startScanning();
-    }
-  }, [mode]);
   
   // Special UI for verification mode
   if (mode === 'verify') {

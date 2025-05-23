@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import ProjectList from '@/components/dashboard/ProjectList';
-import { motion } from 'framer-motion';
 
 const Index = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -22,34 +21,21 @@ const Index = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-background">
-        <motion.img 
+        <img 
           src="/lovable-uploads/801b965c-36e1-485f-8e8e-fa408775a70f.png" 
-          alt="Tanseeq Investment"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          alt="Tanseeq Investment" 
           className="h-16 mb-8"
         />
-        
-        <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <div className="w-10 h-10 rounded-full border-4 border-t-tanseeq border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
-        </motion.div>
+        <div className="green-loader"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-b from-background to-tanseeq/5">
-      <motion.img 
-        src="/lovable-uploads/801b965c-36e1-485f-8e8e-fa408775a70f.png"
-        alt="Tanseeq Investment"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
+      <img 
+        src="/lovable-uploads/801b965c-36e1-485f-8e8e-fa408775a70f.png" 
+        alt="Tanseeq Investment" 
         className="h-16 mb-8"
       />
       <div className="container max-w-4xl">

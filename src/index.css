@@ -1,10 +1,11 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222 47% 15%;
+    --primary: 158 74% 40%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -22,7 +23,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 40 60% 50%;
+    --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -30,7 +31,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222 47% 15%;
+    --ring: 158 74% 40%;
 
     --radius: 0.5rem;
 
@@ -43,18 +44,47 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
     
-    /* Custom colors for the vibrant palette */
-    --teal: 175 70% 41%;
-    --coral: 16 85% 67%;
-    --violet: 265 83% 72%;
-    --emerald: 152 81% 42%;
-    --amber: 38 92% 50%;
-    --rose: 336 80% 58%;
-    
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   }
 
-  /* Removed dark mode theme definitions */
+  .dark {
+    --background: 222 26% 14%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 26% 14%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 26% 14%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 158 74% 40%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 158 74% 40%;
+    
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 158 74% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 158 74% 40%;
+  }
 }
 
 @layer base {
@@ -73,34 +103,33 @@
 }
 
 @layer components {
-  /* Base components */
   .btn-primary {
-    @apply bg-tanseeq text-primary-foreground px-4 py-2.5 rounded-md hover:bg-tanseeq/90 transition-all;
+    @apply bg-tanseeq text-white px-4 py-2 rounded-md hover:bg-tanseeq/90 transition-colors;
   }
   
   .card-stats {
-    @apply p-4 rounded-lg border-2 bg-white flex flex-col transition-all duration-200;
+    @apply p-4 rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col hover:shadow-md transition-all duration-200;
   }
   
   .input-field {
-    @apply w-full p-2 rounded-md border-2 border-input bg-background text-foreground focus:border-tanseeq focus:outline-none transition-all duration-200;
+    @apply w-full p-2 rounded-md border border-input bg-background text-foreground focus:border-tanseeq focus:ring-1 focus:ring-tanseeq focus:outline-none transition-all duration-200;
   }
 
   .green-loader {
-    @apply w-6 h-6 rounded-full animate-spin border-2 border-emerald-500 border-t-transparent;
+    @apply w-6 h-6 rounded-full animate-pulse-green bg-tanseeq;
   }
   
-  /* Enhanced UI styles for enterprise look */
+  /* New styles for enhanced UI */
   .card-hover {
-    @apply hover:border-tanseeq/40 transition-all duration-200;
+    @apply hover:shadow-md hover:border-tanseeq/40 transition-all duration-200;
   }
   
   .nav-item {
-    @apply relative flex flex-col items-center justify-center px-4 py-3 transition-all duration-200;
+    @apply relative flex flex-col items-center justify-center px-4 py-2 transition-colors duration-200;
   }
   
   .nav-item-active {
-    @apply text-tanseeq font-medium;
+    @apply text-tanseeq;
   }
   
   .nav-item-inactive {
@@ -108,252 +137,74 @@
   }
   
   .animated-badge {
-    @apply inline-flex items-center justify-center px-2.5 py-1 text-xs font-medium rounded-md transition-all duration-200;
+    @apply inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full transition-all duration-200;
   }
   
   .badge-success {
-    @apply bg-emerald-500 text-white;
+    @apply bg-tanseeq/10 text-tanseeq;
   }
   
   .badge-warning {
-    @apply bg-amber-500 text-white;
+    @apply bg-amber-500/10 text-amber-500;
   }
   
   .badge-error {
-    @apply bg-rose-500 text-white;
+    @apply bg-destructive/10 text-destructive;
   }
   
   .animated-icon {
     @apply transition-transform hover:scale-110 active:scale-95 duration-200;
   }
+}
+
+@layer utilities {
+  .page-transition {
+    @apply animate-fade-in;
+  }
   
-  /* Enhanced styles for modern enterprise look */
   .hover-scale {
     @apply transition-transform hover:scale-105 active:scale-95 duration-200;
   }
   
-  .btn-icon {
-    @apply p-2.5 rounded-md flex items-center justify-center transition-all;
-  }
-
-  .animate-presence {
-    @apply transition-all duration-300;
-  }
-  
-  /* Solid card backgrounds */
-  .card-teal {
-    @apply bg-white border-teal-500;
-  }
-  
-  .card-coral {
-    @apply bg-white border-orange-500;
-  }
-  
-  .card-violet {
-    @apply bg-white border-purple-500;
-  }
-  
-  .card-amber {
-    @apply bg-white border-amber-500;
-  }
-  
-  /* Mobile UI specific styles */
-  .mobile-card {
-    @apply rounded-lg border-2 border-border/60 bg-card overflow-hidden;
-  }
-  
-  .mobile-header {
-    @apply sticky top-0 z-40 bg-tanseeq text-white border-b border-tanseeq-gold/20 px-4 py-3 flex items-center;
-  }
-  
-  .mobile-container {
-    @apply px-4 py-3;
-  }
-  
-  .mobile-button {
-    @apply rounded-md px-4 py-2.5 font-medium text-sm transition-all active:scale-95;
-  }
-  
-  .mobile-input {
-    @apply rounded-md border-2 border-input bg-background px-3.5 py-2.5 text-sm focus:border-tanseeq focus:outline-none transition-all;
-  }
-  
-  .mobile-avatar {
-    @apply rounded-md overflow-hidden;
-  }
-  
-  /* Status indicators */
-  .status-present {
-    @apply bg-emerald-500 text-white px-2 py-0.5 rounded-md text-xs font-medium;
-  }
-  
-  .status-absent {
-    @apply bg-rose-500 text-white px-2 py-0.5 rounded-md text-xs font-medium;
-  }
-  
-  .status-pending {
-    @apply bg-amber-500 text-white px-2 py-0.5 rounded-md text-xs font-medium;
-  }
-  
-  /* Responsive styles for both Android and iOS */
-  .ios-safe-area {
-    @apply pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)];
-  }
-  
-  .android-touch-target {
-    @apply min-h-[48px] min-w-[48px]; /* Ensures touch targets are at least 48x48px for Android */
+  .glassmorphism {
+    @apply backdrop-blur-sm bg-background/80 border border-border/50 shadow-sm;
   }
 }
 
-@layer utilities {
-  /* Utility classes */
-  .text-balance {
-    text-wrap: balance;
-  }
-  .shadow-soft {
-    box-shadow: 0 2px 10px rgba(22, 28, 36, 0.08);
-  }
-  .shadow-enterprise {
-    box-shadow: 0 3px 6px rgba(140, 149, 159, 0.15);
-  }
-  .shadow-card-enterprise {
-    box-shadow: 0 2px 8px rgba(140, 149, 159, 0.12);
-  }
-  .shadow-bottom-nav {
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-  }
-  .shadow-top-nav {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  }
-  .shadow-float {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-  }
-  .shadow-inner {
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-  .animate-pulse-green {
-    animation: pulse-green 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  .animate-pulse-slow {
-    animation: pulse-green 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-}
-
+/* Individual keyframes definitions - proper CSS syntax */
 @keyframes accordion-down {
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--radix-accordion-content-height);
-  }
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
 }
 
 @keyframes accordion-up {
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-  to {
-    height: 0;
-  }
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
 }
 
 @keyframes pulse-green {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 @keyframes fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fade-out {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
 }
 
 @keyframes slide-in {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
 }
 
-@keyframes slide-right {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
+@keyframes slide-out {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
 }
 
-@keyframes scale-in {
-  0% {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes scale-out {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-}
-
-@keyframes bounce-small {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes slide-up {
-  0% {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
+/* Note: Animation rules are defined in tailwind.config.ts */

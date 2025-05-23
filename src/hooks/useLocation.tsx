@@ -37,7 +37,7 @@ export const useLocation = () => {
           
           // In a real app, we would use a reverse geocoding service
           // For now, let's simulate a resolved address
-          const simulatedAddress = `Current Location`;
+          const simulatedAddress = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
           
           setLocationData({
             latitude,

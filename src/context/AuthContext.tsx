@@ -1,7 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { dummySupervisor } from '../data/dummyData';
-import { useNavigate } from 'react-router-dom';
 
 interface User {
   id: string;
@@ -57,9 +56,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
-    
-    // Force redirect to login page
-    window.location.href = '/login';
   };
 
   const requestPasswordReset = async (email: string): Promise<boolean> => {

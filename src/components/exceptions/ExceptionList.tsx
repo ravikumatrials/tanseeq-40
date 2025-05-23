@@ -93,7 +93,7 @@ const ExceptionList = () => {
                 onClick={() => handleManualCheckOut(exception)}
                 className="bg-tanseeq hover:bg-tanseeq/90"
               >
-                Check Out
+                Manual Check Out
               </Button>
             </div>
           ))}

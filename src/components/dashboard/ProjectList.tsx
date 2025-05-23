@@ -20,7 +20,7 @@ const ProjectList = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-2">Your Projects</h2>
         <div className="text-sm text-muted-foreground flex items-center space-x-2">
@@ -34,7 +34,7 @@ const ProjectList = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {projects.map((project) => (
           <Card 
             key={project.id} 
@@ -45,10 +45,10 @@ const ProjectList = () => {
             }`}
             onClick={() => handleSelectProject(project.id)}
           >
-            <CardHeader className="pb-2 pt-3 px-4">
+            <CardHeader className="pb-2">
               <CardTitle className="text-lg">{project.name}</CardTitle>
             </CardHeader>
-            <CardContent className="pb-2 pt-0 px-4">
+            <CardContent className="pb-2">
               <div className="text-sm text-muted-foreground">
                 <div className="flex items-center space-x-2 mb-1">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -66,7 +66,7 @@ const ProjectList = () => {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="pt-0 px-4 pb-3">
+            <CardFooter>
               <Button 
                 variant="outline" 
                 size="sm" 
